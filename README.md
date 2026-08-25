@@ -19,6 +19,8 @@ Repositorio de la cursada de Programación III (Frontend: HTML, CSS, JS) en UTN 
 
 **Aplicado en:** página de receta de empanadas criollas.
 
+**Guía:** [W3Schools - HTML Basic](https://www.w3schools.com/html/html_basic.asp)
+
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-2ea44f?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
 
