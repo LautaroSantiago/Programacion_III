@@ -1,31 +1,70 @@
-# Programación III - UTN FRA
+# <font color="#1F6FEB">Programación III</font>
 
-Repositorio de la cursada de Programación III (Frontend: HTML, CSS, JS) en UTN FRA, comisión 132.
+Apuntes de cursada y práctica de clase de la materia **Programación III** (Frontend: HTML, CSS, JS — Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en vivo.
+
+**Cursada:** 2do. cuatrimestre 2026 — Comisión 132
 
 ---
 
-## 📅 Clase 1 - 21/08 - HTML básico
+## <font color="#8250DF">🧭 Índice</font>
 
-**Temas vistos:**
-- Estructura base: `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`
-- Meta etiquetas: charset UTF-8, viewport, title
-- Etiquetas y atributos (clave="valor")
+- [<font color="#8250DF"><strong>Funcionamiento de la materia</strong></font>](#funcionamiento)
+  - [<font color="#1A7F37">Modalidad y evaluación</font>](#funcionamiento-modalidad)
+  - [<font color="#1A7F37">Herramientas</font>](#funcionamiento-herramientas)
+- [<font color="#8250DF"><strong>Clase 1 — 21/8 · HTML básico</strong></font>](#clase-1)
+  - [<font color="#1A7F37">Temas vistos</font>](#clase-1-temas-vistos)
+  - [<font color="#1A7F37">Aplicado en</font>](#clase-1-aplicado-en)
+  - [<font color="#1A7F37">Código</font>](#clase-1-codigo)
+
+---
+
+## <a id="funcionamiento"></a><font color="#8250DF">🗓️ Funcionamiento de la materia</font>
+
+### <a id="funcionamiento-modalidad"></a><font color="#1A7F37">Modalidad y evaluación</font>
+
+- **Modalidad:** clases de frontend (HTML, CSS, JS) a cargo del profesor Xavi.
+- **Evaluación:** parciales durante la cursada + defensa final tipo entrevista técnica.
+
+### <a id="funcionamiento-herramientas"></a><font color="#1A7F37">Herramientas</font>
+
+`HTML` · `CSS` · `JavaScript` · `Git` · `GitHub`
+
+---
+
+## <font color="#8250DF">📅 Cronograma de clases</font>
+
+Cada clase se despliega individualmente con su desarrollo completo adentro. Se va actualizando a medida que avanza la cursada.
+
+<details>
+<summary><a id="clase-1"></a><font color="#1A7F37"><strong>Clase 1 — 21/8 · HTML básico</strong></font></summary>
+
+### <a id="clase-1-temas-vistos"></a><font color="#1A7F37">Temas vistos</font>
+
+- Estructura base del documento: `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`
+- Meta etiquetas: `charset UTF-8`, `viewport`, `title`
+- Etiquetas y atributos (`clave="valor"`)
 - Encabezados `<h1>` a `<h6>` — regla de un solo `<h1>` por página, descendientes en orden
-- Elementos en bloque vs. en línea
+- Elementos en **bloque** vs. en **línea**
 - Listas `<ul>` / `<ol>` / `<li>`
 - Etiquetas de formato de texto: `<strong>`, `<em>`, `<mark>`, etc.
 - Enlaces `<a href target>` e imágenes `<img src alt>`
 - Buenas prácticas: `alt` en imágenes, optimización de peso, código semántico
 
-**Aplicado en:** página de receta de empanadas criollas.
-
 **Guía:** [W3Schools - HTML Basic](https://www.w3schools.com/html/html_basic.asp)
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-2ea44f?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
+### <a id="clase-1-aplicado-en"></a><font color="#1A7F37">Aplicado en</font>
+
+Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vistas hasta el momento (sin `<div>` ni semánticas, eso queda para la próxima clase).
+
+**Fuente de la receta:** [Empanadas criollas o empanadas argentinas de carne - Recetas de Rechupete (ABC)](https://www.abc.es/recetasderechupete/receta-de-empanada-argentina-o-criolla/283/)
+
+### <a id="clase-1-codigo"></a><font color="#1A7F37">Código</font>
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
 
 <details>
-<summary>📋 Copiar código (index.html)</summary>
+<summary><font color="#8250DF">📋 Copiar código (index.html)</font></summary>
 
 ```html
 <!-- 
@@ -63,7 +102,7 @@ Repositorio de la cursada de Programación III (Frontend: HTML, CSS, JS) en UTN 
     <title>Receta de Empanadas</title>
     <!-- title es de las pocas etiquetas de metadata que se abren y cierran (meta no) -->
 </head>
-<body style="background-image: url('https://img.magnific.com/foto-gratis/fondo-texturado-abstracto-blanco_23-2148624407.jpg?semt=ais_hybrid&w=740&q=80'); background-repeat: repeat;">
+<body style="background-image: url('https://img.magnific.com/foto-gratis/fondo-texturado-abstracto-blanco_23-2148624407.jpg?semt=ais_hybrid&w=740&q=80'); background-repeat: repeat; color: #4a2c17;">
     <!-- 
         ojo aca: esto ya es un adelanto de CSS metido como atributo style
         directo en la etiqueta. el profe dijo que el atributo style lo
@@ -71,6 +110,14 @@ Repositorio de la cursada de Programación III (Frontend: HTML, CSS, JS) en UTN 
         estilos los vamos a ver bien la clase que viene con CSS aparte,
         pero lo dejo anotado aca para acordarme cuando lo pasemos
         a una hoja .css como corresponde
+    -->
+
+    <!-- 
+        agregue tambien color acá, mismo tema: es CSS metido en el
+        style del body asi que despues cuando pase todo a un .css
+        aparte tengo que acordarme de mover esto tambien.
+        eleji un marron oscuro (#4a2c17) porque con la textura de
+        fondo el texto por defecto casi no se leia
     -->
 
     <!-- 
@@ -162,27 +209,17 @@ Repositorio de la cursada de Programación III (Frontend: HTML, CSS, JS) en UTN 
 
 </details>
 
+</details>
+
 ---
 
-<!--
-  PLANTILLA PARA LA PRÓXIMA CLASE (copiar y completar):
+## <font color="#8250DF">🗂️ Estructura del repositorio</font>
 
-  ## 📅 Clase N - DD/MM - Tema
+```
+Programación III
+├── 1° Clase - (Receta)
+│   └── index.html
+└── README.md
+```
 
-  **Temas vistos:**
-  - ...
-
-  **Aplicado en:** ...
-
-  [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-2ea44f?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/CARPETA%20DE%20LA%20CLASE/index.html)
-  [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/CARPETA%20DE%20LA%20CLASE/index.html)
-
-  <details>
-  <summary>📋 Copiar código (index.html)</summary>
-
-  ```html
-  (pegar acá el código completo)
-  ```
-
-  </details>
--->
+Cada nueva clase se agrega como carpeta propia numerada en orden, y el desarrollo completo se pega dentro de un nuevo botón desplegable en el [📅 Cronograma de clases](#clase-1), siguiendo el mismo formato que la Clase 1. Cuando eso pasa, sumá también sus subtemas al Índice de arriba.
