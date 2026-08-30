@@ -1,8 +1,8 @@
 # <font color="#1F6FEB">Programación III</font>
 
-Apuntes de cursada y práctica de clase de la materia **Programación III** (Frontend: HTML, CSS, JS — Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en vivo.
+Apuntes de cursada y práctica de clase de la materia **Programación III** (Desarrollo Web — Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en vivo.
 
-**Cursada:** 2do. cuatrimestre 2026 — Comisión 132
+**Cursada:** 2do. cuatrimestre 2026 — Comisión 132 — Profesores: NEINER, Maximiliano · OLIVA, Ian
 
 ---
 
@@ -11,10 +11,9 @@ Apuntes de cursada y práctica de clase de la materia **Programación III** (Fro
 - [<font color="#8250DF"><strong>Funcionamiento de la materia</strong></font>](#funcionamiento)
   - [<font color="#1A7F37">Modalidad y evaluación</font>](#funcionamiento-modalidad)
   - [<font color="#1A7F37">Herramientas</font>](#funcionamiento-herramientas)
+  - [<font color="#1A7F37">Temario</font>](#funcionamiento-temario)
 - [<font color="#8250DF"><strong>Clase 1 — 21/8 · HTML básico</strong></font>](#clase-1)
-  - [<font color="#1A7F37">Temas vistos</font>](#clase-1-temas-vistos)
-  - [<font color="#1A7F37">Aplicado en</font>](#clase-1-aplicado-en)
-  - [<font color="#1A7F37">Código</font>](#clase-1-codigo)
+- [<font color="#8250DF"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font>](#clase-2)
 
 ---
 
@@ -22,12 +21,31 @@ Apuntes de cursada y práctica de clase de la materia **Programación III** (Fro
 
 ### <a id="funcionamiento-modalidad"></a><font color="#1A7F37">Modalidad y evaluación</font>
 
-- **Modalidad:** clases de frontend (HTML, CSS, JS) a cargo del profesor Xavi.
+- **Modalidad:** clases de desarrollo web (HTML, CSS, JavaScript) a cargo de los profesores Maximiliano Neiner e Ian Oliva.
 - **Evaluación:** parciales durante la cursada + defensa final tipo entrevista técnica.
 
 ### <a id="funcionamiento-herramientas"></a><font color="#1A7F37">Herramientas</font>
 
-`HTML` · `CSS` · `JavaScript` · `Git` · `GitHub`
+`HTML` · `CSS` · `JavaScript` · `Git` · `GitHub` · `XAMPP` · `Visual Studio Code`
+
+### <a id="funcionamiento-temario"></a><font color="#1A7F37">Temario</font>
+
+**UNIDAD N° 1 — Desarrollo de interfaces.** Utilización de HTML y CSS para el maquetado de las aplicaciones web.
+- 📄 [Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/0%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf)
+- 📄 [Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/1%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
+- 📄 [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/2%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf) *(pendiente de ver en clase)*
+- 📄 [CSS - Grid](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/3%20-%20Programaci%C3%B3n%20III%20-%20CSS%20Grid.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a Bootstrap](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/4%20-%20UNIDAD_01-Introducci%C3%B3n%20a%20Bootstrap.pdf) *(pendiente de ver en clase)*
+
+**UNIDAD N° 2 — Desarrollo de funcionalidades con JavaScript.** Manipulación del DOM.
+- 📄 [Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/5%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/6%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf) *(pendiente de ver en clase)*
+- 📄 [HTML y JavaScript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/7%20-%20UNIDAD_02-JAVASCRIPT%20y%20HTML%20-%20P3.pdf) *(pendiente de ver en clase)*
+
+**UNIDAD N° 3 — Conexiones HTTP y asincronías.**
+- 📄 [Asincronismo - parte 1 (ajax)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/8%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20AJAX.pdf) *(pendiente de ver en clase)*
+- 📄 [Asincronismo - parte 2 (fetch)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/9%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20fetch.pdf) *(pendiente de ver en clase)*
+- 🔗 [APIs públicas para probar](https://github.com/public-apis/public-apis) *(pendiente de ver en clase)*
 
 ---
 
@@ -38,7 +56,7 @@ Cada clase se despliega individualmente con su desarrollo completo adentro. Se v
 <details>
 <summary><a id="clase-1"></a><font color="#1A7F37"><strong>Clase 1 — 21/8 · HTML básico</strong></font></summary>
 
-### <a id="clase-1-temas-vistos"></a><font color="#1A7F37">Temas vistos</font>
+### Temas vistos
 
 - Estructura base del documento: `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`
 - Meta etiquetas: `charset UTF-8`, `viewport`, `title`
@@ -52,13 +70,13 @@ Cada clase se despliega individualmente con su desarrollo completo adentro. Se v
 
 **Guía:** [W3Schools - HTML Basic](https://www.w3schools.com/html/html_basic.asp)
 
-### <a id="clase-1-aplicado-en"></a><font color="#1A7F37">Aplicado en</font>
+### Aplicado en
 
-Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vistas hasta el momento (sin `<div>` ni semánticas, eso queda para la próxima clase).
+Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vistas hasta el momento (sin `<div>` ni semánticas, eso quedó para la clase 2).
 
 **Fuente de la receta:** [Empanadas criollas o empanadas argentinas de carne - Recetas de Rechupete (ABC)](https://www.abc.es/recetasderechupete/receta-de-empanada-argentina-o-criolla/283/)
 
-### <a id="clase-1-codigo"></a><font color="#1A7F37">Código</font>
+### Código
 
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
@@ -211,6 +229,243 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
 
 </details>
 
+<details>
+<summary><a id="clase-2"></a><font color="#1A7F37"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font></summary>
+
+### Temas vistos
+
+#### Página web, sitio web y aplicación web
+
+- **Página web:** es un documento HTML (texto, imágenes, videos, CSS, JavaScript). Puede ser estática (solo código) o dinámica (con contenido extraído de una base de datos, por ejemplo).
+- **Sitio web:** conjunto de páginas web estructuradas en un dominio. Se pueden crear escribiendo código o mediante CMS/builders. Pertenecen a empresas, organizaciones o personas.
+- **Aplicación web:** software desarrollado con tecnologías web, hecho con código (lenguajes, librerías, frameworks) por desarrolladores web profesionales.
+
+#### App de escritorio vs. app web
+
+| Aplicación de escritorio | Aplicación web |
+|---|---|
+| Instalada en el dispositivo del usuario. | Instalada en un servidor. |
+| Ejecutada directamente por el SO (Windows, macOS, Linux, Android, etc). | Requiere un dispositivo con conexión a internet y un navegador. |
+| Su rendimiento depende del hardware (RAM, disco, GPU, etc). | El usuario solo necesita renderizar contenido — menos exigente en poder de cálculo. |
+
+#### Front-end vs. Back-end
+
+- **Front-end:** la parte que los usuarios ven y con la que interactúan — botones, checkboxes, gráficos, mensajes de texto. Define el diseño, la maquetación y los componentes de la interfaz gráfica.
+- **Back-end:** la parte que maneja la lógica de negocio y el procesamiento de datos — almacenar/recuperar datos de una base de datos, procesar formularios, autenticar usuarios, gestionar seguridad, interactuar con otros servicios, usar librerías del servidor.
+
+#### Sintaxis HTML
+
+En `<h1 align="center">...</h1>`:
+- **Atributos** (`align`): configuraciones adicionales que ajustan el comportamiento del elemento.
+- **Valores** (`"center"`): definen la configuración, siempre entre comillas y después de un `=`.
+- **Contenido** (`...`): todo lo escrito entre la etiqueta de apertura y cierre.
+
+#### Estructura básica y etiquetas del `<head>`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación 3</title>
+</head>
+<body>
+    <!--aca van las etiquetas html para construir la pagina-->
+</body>
+</html>
+```
+
+Las etiquetas del `<head>` contienen metadatos e info para el navegador y el SEO; no se muestran en la página:
+- `<title></title>` — título en la pestaña del navegador.
+- `<meta charset="UTF-8">` — codificación de caracteres.
+- `<meta name="viewport" content="width=device-width, initial-scale=1.0">` — hace la página responsive.
+- `<link>` — vincula archivos externos (CSS, fuentes, íconos).
+- `<style></style>` — define estilos CSS directamente en el HTML.
+- `<script src="script.js" defer></script>` — vincula un archivo JS.
+
+#### Encabezados y párrafos
+
+- `<h1>` a `<h6>` implementan 6 niveles de encabezado — `<h1>` el más importante, `<h6>` el menos.
+- `<p>` distribuye el texto en párrafos; se pueden usar tantos como se necesiten, y el navegador agrega espacio vertical entre cada uno automáticamente.
+
+#### Listas
+
+- **Ordenadas** (`<ol>`): enumeran ítems de forma consecutiva, empezando en 1 por defecto.
+  - Atributo `type`: cambia el tipo de viñeta — `"1"` numérica, `"A"` alfabética mayúscula, `"I"` numérica romana.
+  - Atributo `start`: modifica desde qué número arranca la lista (ej. `start="5"`).
+- **Desordenadas** (`<ul>`): agrupan ítems sin orden específico, con viñeta por defecto.
+  - Atributo `type`: `"disc"` círculo relleno (default), `"circle"` círculo vacío, `"square"` cuadrado.
+
+#### Rutas (absolutas y relativas)
+
+- **Ruta absoluta:** el acceso al recurso es siempre el mismo sin importar desde dónde se navegue (ej. `https://www.google.com/`).
+- **Ruta relativa:** depende de la posición actual del archivo (ej. `foto.jpg` si están en la misma carpeta que `home.html`; `Imágenes/foto.jpg` si hay que entrar a una subcarpeta; `../Imágenes/foto.jpg` si hay que salir un nivel primero con `..`).
+
+#### Hipervínculos (`<a>`)
+
+```html
+<a href="https://www.google.com/">¡Vamos a Google!</a>
+```
+- `href`: indica el destino del enlace.
+- El contenido entre `<a></a>` es el texto que ve el usuario (puede incluir imágenes u otros elementos).
+
+Tipos de enlaces:
+- **Externos:** rutas fuera del sitio, siempre absolutas. `<a href="https://www.youtube.com/">Ir a YouTube</a>`
+- **Locales:** rutas dentro del sitio, se recomienda que sean relativas. `<a href="inicio.html">Inicio</a>`
+- **Anclas:** referencian una parte específica de la página (una sección o titular), empiezan con `#`. `<a href="#biografía">Biografía</a>` — se pueden combinar con rutas externas o locales: `<a href="sobre-nosotros.html#elEquipo">Nuestro equipo</a>`
+
+#### Imágenes (`<img>`)
+
+- `src`: indica dónde está alojada la imagen (ruta absoluta o relativa).
+- `alt`: texto alternativo — se muestra si la imagen no carga o para lectores de pantalla; también ayuda al SEO.
+- `width` / `height`: ancho y alto, no obligatorios, en píxeles (solo el número) o porcentaje (con `%`).
+- ⚠️ Las imágenes **no** llevan etiqueta de cierre (`</img>` no existe).
+
+#### Etiquetas multimedia
+
+- `<iframe src="..."></iframe>`: inserta contenido de otro sitio dentro del propio, con sus estilos y funcionalidades incluidos; `width`/`height` para el tamaño.
+- `<video>`: usa `<source src="..." type="...">` para ofrecer varios formatos (el navegador reproduce el primero compatible); atributos: `controls`, `autoplay`, `loop`, `muted`, `poster="imagen.jpg"`.
+- `<audio>`: mismo funcionamiento y atributos que `<video>`, sin la parte visual.
+
+#### Semántica
+
+El uso correcto de etiquetas según su significado refuerza el contenido del sitio para los buscadores (ayuda al SEO):
+- `<strong>` vs `<b>`: ambas ponen negrita, pero solo `<strong>` le dice al buscador que el elemento es importante (`<b>` no es semántica).
+- `<em>` vs `<i>`: ambas ponen cursiva, pero solo `<em>` indica énfasis semánticamente.
+- `<mark>`: resalta una parte relevante del texto (fondo amarillo por defecto).
+- `<cite>`: define el título de una obra (libro, canción, película, etc).
+- `<abbr title="...">`: define una abreviación/acrónimo; el atributo `title` se muestra al pasar el mouse por encima.
+- `<header></header>`: cabecera de un contenido o del documento.
+- `<footer></footer>`: pie de un contenido o del documento.
+- `<section></section>`: sección de contenido monotemático.
+- `<article></article>`: fragmento de información dentro de una sección.
+
+#### Formularios
+
+Permiten a los usuarios ingresar datos y enviarlos a un servidor: **capturar** (HTML) → **validar** (JavaScript) → **procesar** (PHP/CGI).
+
+```html
+<form action="procesar.php" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="email">Correo:</label>
+    <input type="email" id="email" name="email" required>
+
+    <button type="submit">Enviar</button>
+</form>
+```
+- `<form>`: el tag más importante — sin él el formulario no funciona; todos los componentes van dentro.
+- `action`: a dónde se envían los datos. `method`: cómo se envían (`POST` es más seguro que `GET`).
+- `<label>`: texto que acompaña a un campo, indicando qué hay que completar.
+- Tipos de `<input>`: `text`, `email`, `password`, `checkbox`, `radio`. También `<select>` (menú desplegable), `<textarea>` (área de texto grande) y `<button>` (envío/acción).
+- Un input completo: `<input type="text" name="nombre" placeholder="ingrese su nombre">` — `type` define el tipo, `name` identifica el valor al enviar, `placeholder` es el texto de ayuda.
+
+#### Elementos en línea vs. en bloque
+
+- **Bloque:** ocupan el 100% del ancho disponible y generan salto de línea (no dejan espacio para que entre otro elemento al lado). Ejemplo: `<div>`, usado para generar divisiones en el sitio.
+- **En línea:** ocupan solo el ancho de su contenido y no generan saltos de línea. Ejemplo: `<span>`.
+
+---
+
+### CSS — Introducción (parte 1)
+
+#### ¿Qué es CSS?
+
+CSS (*Cascading Style Sheets*) describe cómo se muestran los elementos HTML en pantalla. Una sola hoja de estilos puede controlar el aspecto de múltiples páginas de un sitio a la vez — determina diseño, color, fuente y demás características visuales.
+
+#### Formas de vincular CSS al HTML
+
+| Método | Cómo se aplica |
+|---|---|
+| **Interna** | Etiqueta `<style>` dentro del `<head>`. |
+| **En línea** | Atributo `style` en cada elemento: `<p style="color:red"></p>` |
+| **Externa** | Etiqueta `<link href="css/estilos.css" rel="stylesheet">` dentro del `<head>` — `rel` indica la relación entre documentos (siempre `"stylesheet"`), `href` es la ruta al archivo `.css`. |
+
+#### Selectores CSS
+
+| Selector | Sintaxis | Ejemplo HTML | Ejemplo CSS |
+|---|---|---|---|
+| Por ID | `#nombre` | `<p id="saludo"></p>` | `#saludo { color: red; }` |
+| Por clase | `.nombre` | `<h1 class="títulos"></h1>` | `.titulo { font-size: 22px; }` |
+| Por etiqueta | `etiqueta` | `<ul></ul>` | `ul { ... }` |
+| Combinados | `etiqueta.clase` | `<h2 class="subtitulo">Subtítulo</h2>` | `h2.subtitulo { color: gray; }` — afecta solo al elemento que cumple TODAS las condiciones |
+| Descendentes | `selector selector` (con espacio) | `<ul id="lista"><li>Primer ítem</li></ul>` | `ul#lista li { text-align: center; }` — agrega especificidad, indica paternidad |
+
+Orden de prioridad al aplicar estilos (cascada): `Navegador < CSS externo < CSS interno < CSS en línea < !important`, y por especificidad: `etiqueta < clase < #ID`.
+
+#### Reglas CSS
+
+Una regla es el conjunto de órdenes aplicadas a un elemento para estilizarlo:
+```css
+selector {
+    propiedad: valor;
+}
+```
+Al conjunto `propiedad: valor;` se lo llama **declaración**. Ejemplo real:
+```css
+body {
+    background-color: purple;
+    font-family: Times New Roman;
+    text-align: center;
+}
+```
+
+#### Propiedades — Tipografía
+
+| Propiedad | Qué hace |
+|---|---|
+| `font-family` | Elige la familia tipográfica. |
+| `font-size` | Tamaño tipográfico (valor numérico + unidad: `px`, `em`, `rem`). |
+| `font-style` | Estilo — `italic`, `normal`, `oblique` (algunos tags traen `italic` por default). |
+| `font-weight` | Peso — `bold`, `lighter`, `normal`, o un número que incrementa de 100 en 100 (algunos tags traen `bold` por default). |
+| `text-align` | Alineación — `center`, `left`, `right`, `justify`, `inherit` (default: `left`). |
+| `text-decoration` | Decoración — `underline`, `line-through`, `overline`, `none` (algunos tags traen `underline` por default). |
+| `line-height` | Interlineado (valor numérico + unidad), relacionado directamente con `font-size`. |
+
+#### Propiedades — Colores
+
+Formatos válidos en cualquier propiedad que reciba color:
+- **Hexadecimal:** `#f05331`
+- **RGB:** `rgb(240, 83, 22)`
+- **RGBA:** `rgba(240, 83, 22, 0.3)` — el último valor es la opacidad, de 0 a 1.
+
+`color`: asigna color al texto (nombre en inglés o cualquiera de los formatos de arriba).
+`opacity`: le da transparencia a todo el elemento (no solo al fondo) — el valor es el porcentaje, ej. `0.2` = 20% de transparencia, `0.05` = 5%.
+
+#### Propiedades — Fondos
+
+| Propiedad | Qué hace |
+|---|---|
+| `background-image` | Asigna una imagen de fondo vía `url('ruta')`. |
+| `background-repeat` | Si se repite y cómo — `repeat`, `no-repeat`, `repeat-x`, `repeat-y`, `round`, `space`. |
+| `background-position` | Dónde se coloca la imagen — píxeles, porcentajes, o `right`/`bottom`/`left`/etc (1 o 2 valores: eje x e y). |
+| `background-attachment` | Si el fondo se mueve con el scroll o queda fijo — `fixed`, `scroll`, `inherit`, `initial`. |
+| `background-size` | Tamaño del fondo — `contain`, `cover`, `inherit`, o píxeles/porcentajes (ancho y alto). |
+
+**Shorthand:** todas las propiedades de fondo en una sola línea, en este orden: `background-color`, `background-image`, `background-repeat`, `background-attachment`, `background-position`.
+```css
+body {
+    background: #ffffff url("img_tree.png") no-repeat right top;
+}
+```
+
+**Guías:**
+[Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/0%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf) ·
+[Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/1%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
+
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
 ---
 
 ## <font color="#8250DF">🗂️ Estructura del repositorio</font>
@@ -219,7 +474,22 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
 Programación III
 ├── 1° Clase - (Receta)
 │   └── index.html
+├── 2° Clase -
+│   └── index.html
+├── Material
+│   ├── UNIDAD N° 1 - Desarrollo de interfaces. Utilización de HTML y CSS para el maquetado de las aplicaciones web
+│   │   ├── 0 - UNIDAD_01-Introducción HTML.pdf
+│   │   ├── 1 - UNIDAD_01-Introducción CSS - P1.pdf
+│   │   ├── 2 - UNIDAD_01-Introducción CSS - P2.pdf
+│   │   ├── 3 - Programación III - CSS Grid.pdf
+│   │   └── 4 - UNIDAD_01-Introducción a Bootstrap.pdf
+│   ├── UNIDAD N° 2 - Desarrollo de funcionalidades con JavaScript. Manipulación del DOM
+│   │   ├── 5 - UNIDAD_02-Introducción a JAVASCRIPT - P1.pdf
+│   │   ├── 6 - UNIDAD_02-Introducción a JAVASCRIPT - P2.pdf
+│   │   └── 7 - UNIDAD_02-JAVASCRIPT y HTML - P3.pdf
+│   └── UNIDAD N° 3 - Conexiones HTTP y asincronías
+│       ├── 8 - UNIDAD_03-Introducción a AJAX.pdf
+│       ├── 9 - UNIDAD_03-Introducción a fetch.pdf
+│       └── 10 - Apis Publicas para Probar
 └── README.md
 ```
-
-Cada nueva clase se agrega como carpeta propia numerada en orden, y el desarrollo completo se pega dentro de un nuevo botón desplegable en el [📅 Cronograma de clases](#clase-1), siguiendo el mismo formato que la Clase 1. Cuando eso pasa, sumá también sus subtemas al Índice de arriba.
