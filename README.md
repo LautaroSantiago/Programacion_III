@@ -2,7 +2,7 @@
 
 Apuntes de cursada y práctica de clase de la materia **Programación III** (Desarrollo Web — Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en vivo.
 
-**Cursada:** 2do. cuatrimestre 2026 — Comisión 132 — Profesores: NEINER, Maximiliano · OLIVA, Ian
+**Cursada:** 2do. cuatrimestre 2026 — Comisión 132
 
 ---
 
