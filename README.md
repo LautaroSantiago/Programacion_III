@@ -31,20 +31,20 @@ Apuntes de cursada y práctica de clase de la materia **Programación III** (Des
 ### <a id="funcionamiento-temario"></a><font color="#1A7F37">Temario</font>
 
 **UNIDAD N° 1 — Desarrollo de interfaces.** Utilización de HTML y CSS para el maquetado de las aplicaciones web.
-- 📄 [Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/0%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf)
-- 📄 [Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/1%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
-- 📄 [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/2%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf) *(pendiente de ver en clase)*
-- 📄 [CSS - Grid](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/3%20-%20Programaci%C3%B3n%20III%20-%20CSS%20Grid.pdf) *(pendiente de ver en clase)*
-- 📄 [Introducción a Bootstrap](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/4%20-%20UNIDAD_01-Introducci%C3%B3n%20a%20Bootstrap.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/00%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf)
+- 📄 [Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/01%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
+- 📄 [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/02%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf) *(pendiente de ver en clase)*
+- 📄 [CSS - Grid](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/03%20-%20Programaci%C3%B3n%20III%20-%20CSS%20Grid.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a Bootstrap](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/04%20-%20UNIDAD_01-Introducci%C3%B3n%20a%20Bootstrap.pdf) *(pendiente de ver en clase)*
 
 **UNIDAD N° 2 — Desarrollo de funcionalidades con JavaScript.** Manipulación del DOM.
-- 📄 [Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/5%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf) *(pendiente de ver en clase)*
-- 📄 [Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/6%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf) *(pendiente de ver en clase)*
-- 📄 [HTML y JavaScript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/7%20-%20UNIDAD_02-JAVASCRIPT%20y%20HTML%20-%20P3.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/05%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/06%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf) *(pendiente de ver en clase)*
+- 📄 [HTML y JavaScript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/07%20-%20UNIDAD_02-JAVASCRIPT%20y%20HTML%20-%20P3.pdf) *(pendiente de ver en clase)*
 
 **UNIDAD N° 3 — Conexiones HTTP y asincronías.**
-- 📄 [Asincronismo - parte 1 (ajax)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/8%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20AJAX.pdf) *(pendiente de ver en clase)*
-- 📄 [Asincronismo - parte 2 (fetch)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/9%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20fetch.pdf) *(pendiente de ver en clase)*
+- 📄 [Asincronismo - parte 1 (ajax)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/08%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20AJAX.pdf) *(pendiente de ver en clase)*
+- 📄 [Asincronismo - parte 2 (fetch)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/09%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20fetch.pdf) *(pendiente de ver en clase)*
 - 🔗 [APIs públicas para probar](https://github.com/public-apis/public-apis) *(pendiente de ver en clase)*
 
 ---
@@ -452,8 +452,8 @@ body {
 ```
 
 **Guías:**
-[Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/0%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf) ·
-[Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/1%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
+[Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/00%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf) ·
+[Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/01%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
 
 
 ### Aplicado en
@@ -478,18 +478,18 @@ Programación III
 │   └── index.html
 ├── Material
 │   ├── UNIDAD N° 1 - Desarrollo de interfaces. Utilización de HTML y CSS para el maquetado de las aplicaciones web
-│   │   ├── 0 - UNIDAD_01-Introducción HTML.pdf
-│   │   ├── 1 - UNIDAD_01-Introducción CSS - P1.pdf
-│   │   ├── 2 - UNIDAD_01-Introducción CSS - P2.pdf
-│   │   ├── 3 - Programación III - CSS Grid.pdf
-│   │   └── 4 - UNIDAD_01-Introducción a Bootstrap.pdf
+│   │   ├── 00 - UNIDAD_01-Introducción HTML.pdf
+│   │   ├── 01 - UNIDAD_01-Introducción CSS - P1.pdf
+│   │   ├── 02 - UNIDAD_01-Introducción CSS - P2.pdf
+│   │   ├── 03 - Programación III - CSS Grid.pdf
+│   │   └── 04 - UNIDAD_01-Introducción a Bootstrap.pdf
 │   ├── UNIDAD N° 2 - Desarrollo de funcionalidades con JavaScript. Manipulación del DOM
-│   │   ├── 5 - UNIDAD_02-Introducción a JAVASCRIPT - P1.pdf
-│   │   ├── 6 - UNIDAD_02-Introducción a JAVASCRIPT - P2.pdf
-│   │   └── 7 - UNIDAD_02-JAVASCRIPT y HTML - P3.pdf
+│   │   ├── 05 - UNIDAD_02-Introducción a JAVASCRIPT - P1.pdf
+│   │   ├── 06 - UNIDAD_02-Introducción a JAVASCRIPT - P2.pdf
+│   │   └── 07 - UNIDAD_02-JAVASCRIPT y HTML - P3.pdf
 │   └── UNIDAD N° 3 - Conexiones HTTP y asincronías
-│       ├── 8 - UNIDAD_03-Introducción a AJAX.pdf
-│       ├── 9 - UNIDAD_03-Introducción a fetch.pdf
+│       ├── 08 - UNIDAD_03-Introducción a AJAX.pdf
+│       ├── 09 - UNIDAD_03-Introducción a fetch.pdf
 │       └── 10 - Apis Publicas para Probar
 └── README.md
 ```
