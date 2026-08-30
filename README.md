@@ -21,7 +21,7 @@ Apuntes de cursada y práctica de clase de la materia **Programación III** (Des
 
 ### <a id="funcionamiento-modalidad"></a><font color="#1A7F37">Modalidad y evaluación</font>
 
-- **Modalidad:** clases de desarrollo web (HTML, CSS, JavaScript) a cargo de los profesores Maximiliano Neiner e Ian Oliva.
+- **Modalidad:** clases de desarrollo web (HTML, CSS, JavaScript).
 - **Evaluación:** parciales durante la cursada + defensa final tipo entrevista técnica.
 
 ### <a id="funcionamiento-herramientas"></a><font color="#1A7F37">Herramientas</font>
