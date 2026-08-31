@@ -1,0 +1,123 @@
+<!DOCTYPE html> <!-- html 5 -->
+<!-- ctrl+k ctrl+c -->
+<html lang="en"> <!-- etiqueta raiz -->
+<head>
+    <meta charset="UTF-8"> <!-- metadata -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atajos en VSCodium</title>
+</head>
+<body> <!-- info visible -->
+    <h1> Atajos en VSCodium</h1> <!-- shft+enter -->
+    
+    <p>Emmet es un sistema de abreviaciones integrado en VSCodium que expande fragmentos cortos tipo selector CSS en código HTML completo, 
+        permitiendo armar estructuras enteras con unas pocas teclas y un Tab, además de los atajos de teclado nativos del editor para moverte y editar 
+        más rápido.</p> 
+    <!-- <ul> li*6 -->
+        <!-- <li> - </li> -->
+        <!-- <li> - </li> -->
+        <!-- <li> - </li> -->
+        <!-- <li> - </li> -->
+        <!-- <li> - </li> -->
+    <!-- </ul> --> 
+
+<h3>Emmet — básico</h3>
+<ul>
+    <li>! + Tab → boilerplate HTML5</li>
+    <li>!!! + Tab → doctype solo</li>
+    <li>div.clase + Tab → &lt;div class="clase"&gt;&lt;/div&gt;</li>
+    <li>div#id + Tab → &lt;div id="id"&gt;&lt;/div&gt;</li>
+    <li>ul&gt;li*5 + Tab → lista con 5 items</li>
+    <li>div+p+span + Tab → elementos hermanos</li>
+    <li>.container&gt;header+main+footer + Tab → estructura anidada</li>
+    <li>nav&gt;ul&gt;li*3&gt;a + Tab → nav con links anidados</li>
+    <li>img[src="x.jpg" alt="y"] + Tab → atributos custom</li>
+</ul>
+
+<h3>Emmet — numeración y texto</h3>
+<ul>
+    <li>ul&gt;li.item$*5 → numera automático (item1...item5)</li>
+    <li>ul&gt;li.item$$*5 → con padding de ceros (item01...)</li>
+    <li>h$[title=item$]{Header $}*3 → numeración combinada</li>
+    <li>p{Hola mundo} → texto dentro del tag</li>
+    <li>a{Click acá} → link con texto</li>
+    <li>ul&gt;li{Item $}*3 → texto + numeración</li>
+</ul>
+
+<h3>Emmet — agrupación y niveles</h3>
+<ul>
+    <li>div&gt;(header&gt;ul&gt;li*2)+footer&gt;p → agrupación con paréntesis</li>
+    <li>div+div&gt;p&gt;span+em^bq → ^ sube un nivel (climb-up)</li>
+</ul>
+
+<h3>Emmet — inputs y forms</h3>
+<ul>
+    <li>input:text, input:email, input:password, input:checkbox, input:radio, input:submit, input:date, input:number → variantes preconfiguradas</li>
+    <li>form&gt;input:text+input:submit → form básico</li>
+    <li>select&gt;option*4 → select con 4 opciones</li>
+</ul>
+
+<h3>Emmet — tablas</h3>
+<ul>
+    <li>table&gt;tr*3&gt;td*3 → tabla simple 3x3</li>
+    <li>table&gt;thead&gt;tr&gt;th*4^^tbody&gt;tr*3&gt;td*4 → tabla con thead/tbody (^^ sube dos niveles)</li>
+    <li>table&gt;tr*3&gt;td{Celda $}*4 → celdas con texto numerado</li>
+    <li>table&gt;tr*3&gt;td.col$*4 → clases numeradas por columna</li>
+    <li>table&gt;caption{Mi tabla}+thead&gt;tr&gt;th*3^tbody&gt;tr*2&gt;td*3 → con caption</li>
+    <li>th[scope=col]*4 / th[scope=row] → accesibilidad</li>
+    <li>table&gt;thead&gt;tr&gt;th*3^tbody&gt;tr*3&gt;td*3^tfoot&gt;tr&gt;td*3 → con tfoot</li>
+</ul>
+
+<h3>Emmet — lorem ipsum</h3>
+<ul>
+    <li>p*3&gt;lorem → 3 párrafos random</li>
+    <li>lorem10 → 10 palabras</li>
+    <li>ul&gt;li*4&gt;lorem3 → lista con lorem corto</li>
+    <li>table&gt;tr*4&gt;td*3&gt;lorem2 → tabla con contenido de prueba</li>
+</ul>
+
+<h3>Navegación/edición multi-cursor</h3>
+<ul>
+    <li>Ctrl+D → seleccionar próxima ocurrencia igual</li>
+    <li>Ctrl+Shift+L → seleccionar todas las ocurrencias iguales</li>
+    <li>Alt+Click → agregar cursor donde clickeás</li>
+    <li>Ctrl+Alt+↑/↓ → agregar cursor arriba/abajo (puede chocar con workspace switcher en MATE)</li>
+    <li>Alt+↑/↓ → mover línea arriba/abajo</li>
+    <li>Shift+Alt+↑/↓ → duplicar línea arriba/abajo</li>
+    <li>Ctrl+Shift+K → borrar línea entera</li>
+</ul>
+
+<h3>Comentarios</h3>
+<ul>
+    <li>Ctrl+/ → comentar/descomentar línea o selección (línea por línea)</li>
+    <li>Shift+Alt+A → comentar selección en bloque (un solo &lt;!-- --&gt;)</li>
+</ul>
+
+<h3>Tags HTML</h3>
+<ul>
+    <li>Shift+Alt+. / Shift+Alt+, → expandir/contraer selección de tag</li>
+    <li>Ctrl+Shift+\ → saltar al tag de apertura/cierre correspondiente</li>
+</ul>
+
+<h3>Autocompletado</h3>
+<ul>
+    <li>Ctrl+Space → forzar sugerencias (puede chocar con IBus)</li>
+    <li>Ctrl+. → quick fix / acciones rápidas</li>
+</ul>
+
+<h3>Formato y bloques</h3>
+<ul>
+    <li>Shift+Alt+F → formatear documento</li>
+    <li>Ctrl+K Ctrl+0 → colapsar todos los bloques</li>
+    <li>Ctrl+K Ctrl+J → expandir todos los bloques</li>
+</ul>
+
+<h3>General</h3>
+<ul>
+    <li>Ctrl+` → togglear terminal integrada</li>
+    <li>Ctrl+Shift+E → foco en explorador de archivos</li>
+    <li>Ctrl+P → quick open (buscar archivo)</li>
+    <li>Ctrl+K Ctrl+S → editor de keybindings (para remapear atajos)</li>
+</ul>
+
+</body>
+</html>
