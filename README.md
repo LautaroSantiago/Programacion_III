@@ -518,6 +518,16 @@ Cierra con un ejercicio de armar una página con título, párrafo, lista, image
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/06%20-%20Introducci%C3%B3n%20al%20Lenguaje%20CSS.pdf)
 
+Explica qué es CSS y las tres formas de aplicarlo a un documento HTML: en línea (atributo `style`), interno (`<style>` en el `<head>`) y externo (archivo `.css` vinculado con `<link>`, la opción recomendada).
+
+Repasa los selectores básicos: de tipo (`p { }`), por clase (`.clase { }`) y por ID (`#id { }`).
+
+Recorre propiedades básicas con ejemplos: colores (nombre, hexadecimal, RGB) para texto y `background-color`/`background-image`, tipografía (`font-family`, `font-size`), alineación (`text-align`), bordes (`border`), márgenes y relleno (`margin`, `padding`), y dimensiones (`width`, `height`).
+
+Explica el **box model** (contenido, padding, borde y margen) con un ejemplo de cómo se suman esos valores al tamaño real que ocupa un elemento, y cierra con un ejemplo completo que combina todo lo anterior.
+
+Suma una segunda parte sobre **fuentes e íconos externos**: cómo importar tipografías de Google Fonts (link en el `<head>` + `font-family` en el CSS) y cómo usar Icon Fonts como Font Awesome (link CDN + clases tipo `<i class="fas fa-home"></i>`).
+
 ---
 
 **07 - CSS Avanzado**
