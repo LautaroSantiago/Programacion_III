@@ -1,6 +1,6 @@
 # <font color="#1F6FEB">Programación III</font>
 
-Apuntes de cursada y práctica de clase de la materia **Programación III** (Desarrollo Web — Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en vivo.
+Apuntes de cursada y práctica de clase de la materia **Programación III** (Desarrollo Web — Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas de cada clase, en base a lo explicado.
 
 **Cursada:** 2do. cuatrimestre 2026 — Comisión 132
 
@@ -12,6 +12,7 @@ Apuntes de cursada y práctica de clase de la materia **Programación III** (Des
   - [<font color="#1A7F37">Modalidad y evaluación</font>](#funcionamiento-modalidad)
   - [<font color="#1A7F37">Herramientas</font>](#funcionamiento-herramientas)
   - [<font color="#1A7F37">Temario</font>](#funcionamiento-temario)
+  - [<font color="#1A7F37">Recursos adicionales</font>](#funcionamiento-recursos)
 - [<font color="#8250DF"><strong>Clase 1 — 21/8 · HTML básico</strong></font>](#clase-1)
 - [<font color="#8250DF"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font>](#clase-2)
 
@@ -47,6 +48,29 @@ Apuntes de cursada y práctica de clase de la materia **Programación III** (Des
 - 📄 [Asincronismo - parte 2 (fetch)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/09%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20fetch.pdf) *(pendiente de ver en clase)*
 - 🔗 [APIs públicas para probar](https://github.com/public-apis/public-apis) *(pendiente de ver en clase)*
 
+### <a id="funcionamiento-recursos"></a><font color="#1A7F37">Recursos adicionales</font>
+
+Guías extra que se van sumando a la carpeta `Recursos Adicionales/`, con un breve resumen cuando ya se leyeron:
+
+- **01 - Introducción al Diseño UX/UI** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/01%20-%20Introducci%C3%B3n%20al%20Dise%C3%B1o%20UX_UI.pdf)
+- **02 - Introducción al Modelo Cliente/Servidor** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/02-%20Introducci%C3%B3n%20al%20Modelo%20Cliente_Servidor.pdf)
+- **03 - Introducción al Desarrollo Web** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/03-%20Introducci%C3%B3n%20al%20Desarrollo%20Web.pdf)
+- **04 - Introducción al Lenguaje HTML** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/04-%20Introducci%C3%B3n%20al%20Lenguaje%20HTML.pdf)
+  Resumen: repasa que HTML es un lenguaje de marcado (no de programación) que define la estructura de una página mediante etiquetas. Cubre la plantilla básica (`doctype`, `html`, `head`, `title`, `body`), la sintaxis de apertura/cierre, las etiquetas esenciales (encabezados `h1`-`h6`, párrafos, enlaces `a href`, imágenes `img src alt`, listas `ul`/`ol`, tablas `table`/`tr`/`td`/`th`, formularios `form`/`input`/`textarea`/`button`), los atributos `class`, `id` y `style`, los comentarios, el doctype y las metaetiquetas (`charset`, `viewport`, `description`), y cierra con un ejercicio de armar una página con título, párrafo, lista, imagen y enlace.
+- **05 - HTML Avanzado** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/05-%20HTML%20Avanzado.pdf)
+- **06 - Introducción al Lenguaje CSS** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/06%20-%20Introducci%C3%B3n%20al%20Lenguaje%20CSS.pdf)
+- **07 - CSS Avanzado** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/07%20-%20CSS%20Avanzado.pdf)
+- **08 - Introducción a Bootstrap** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/08%20-%20Introducci%C3%B3n%20a%20Bootstrap.pdf)
+- **09 - Introducción a Javascript** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/09%20-%20Introducci%C3%B3n%20a%20Javascript.pdf)
+- **10 - Condicionales y bucles en Javascript** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/10%20-%20Condicionales%20y%20bucles%20en%20Javascript.pdf)
+- **11 - Funciones en Javascript** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/11%20-%20Funciones%20en%20Javascript.pdf)
+- **12 - Arrays y objetos** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/12%20-%20Arrays%20y%20objetos.pdf)
+- **13 - Funciones de orden superior** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/13%20-%20Funciones%20de%20orden%20superior.pdf)
+- **14 - Math y Date** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/14%20-%20Math%20y%20Date.pdf)
+- **15 - Introducción al DOM** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/15%20-%20Introducci%C3%B3n%20al%20DOM.pdf)
+- **16 - Sintaxis avanzada en Javascript** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/16%20-%20Sintaxis%20avanzada%20en%20Javascript.pdf)
+- **17 - Asincronía y Promesas** — [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/17%20-%20Asincron%C3%ADa%20y%20Promesas.pdf)
+
 ---
 
 ## <font color="#8250DF">📅 Cronograma de clases</font>
@@ -72,14 +96,15 @@ Cada clase se despliega individualmente con su desarrollo completo adentro. Se v
 
 ### Aplicado en
 
-Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vistas hasta el momento (sin `<div>` ni semánticas, eso quedó para la clase 2).
+Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vistas hasta el momento (sin `<div>` ni semánticas, eso quedó para la clase 2). También se agregó `atajosTeclado.html`, un apunte aparte con atajos de Emmet y de VSCodium para tener a mano.
 
 **Fuente de la receta:** [Empanadas criollas o empanadas argentinas de carne - Recetas de Rechupete (ABC)](https://www.abc.es/recetasderechupete/receta-de-empanada-argentina-o-criolla/283/)
 
 ### Código
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/1%C2%B0%20Clase%20-%20(Receta)/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/1%C2%B0%20Clase%20-%20(inicio)/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/1%C2%B0%20Clase%20-%20(inicio)/index.html)
+[![Ver atajos de teclado](https://img.shields.io/badge/⌨️_Atajos_de_teclado-8250DF?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/1%C2%B0%20Clase%20-%20(inicio)/atajosTeclado.html)
 
 <details>
 <summary><font color="#8250DF">📋 Copiar código (index.html)</font></summary>
@@ -87,21 +112,21 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
 ```html
 <!-- 
     Receta de empanadas - practica de la clase de Programacion 3
-    Profe Xavi dijo que aprovechemos la carga horaria para agarrar bien la maña
+    Voy aprovechando la cursada para agarrar bien la maña
     de escribir codigo limpio desde el principio, asi que voy comentando 
     mientras hago para acordarme despues
 -->
 <!DOCTYPE html>
 <!-- 
     esto va primero que nada, es la instruccion que le dice al navegador
-    que el documento es HTML. el profe remarco que el navegador NO detecta 
+    que el documento es HTML. el navegador NO detecta 
     esto solo por la extension del archivo, lo necesita si o si
 -->
 <html lang="es">
 <head>
     <!-- 
         todo lo de aca adentro es info que NO se ve en la pagina,
-        el profe lo llamo "informacion no visible" 
+        se le dice "informacion no visible" 
     -->
 
     <meta charset="UTF-8">
@@ -113,7 +138,7 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 
         esto ajusta el "puerto visual" para que la pagina se vea bien
-        en el celular, el profe dijo que lo vamos a retomar cuando
+        en el celular, esto se retoma mas adelante cuando
         veamos responsive pero que va siempre por defecto
     -->
 
@@ -123,7 +148,7 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
 <body style="background-image: url('https://img.magnific.com/foto-gratis/fondo-texturado-abstracto-blanco_23-2148624407.jpg?semt=ais_hybrid&w=740&q=80'); background-repeat: repeat; color: #4a2c17;">
     <!-- 
         ojo aca: esto ya es un adelanto de CSS metido como atributo style
-        directo en la etiqueta. el profe dijo que el atributo style lo
+        directo en la etiqueta. el atributo style se va a
         íbamos a "ignorar" por ahora porque el posicionamiento y los
         estilos los vamos a ver bien la clase que viene con CSS aparte,
         pero lo dejo anotado aca para acordarme cuando lo pasemos
@@ -157,7 +182,7 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
         y alt es el texto alternativo, MUY importante ponerlo siempre
         porque si la imagen no carga por lo menos se entiende que iba ahi,
         y ademas suma para accesibilidad y SEO. sin el alt la etiqueta
-        "no tiene sentido" como decia el profe con los atributos
+        "no tiene sentido" pasa lo mismo con otros atributos
     -->
     <img src="https://cocinaderestauranteencasa.com/wp-content/uploads/2023/05/LISTA-1170x840.jpg.webp" alt="Empanadas criollas horneadas recién salidas del horno">
 
@@ -201,8 +226,8 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
     </ol>
 
     <!-- 
-        hr = horizontal ruler, esta es de las pocas que el profe dijo
-        que sigue estando bien usarla. el br en cambio lo mando a olvidar
+        hr = horizontal ruler, esta es de las pocas etiquetas viejas
+        que todavia esta bien usar. el br en cambio lo mando a olvidar
         porque el posicionamiento despues lo vamos a manejar con CSS
     -->
     <hr>
@@ -217,7 +242,7 @@ Página de receta de **Empanadas Criollas**, armada solo con las etiquetas vista
         etiqueta a (ancla) con el atributo href que es la URL a donde
         lleva el link. target="_blank" es para que abra en pestaña nueva,
         si no pongo target por defecto es como si tuviera _self (se abre aca mismo).
-        sin el href el link "no sirve para nada" como dijo el profe
+        sin el href el link "no sirve para nada"
     -->
     <p>Fuente: <a href="https://www.abc.es/recetasderechupete/receta-de-empanada-argentina-o-criolla/283/" target="_blank">receta de empanada argentina o criolla - ABC</a></p>
 
@@ -472,10 +497,6 @@ body {
 
 ```
 Programación III
-├── 1° Clase - (Receta)
-│   └── index.html
-├── 2° Clase -
-│   └── index.html
 ├── Material
 │   ├── UNIDAD N° 1 - Desarrollo de interfaces. Utilización de HTML y CSS para el maquetado de las aplicaciones web
 │   │   ├── 00 - UNIDAD_01-Introducción HTML.pdf
@@ -491,5 +512,33 @@ Programación III
 │       ├── 08 - UNIDAD_03-Introducción a AJAX.pdf
 │       ├── 09 - UNIDAD_03-Introducción a fetch.pdf
 │       └── 10 - Apis Publicas para Probar
-└── README.md
+├── Prácticas
+│   ├── 1° Clase - (inicio)
+│   │   ├── atajosTeclado.html
+│   │   └── index.html
+│   └── 2° Clase
+│       └── index.html
+├── Recursos Adicionales
+│   ├── 01 - Introducción al Diseño UX_UI.pdf
+│   ├── 02- Introducción al Modelo Cliente_Servidor.pdf
+│   ├── 03- Introducción al Desarrollo Web.pdf
+│   ├── 04- Introducción al Lenguaje HTML.pdf
+│   ├── 05- HTML Avanzado.pdf
+│   ├── 06 - Introducción al Lenguaje CSS.pdf
+│   ├── 07 - CSS Avanzado.pdf
+│   ├── 08 - Introducción a Bootstrap.pdf
+│   ├── 09 - Introducción a Javascript.pdf
+│   ├── 10 - Condicionales y bucles en Javascript.pdf
+│   ├── 11 - Funciones en Javascript.pdf
+│   ├── 12 - Arrays y objetos.pdf
+│   ├── 13 - Funciones de orden superior.pdf
+│   ├── 14 - Math y Date.pdf
+│   ├── 15 - Introducción al DOM.pdf
+│   ├── 16 - Sintaxis avanzada en Javascript.pdf
+│   └── 17 - Asincronía y Promesas.pdf
+├── README.md
+└── UTN2026_c2Div132
+    ├── 1_html
+    │   └── index.html
+    └── README.md
 ```
