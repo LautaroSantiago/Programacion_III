@@ -474,25 +474,29 @@ body {
 
 Guías extra que se van sumando a la carpeta `Recursos Adicionales/`, con un breve resumen cuando ya se leyeron.
 
-**01 - Introducción al Diseño UX/UI**
+<details>
+<summary><font color="#1A7F37"><strong>01 - Introducción al Diseño UX/UI</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/01%20-%20Introducci%C3%B3n%20al%20Dise%C3%B1o%20UX_UI.pdf)
 
----
+</details>
 
-**02 - Introducción al Modelo Cliente/Servidor**
+<details>
+<summary><font color="#1A7F37"><strong>02 - Introducción al Modelo Cliente/Servidor</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/02-%20Introducci%C3%B3n%20al%20Modelo%20Cliente_Servidor.pdf)
 
----
+</details>
 
-**03 - Introducción al Desarrollo Web**
+<details>
+<summary><font color="#1A7F37"><strong>03 - Introducción al Desarrollo Web</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/03-%20Introducci%C3%B3n%20al%20Desarrollo%20Web.pdf)
 
----
+</details>
 
-**04 - Introducción al Lenguaje HTML**
+<details>
+<summary><font color="#1A7F37"><strong>04 - Introducción al Lenguaje HTML</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/04-%20Introducci%C3%B3n%20al%20Lenguaje%20HTML.pdf)
 
@@ -506,15 +510,17 @@ También pasa por los atributos `class`, `id` y `style`, los comentarios, el doc
 
 Cierra con un ejercicio de armar una página con título, párrafo, lista, imagen y enlace.
 
----
+</details>
 
-**05 - HTML Avanzado**
+<details>
+<summary><font color="#1A7F37"><strong>05 - HTML Avanzado</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/05-%20HTML%20Avanzado.pdf)
 
----
+</details>
 
-**06 - Introducción al Lenguaje CSS**
+<details>
+<summary><font color="#1A7F37"><strong>06 - Introducción al Lenguaje CSS</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/06%20-%20Introducci%C3%B3n%20al%20Lenguaje%20CSS.pdf)
 
@@ -528,71 +534,84 @@ Explica el **box model** (contenido, padding, borde y margen) con un ejemplo de 
 
 Suma una segunda parte sobre **fuentes e íconos externos**: cómo importar tipografías de Google Fonts (link en el `<head>` + `font-family` en el CSS) y cómo usar Icon Fonts como Font Awesome (link CDN + clases tipo `<i class="fas fa-home"></i>`).
 
----
+</details>
 
-**07 - CSS Avanzado**
+<details>
+<summary><font color="#1A7F37"><strong>07 - CSS Avanzado</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/07%20-%20CSS%20Avanzado.pdf)
 
----
+</details>
 
-**08 - Introducción a Bootstrap**
+<details>
+<summary><font color="#1A7F37"><strong>08 - Introducción a Bootstrap</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/08%20-%20Introducci%C3%B3n%20a%20Bootstrap.pdf)
 
----
+</details>
 
-**09 - Introducción a Javascript**
+<details>
+<summary><font color="#1A7F37"><strong>09 - Introducción a Javascript</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/09%20-%20Introducci%C3%B3n%20a%20Javascript.pdf)
 
----
+</details>
 
-**10 - Condicionales y bucles en Javascript**
+<details>
+<summary><font color="#1A7F37"><strong>10 - Condicionales y bucles en Javascript</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/10%20-%20Condicionales%20y%20bucles%20en%20Javascript.pdf)
 
----
+</details>
 
-**11 - Funciones en Javascript**
+<details>
+<summary><font color="#1A7F37"><strong>11 - Funciones en Javascript</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/11%20-%20Funciones%20en%20Javascript.pdf)
 
----
+</details>
 
-**12 - Arrays y objetos**
+<details>
+<summary><font color="#1A7F37"><strong>12 - Arrays y objetos</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/12%20-%20Arrays%20y%20objetos.pdf)
 
----
+</details>
 
-**13 - Funciones de orden superior**
+<details>
+<summary><font color="#1A7F37"><strong>13 - Funciones de orden superior</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/13%20-%20Funciones%20de%20orden%20superior.pdf)
 
----
+</details>
 
-**14 - Math y Date**
+<details>
+<summary><font color="#1A7F37"><strong>14 - Math y Date</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/14%20-%20Math%20y%20Date.pdf)
 
----
+</details>
 
-**15 - Introducción al DOM**
+<details>
+<summary><font color="#1A7F37"><strong>15 - Introducción al DOM</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/15%20-%20Introducci%C3%B3n%20al%20DOM.pdf)
 
----
+</details>
 
-**16 - Sintaxis avanzada en Javascript**
+<details>
+<summary><font color="#1A7F37"><strong>16 - Sintaxis avanzada en Javascript</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/16%20-%20Sintaxis%20avanzada%20en%20Javascript.pdf)
 
----
+</details>
 
-**17 - Asincronía y Promesas**
+<details>
+<summary><font color="#1A7F37"><strong>17 - Asincronía y Promesas</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/17%20-%20Asincron%C3%ADa%20y%20Promesas.pdf)
+
+</details>
 
 ---
 
