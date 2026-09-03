@@ -479,6 +479,19 @@ Guías extra que se van sumando a la carpeta `Recursos Adicionales/`, con un bre
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/01%20-%20Introducci%C3%B3n%20al%20Dise%C3%B1o%20UX_UI.pdf)
 
+Distingue **UX** (Experiencia de Usuario) de **UI** (Interfaz de Usuario): el UX se enfoca en cómo se siente el usuario al interactuar con el producto (qué tan intuitivo es, si encuentra rápido lo que busca, si la navegación es clara), mientras que el UI es lo visual (colores, botones, tipografías, cómo se organizan los elementos en pantalla). Resume la relación entre ambos con la idea de que el UX es "el cerebro" (define cómo funciona) y el UI "el corazón" (define cómo se ve).
+
+Explica por qué importa: un mal diseño UX/UI hace que los usuarios se frustren y abandonen el producto; uno bueno los hace quedarse.
+
+Repasa los conceptos clave del proceso de diseño:
+- **Investigación de usuarios** — entender necesidades y problemas antes de diseñar (encuestas, entrevistas, análisis de datos).
+- **Usabilidad** — qué tan fácil e intuitivo es usar el producto, sin necesitar un manual.
+- **Wireframes y prototipos** — el wireframe es el "plano" de la pantalla (dónde va cada elemento, sin estética); el prototipo es una versión más armada y funcional, aunque no terminada.
+- **Accesibilidad** — que el producto sea usable por personas con discapacidades visuales, auditivas o motoras.
+- **Testeo de usabilidad** — probar el prototipo con usuarios reales antes de lanzar, para detectar problemas a tiempo.
+
+Cierra con una actividad práctica en dos partes: armar el wireframe de una app de recetas (pantallas, barra de búsqueda, lista de recetas, botón de favoritos) y después pasar ese wireframe a una herramienta de prototipado (Figma o Adobe XD) agregando colores básicos y enlazando las pantallas.
+
 </details>
 
 <details>
