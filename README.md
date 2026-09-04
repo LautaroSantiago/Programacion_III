@@ -561,6 +561,18 @@ Suma una segunda parte sobre **fuentes e íconos externos**: cómo importar tipo
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/08%20-%20Introducci%C3%B3n%20a%20Bootstrap.pdf)
 
+Presenta Bootstrap como un framework de código abierto (HTML, CSS y JS) para desarrollo web rápido, con enfoque *mobile-first* y componentes predefinidos. Enumera sus ventajas: responsivo por defecto, componentes listos para usar, fácil de personalizar, sistema de grillas y compatibilidad entre navegadores.
+
+Explica cómo incluirlo en un proyecto — vía CDN o descargando los archivos localmente — con el link de ejemplo en el `<head>`.
+
+Desarrolla el **sistema de grillas (Grid System)**: contenedores `container` (ancho fijo según pantalla) vs. `container-fluid` (100% del ancho), filas `row` y columnas `col`, que se dividen en 12 partes y se ajustan por breakpoint con `col-sm`, `col-md`, `col-lg`.
+
+Repasa componentes comunes con ejemplos: **botones** (`btn`, `btn-primary`, `btn-secondary`, `btn-danger`), **formularios** (`form-label`, `form-control`) y **tarjetas** (`card`, `card-img-top`, `card-body`, `card-title`, `card-text`).
+
+Muestra un ejemplo de diseño responsive combinando `col-sm-12 col-md-6 col-lg-4` para que las columnas se apilen o dividan según el tamaño de pantalla, y las clases utilitarias de espaciado (`m-`, `p-`) y de color de fondo/texto (`bg-success`, `text-white`, etc.).
+
+Cierra con un ejercicio guiado: armar una **landing page** completa (navbar, hero section, servicios, portafolio, testimonios y footer) con el código HTML paso a paso, para después personalizar colores, contenido e imágenes y probar que se adapte bien a distintos dispositivos.
+
 </details>
 
 <details>
