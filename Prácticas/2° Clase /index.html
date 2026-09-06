@@ -20,10 +20,31 @@
 
     <div name="Pricipal">
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus autem, recusandae illo reiciendis unde aliquam doloribus maiores libero. Enim voluptatem velit ad facere suscipit asperiores voluptatibus fugit mollitia earum ducimus!        </p>
-        <a href="https://www.infobae.com/">Link</a>
         
+        
+        <!-- <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XfgAzYA7fa3jQpfWkkiATI_fU6FMmU-jAwBpLMLNdg&s=10" download="imagen.jpg" target="_blank">Link</a> -->
+        <!-- target define el comportamiento de redireccion -->
+    <button onclick="descargarImagen()">link</button>
 
-    </div>
+    <!-- <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XfgAzYA7fa3jQpfWkkiATI_fU6FMmU-jAwBpLMLNdg&s=10" download="imagen.jpg" target="_blank">Link</a> -->
+    <!-- target define el comportamiento de redireccion -->
+</div>
+
+<script>
+function descargarImagen() {
+    fetch("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XfgAzYA7fa3jQpfWkkiATI_fU6FMmU-jAwBpLMLNdg&s=10")
+        .then(r => r.blob())
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "imagen.jpg";
+            a.click();
+            URL.revokeObjectURL(url);
+        })
+        .catch(err => console.error("Error al descargar:", err));
+}
+</script>
 
 
     <div name="PieDePagina">
