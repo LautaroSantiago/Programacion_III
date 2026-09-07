@@ -15,8 +15,8 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 1 — 21/8 · HTML básico</strong></font>](#clase-1)
 - [<font color="#8250DF"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font>](#clase-2)
 - [<font color="#8250DF"><strong>Clase 3 — 4/9 · CSS Parte 2 (Box Model, Posicionamiento, Pseudo selectores)</strong></font>](#clase-3)
-- [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
+- [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
 ---
 
@@ -562,6 +562,60 @@ Reglas CSS que permiten reorganizar el contenido según las condiciones de visua
 
 ---
 
+## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
+
+La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
+
+[![Ver repositorio en vivo](https://img.shields.io/badge/🔗_Repositorio_de_la_cátedra-181717?style=for-the-badge&logo=github)](https://github.com/profexabi/UTN2026_c2Div132)
+
+<details>
+<summary><font color="#1A7F37"><strong>1_html</strong></font></summary>
+
+**index.html** — repaso de HTML: lista desordenada y ordenada (ingredientes), párrafos, `<hr>`, etiquetas de formato de texto (`<strong>`, `<em>`, `<mark>`, `<small>`, `<del>`, `<ins>`, `<b>`, `<i>`, `<sub>`, `<sup>`) y un enlace con una imagen adentro.
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
+
+**README.md** — cronograma de la cátedra: qué se vio en la Clase 1 (HTML hasta elementos en bloque/en línea, con el recordatorio de que toda etiqueta en línea va dentro de una de bloque), la práctica sugerida de armar una receta con las etiquetas vistas, y lo que se dio en "Clase CSS I" (pseudoclases, flex, unidades absolutas y relativas, estilado básico). También incluye una guía rápida de Git (clone, status, pull, add, commit, push).
+
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/README.md)
+
+</details>
+
+<details>
+<summary><font color="#1A7F37"><strong>2_css</strong></font></summary>
+
+**index.html** — página de ejemplo con fuente de Google Fonts (Montserrat), CSS interno con pseudoclases aplicadas a distintos links (`:hover`, `:active`, `:visited`, y la combinación `:visited:hover`), CSS externo vinculado aparte, y una estructura con `header` + `nav` + `main` con secciones y un video de fondo autoplay en loop.
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
+
+**portfolio.html** — landing page de portfolio: sección hero a pantalla completa (`height: 100vh`) con tipografía custom vía `@font-face`, imagen de fondo y texto centrado con flexbox, header con navegación por anclas (`#presentacion`, `#experiencias`, `#habilidades`) y secciones de "sobre mí", "experiencia" y "habilidades".
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
+
+**css/styles.css** — hoja de estilos externa usada por `index.html`: estilos de botón con `:hover`, header en flexbox con lista sin viñetas, y la sección de portada en flexbox column con el video ocupando el 100% del ancho.
+
+[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/css/styles.css)
+
+**README.md** — apunte de CSS bastante completo:
+- Unidades **absolutas** (`px`) vs. **relativas** (`em`, `rem`, `%`, `vw`, `vh`), con ejemplos de cada una.
+- Guía de **flexbox**: `flex-direction` (row/column), `justify-content` (eje principal) y `align-items` (eje secundario).
+- **Pseudoclases** de interacción (`:hover`, `:active`, `:focus`, `:visited`) y de estado estructural (`:nth-child(odd)`/`:nth-child(even)`), más la combinación de pseudoclases (`a:visited:hover`).
+- **Combinadores**: descendiente (`div p`) y de hijo directo (`div > p`).
+- Links a bancos de íconos y fuentes web-safe, y una nota aparte sobre la tipografía Montserrat (variable font vs. archivos estáticos por peso) y qué es un archivo `.ttf`.
+
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/README.md)
+
+**assets/fonts/future-z-font** — la fuente custom `Future Z` usada en el portfolio, con su licencia (`misc/license.txt`): uso personal gratuito, uso comercial requiere un pago único de USD 20.
+
+[📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/assets/fonts/future-z-font/misc/license.txt)
+
+</details>
+
+---
+
 ## <a id="recursos-adicionales"></a><font color="#8250DF">📚 Recursos adicionales</font>
 
 Guías extra que se van sumando a la carpeta `Recursos Adicionales/`, con un breve resumen cuando ya se leyeron.
@@ -727,60 +781,6 @@ Cierra con un ejercicio guiado: armar una **landing page** completa (navbar, her
 <summary><font color="#1A7F37"><strong>17 - Asincronía y Promesas</strong></font></summary>
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/17%20-%20Asincron%C3%ADa%20y%20Promesas.pdf)
-
-</details>
-
----
-
-## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
-
-La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
-
-[![Ver repositorio en vivo](https://img.shields.io/badge/🔗_Repositorio_de_la_cátedra-181717?style=for-the-badge&logo=github)](https://github.com/profexabi/UTN2026_c2Div132)
-
-<details>
-<summary><font color="#1A7F37"><strong>1_html</strong></font></summary>
-
-**index.html** — repaso de HTML: lista desordenada y ordenada (ingredientes), párrafos, `<hr>`, etiquetas de formato de texto (`<strong>`, `<em>`, `<mark>`, `<small>`, `<del>`, `<ins>`, `<b>`, `<i>`, `<sub>`, `<sup>`) y un enlace con una imagen adentro.
-
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
-
-**README.md** — cronograma de la cátedra: qué se vio en la Clase 1 (HTML hasta elementos en bloque/en línea, con el recordatorio de que toda etiqueta en línea va dentro de una de bloque), la práctica sugerida de armar una receta con las etiquetas vistas, y lo que se dio en "Clase CSS I" (pseudoclases, flex, unidades absolutas y relativas, estilado básico). También incluye una guía rápida de Git (clone, status, pull, add, commit, push).
-
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/README.md)
-
-</details>
-
-<details>
-<summary><font color="#1A7F37"><strong>2_css</strong></font></summary>
-
-**index.html** — página de ejemplo con fuente de Google Fonts (Montserrat), CSS interno con pseudoclases aplicadas a distintos links (`:hover`, `:active`, `:visited`, y la combinación `:visited:hover`), CSS externo vinculado aparte, y una estructura con `header` + `nav` + `main` con secciones y un video de fondo autoplay en loop.
-
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
-
-**portfolio.html** — landing page de portfolio: sección hero a pantalla completa (`height: 100vh`) con tipografía custom vía `@font-face`, imagen de fondo y texto centrado con flexbox, header con navegación por anclas (`#presentacion`, `#experiencias`, `#habilidades`) y secciones de "sobre mí", "experiencia" y "habilidades".
-
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
-
-**css/styles.css** — hoja de estilos externa usada por `index.html`: estilos de botón con `:hover`, header en flexbox con lista sin viñetas, y la sección de portada en flexbox column con el video ocupando el 100% del ancho.
-
-[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/css/styles.css)
-
-**README.md** — apunte de CSS bastante completo:
-- Unidades **absolutas** (`px`) vs. **relativas** (`em`, `rem`, `%`, `vw`, `vh`), con ejemplos de cada una.
-- Guía de **flexbox**: `flex-direction` (row/column), `justify-content` (eje principal) y `align-items` (eje secundario).
-- **Pseudoclases** de interacción (`:hover`, `:active`, `:focus`, `:visited`) y de estado estructural (`:nth-child(odd)`/`:nth-child(even)`), más la combinación de pseudoclases (`a:visited:hover`).
-- **Combinadores**: descendiente (`div p`) y de hijo directo (`div > p`).
-- Links a bancos de íconos y fuentes web-safe, y una nota aparte sobre la tipografía Montserrat (variable font vs. archivos estáticos por peso) y qué es un archivo `.ttf`.
-
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/README.md)
-
-**assets/fonts/future-z-font** — la fuente custom `Future Z` usada en el portfolio, con su licencia (`misc/license.txt`): uso personal gratuito, uso comercial requiere un pago único de USD 20.
-
-[📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/assets/fonts/future-z-font/misc/license.txt)
 
 </details>
 
