@@ -734,7 +734,9 @@ Cierra con un ejercicio guiado: armar una **landing page** completa (navbar, her
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
 
-La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra (`UTN2026_c2Div132`), que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
+La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
+
+[![Ver repositorio en vivo](https://img.shields.io/badge/🔗_Repositorio_de_la_cátedra-181717?style=for-the-badge&logo=github)](https://github.com/profexabi/UTN2026_c2Div132)
 
 <details>
 <summary><font color="#1A7F37"><strong>1_html</strong></font></summary>
