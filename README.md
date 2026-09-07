@@ -14,6 +14,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
   - [<font color="#1A7F37">Temario</font>](#funcionamiento-temario)
 - [<font color="#8250DF"><strong>Clase 1 — 21/8 · HTML básico</strong></font>](#clase-1)
 - [<font color="#8250DF"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font>](#clase-2)
+- [<font color="#8250DF"><strong>Clase 3 — 4/9 · CSS Parte 2 (Box Model, Posicionamiento, Pseudo selectores)</strong></font>](#clase-3)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
 ---
@@ -34,7 +35,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 **UNIDAD N° 1 — Desarrollo de interfaces.** Utilización de HTML y CSS para el maquetado de las aplicaciones web.
 - 📄 [Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/00%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf)
 - 📄 [Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/01%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
-- 📄 [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/02%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/02%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf)
 - 📄 [CSS - Grid](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/03%20-%20Programaci%C3%B3n%20III%20-%20CSS%20Grid.pdf) *(pendiente de ver en clase)*
 - 📄 [Introducción a Bootstrap](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/04%20-%20UNIDAD_01-Introducci%C3%B3n%20a%20Bootstrap.pdf) *(pendiente de ver en clase)*
 
@@ -457,6 +458,96 @@ body {
 [Introducción a HTML](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/00%20-%20UNIDAD_01-Introducci%C3%B3n%20HTML.pdf) ·
 [Introducción a CSS - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/01%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P1.pdf)
 
+
+### Aplicado en
+
+-
+
+### Código
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase/index.html)
+
+</details>
+
+<details>
+<summary><a id="clase-3"></a><font color="#1A7F37"><strong>Clase 3 — 4/9 · CSS Parte 2 (Box Model, Posicionamiento, Pseudo selectores)</strong></font></summary>
+
+### Temas vistos
+
+#### Repaso: contenedores semánticos (article vs. section vs. main)
+
+Quedó más claro después de una duda puntual sobre cuándo usar `<section>` y cuándo `<article>`, así que anoto la distinción con más detalle porque no hay una regla 100% estricta, es bastante de interpretación:
+
+- **`<article>`** tiene más sentido para contenido independiente y autocontenido, del tipo informativo/de texto — foros, blogs, comentarios, artículos de noticias, tarjetas de producto. La idea es que ese contenido tendría sentido por sí solo aunque se sacara de donde está.
+- **`<section>`** agrupa partes temáticas de una misma página — subdivisiones del contenido principal que comparten un tema, pero no son necesariamente independientes por sí solas.
+- **`<main>`** es el contenedor que engloba el contenido principal de la página (por fuera de `<header>`, `<nav>` lateral y `<footer>`), y adentro puede tener secciones o artículos según el caso.
+- Sobre el impacto en SEO: usar estos contenedores importa más por la **semántica y estructura** del documento (ayuda a que buscadores y lectores de pantalla entiendan mejor el contenido) que por un "puntaje" directo — no hay una etiqueta específica que posicione mejor por sí sola. Con tener contenedores semánticos coherentes ya alcanza; no hace falta forzar la etiqueta "perfecta" en cada caso.
+- La recomendación práctica: encabezado (`header`), contenido principal (`main`) dividido en secciones o artículos según si es más de índole de foro/noticias o no, y pie (`footer`) — y a partir de ahí, `<div>` para todo lo que sea puramente de maquetado/estructural sin significado semántico propio.
+
+#### Modelo de caja (Box Model)
+
+Todos los elementos de un documento HTML se representan como cajas rectangulares. El modelo de caja condiciona el diseño de toda la página, y sus propiedades solo aplican a etiquetas de bloque.
+
+| Propiedad | Qué hace |
+|---|---|
+| `width` | Ancho. Si no se declara, ocupa el 100% del padre (si el padre es de bloque). Se puede definir en `%` o `px`. |
+| `height` | Alto. Si no se declara, toma la altura que le da su contenido interno (aplica a bloque o en línea). Se define en `px`. |
+| `padding` | Espacio interior entre el contenido y el borde. Un valor = los 4 lados; dos valores = arriba/abajo y izquierda/derecha (ej. `padding: 12px 10px;`). |
+| `border` | Borde del elemento: estilo (`solid`, `dotted`, `dashed`, `double`), tamaño y color, en ese orden (ej. `border: solid 3px green;`). |
+| `margin` | Espacio exterior que separa una caja de otra. Misma lógica de 1 o 2 valores que `padding` (ej. `margin: 30px 20px;`). |
+
+El ancho total real de una caja es la suma de `width` + `padding` + `border`, y además el `margin` la separa de los elementos vecinos.
+
+**`box-sizing`**: hace que el modelo de caja sea más fácil de manejar, porque descuenta automáticamente el `padding` y el `border` del ancho/alto declarado (solo el `margin` se sigue sumando aparte). Por ejemplo, con `box-sizing` un bloque de 150px de ancho total ya incluye su borde y padding, y el contenido se ajusta solo para completar esos 150px.
+
+#### Posicionamiento
+
+El posicionamiento permite trasladar un elemento de su posición original a una nueva, y también superponer elementos. Cada elemento tiene 4 puntos de referencia (sus 4 costados); mover un elemento "empujándolo" desde un costado da valores positivos, y "tirando" de él da valores negativos.
+
+- **Relativo:** mueve el elemento tomando como referencia sus propios costados originales. El espacio que ocupaba antes sigue reservado — se usa para desplazar algo sin alterar el flujo del resto de la página.
+- **Absoluto:** mueve el elemento tomando como referencia los costados del `<body>` (o del padre más cercano que tenga posicionamiento definido, si se quiere cambiar esa referencia). El espacio original queda libre y otros elementos pueden ocuparlo.
+- **Fijo:** toma como referencia la ventana del navegador — el elemento se mantiene en el mismo lugar aunque se haga scroll en la página.
+- **`z-index`:** cambia el orden de "capas" superpuestas; solo funciona si el elemento tiene posicionamiento relativo, absoluto o fijo asignado.
+
+#### Unidades de medida
+
+- **`em`**: recomendada para tipografías. Por defecto `1em = 16px` (el tamaño base del `<body>`), y es relativa al `font-size` del elemento padre — si el padre cambia su `font-size`, todos los hijos que usan `em` cambian en cadena.
+- **Viewport (`vw`/`vh`)**: el viewport es la "caja visible" de contenido dentro del navegador. Cualquier medida en `vw` (viewport width) o `vh` (viewport height) siempre toma como referencia el tamaño del viewport del documento, no el de un elemento padre.
+
+#### Pseudo selectores
+
+Permiten controlar estados o eventos especiales de un elemento, aplicados sobre un selector ya existente:
+
+- **`:hover`**: controla el estado al posar el cursor sobre el elemento (rollover).
+- **`:focus`**: controla el estado de un campo de formulario mientras está clickeado/seleccionado.
+- **`:nth-child()`**: selecciona etiquetas hermanas por posición, sin importar cuál sea el elemento padre — con un número, o con `odd`/`even` para impares/pares.
+- **Pseudo clases de enlace** (`:link`, `:visited`) se pueden combinar entre sí y con otras como `:hover` — por ejemplo `a:visited:hover { color: tomato; }` aplica ese color solo cuando se pasa el mouse sobre un link que ya fue visitado. Abrir un link con el botón central/rueda del mouse en una pestaña nueva también cuenta como "visitado" para estos fines (el comportamiento exacto de detectar ese click puede variar según sistema operativo).
+- Queda pendiente el **combinador de hijo directo** (`>`) para la próxima clase — los combinadores más usados (descendiente, agrupado) ya se habían visto antes.
+
+#### Media Queries
+
+Reglas CSS que permiten reorganizar el contenido según las condiciones de visualización del dispositivo (tamaño de pantalla, orientación). Siempre se escriben al final de la hoja de estilos.
+
+```css
+@media (min-width: 460px) {
+    body { background: red; }
+}
+
+@media (max-width: 460px) {
+    body { background: red; }
+}
+
+@media (max-width: 460px) and (orientation: landscape) {
+    body { background: red; }
+}
+```
+
+- `min-width` aplica el estilo a partir de ese ancho hacia arriba; `max-width` lo aplica hasta ese ancho hacia abajo.
+- Se pueden combinar condiciones con `and` (ej. ancho máximo + orientación).
+- Enfoques de diseño responsive: **mobile-first** (se diseña primero para pantallas chicas y se van agregando media queries para pantallas más grandes) vs. **mobile-last** (al revés, se parte del diseño de escritorio).
+
+**Guía:** [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/02%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf)
 
 ### Aplicado en
 
