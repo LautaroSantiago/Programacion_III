@@ -1,0 +1,18 @@
+    body {
+
+        background-image: url("https://img.magnific.com/fotos-premium/primer-plano-superficie-metal-cepillado-lineas-horizontales_1341607-1304.jpg?semt=ais_hybrid&w=740&q=80");
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
+        margin: 0;
+    }
+
+    .centrado {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    
