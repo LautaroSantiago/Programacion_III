@@ -15,4 +15,32 @@
         font-weight: bold;
     }
 
+    .centrado a {
+    display: inline-block;
+        /* Hace que el <a> (que por defecto es "inline") se comporte como un bloque,
+       para que padding, margin y ancho/alto funcionen correctamente. Sin esto,
+       el padding no se aplicaría bien arriba/abajo */
+    padding: 10px 20px;
+        /* Espacio interno entre el texto y el borde del elemento:
+       10px arriba/abajo, 20px izquierda/derecha. Le da "cuerpo" de botón. */
+    margin: 5px;
+        /* Espacio externo entre este botón y los elementos vecinos,
+       para que no queden pegados unos con otros */
+    background-color: #333;
+        /* Color de fondo del botón (gris oscuro, casi negro) */
+    color: white;
+        /* Color del texto dentro del botón (blanco, para que contraste con el fondo oscuro)*/
+    text-decoration: none;
+        /* Quita el subrayado que traen los links por defecto */
+    border-radius: 5px;
+        /* Redondea las esquinas del botón (5px de radio) */
+    }
+
+    .centrado a:hover {
+            /* :hover se aplica solo cuando el mouse está encima del elemento  */
+
+        background-color: #555;
+            /* Cambia el fondo a un gris más claro al pasar el mouse,
+       como feedback visual de que es interactivo/clickeable*/
+    }
     
