@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/style.css">
 </head>
 
-
+    
 
 <body>
     <div name="Encabezado">
@@ -28,6 +28,7 @@
 
         <!-- <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XfgAzYA7fa3jQpfWkkiATI_fU6FMmU-jAwBpLMLNdg&s=10" download="imagen.jpg" target="_blank">Link</a> -->
         <!-- target define el comportamiento de redireccion -->
+
         <button onclick="descargarImagen()">Link</button>
 
         <!-- <a href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XfgAzYA7fa3jQpfWkkiATI_fU6FMmU-jAwBpLMLNdg&s=10" download="imagen.jpg" target="_blank">Link</a> -->
@@ -36,7 +37,7 @@
 
 
     <!-- ins -->
-    <script>
+    <!-- <script>
         function descargarImagen() {
             fetch("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XfgAzYA7fa3jQpfWkkiATI_fU6FMmU-jAwBpLMLNdg&s=10")
                 .then(r => r.blob())
@@ -50,15 +51,19 @@
                 })
                 .catch(err => console.error("Error al descargar:", err));
         }
-    </script>
+    </script> -->
     <!-- i -->
 
     <div name="PieDePagina">
-        <div>
-
+        <div class="centrado">
+            <a href="PagOne.html">1</a>
+            <a href="PagOne.html">2</a>
+            <a href="PagOne.html">3</a>
+            <!-- Prácticas/2° Clase /PagOne.html -->
         </div>
 
     </div>
+    <script src="assets/script.js"></script>
 </body>
 
 
@@ -82,11 +87,6 @@
     }
 </style> -->
 
-<div class="centrado">
-    <a href="PagOne.html">1</a>
-    <a href="PagOne.html">2</a>
-    <a href="PagOne.html">3</a>
-    <!-- Prácticas/2° Clase /PagOne.html -->
-</div>
+
 
 </html>
