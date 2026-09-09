@@ -1,0 +1,51 @@
+
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color:azure;
+    color: teal;
+    margin: 0;
+}
+
+.titulo{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color:antiquewhite;
+    color:black;
+    margin-bottom: 0;
+}
+
+/* .titulo h1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color:antiquewhite;
+    color:black;
+    margin: 0;  
+} */
+
+nav ul{
+   list-style: none;
+}
+
+nav ul li{
+   display: inline-block;
+   margin-right: 30px;
+}
+
+nav{
+   background-color: aquamarine;
+   margin-top: 0;
+   padding: 10px;
+}
+
+nav ul link{
+   display: inline-block; /*usa solo el espacio de su contenido*/
+   margin-right: 30px;
+}
+
+.link{
+    text-decoration: none;
+    color:azure;
+    font-weight: bold;
+}
+
+.link:hover{
+    color:chocolate; /*cambia mouse encima*/
+}
