@@ -11,6 +11,8 @@ body{
     background-color:antiquewhite;
     color:black;
     margin-bottom: 0;
+
+    text-align: center;
 }
 
 /* .titulo h1{
@@ -33,6 +35,8 @@ nav{
    background-color: aquamarine;
    margin-top: 0;
    padding: 10px;
+
+    text-align: center;
 }
 
 nav ul link{
@@ -48,4 +52,16 @@ nav ul link{
 
 .link:hover{
     color:chocolate; /*cambia mouse encima*/
+}
+
+main{
+    max-width: 1900px;
+    margin: 50px;
+    
+
+}
+
+footer{
+    text-align: right;
+    padding: 10px;
 }
