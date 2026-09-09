@@ -2,7 +2,7 @@
 
 Apuntes de cursada y práctica de clase de la materia Programación III (Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en clase.
 
-**Cursada:** 2do. cuatrimestre 2026 — Comisión 132
+**Cursada:** 2do. cuatrimestre 2026
 
 ---
 
@@ -49,6 +49,9 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - 📄 [Asincronismo - parte 1 (ajax)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/08%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20AJAX.pdf) *(pendiente de ver en clase)*
 - 📄 [Asincronismo - parte 2 (fetch)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%203%20-%20Conexiones%20HTTP%20y%20asincron%C3%ADas/09%20-%20UNIDAD_03-Introducci%C3%B3n%20a%20fetch.pdf) *(pendiente de ver en clase)*
 - 🔗 [APIs públicas para probar](https://github.com/public-apis/public-apis) *(pendiente de ver en clase)*
+
+**Otros**
+- 📄 [Atajos de teclado (Linux)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/keyboard-shortcuts-linux.pdf)
 
 ---
 
@@ -469,6 +472,16 @@ body {
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase%20/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase%20/index.html)
 
+**PagOne.html**
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase%20/PagOne.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase%20/PagOne.html)
+
+**Portfolio/index.html**
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase%20/Portfolio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/2%C2%B0%20Clase%20/Portfolio/index.html)
+
 </details>
 
 <details>
@@ -791,6 +804,7 @@ Cierra con un ejercicio guiado: armar una **landing page** completa (navbar, her
 ```
 Programación III
 ├── Material
+│   ├── keyboard-shortcuts-linux.pdf
 │   ├── UNIDAD N° 1 - Desarrollo de interfaces. Utilización de HTML y CSS para el maquetado de las aplicaciones web
 │   │   ├── 00 - UNIDAD_01-Introducción HTML.pdf
 │   │   ├── 01 - UNIDAD_01-Introducción CSS - P1.pdf
@@ -810,7 +824,16 @@ Programación III
 │   │   ├── atajosTeclado.html
 │   │   └── index.html
 │   └── 2° Clase
-│       └── index.html
+│       ├── assets
+│       │   ├── formas-onduladas-abstractas-escala-grises-capas_779267-3577.jpg
+│       │   ├── script.js
+│       │   └── style.css
+│       ├── index.html
+│       ├── PagOne.html
+│       └── Portfolio
+│           ├── img
+│           │   └── style.css
+│           └── index.html
 ├── Recursos Adicionales
 │   ├── 01 - Introducción al Diseño UX_UI.pdf
 │   ├── 02- Introducción al Modelo Cliente_Servidor.pdf
