@@ -593,6 +593,16 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 
 [📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/README.md)
 
+**Ejercicio-1/index.html** y **Ejercicio-1/sobremi.html** — ejercicio de práctica con dos páginas enlazadas entre sí (portada + "sobre mí"), estilado con `style.css` propio y una imagen en `assets/img/`.
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Ejercicio-1/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Ejercicio-1/index.html)
+
+**Portfolio/index.html** — otro ejemplo de página de portfolio, con su propio `style.css` y favicon (`img/favicon.ico`).
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Portfolio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Portfolio/index.html)
+
 </details>
 
 <details>
@@ -624,6 +634,17 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 **assets/fonts/future-z-font** — la fuente custom `Future Z` usada en el portfolio, con su licencia (`misc/license.txt`): uso personal gratuito, uso comercial requiere un pago único de USD 20.
 
 [📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/assets/fonts/future-z-font/misc/license.txt)
+
+**bootstrap/Inicio/index.html** y **bootstrap/Inicio/seguido.html** — primeros ejemplos maquetando con Bootstrap, con su propio `css/style.css`.
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
+
+**bootstrap/Peliculas/index.html** — ejercicio de Bootstrap tipo catálogo de películas, con capturas de ejemplo (`assets/img/ejemplo-footer.png`, `ejemplo-form.png`), ícono propio y su propio `readme.md`.
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/readme.md)
 
 </details>
 
@@ -856,17 +877,47 @@ Programación III
 ├── README.md
 └── UTN2026_c2Div132
     ├── 1_html
+    │   ├── Ejercicio-1
+    │   │   ├── assets
+    │   │   │   └── img
+    │   │   │       └── richard-horvath-_nWaeTF6qo0-unsplash.jpg
+    │   │   ├── index.html
+    │   │   ├── sobremi.html
+    │   │   └── style.css
     │   ├── index.html
+    │   ├── Portfolio
+    │   │   ├── img
+    │   │   │   └── favicon.ico
+    │   │   ├── index.html
+    │   │   └── style.css
     │   └── README.md
     ├── 2_css
     │   ├── assets
-    │   │   └── fonts
-    │   │       └── future-z-font
-    │   │           ├── FutureZ-MVEaw.ttf
-    │   │           ├── FutureZItalic-2OBml.ttf
-    │   │           ├── info.txt
-    │   │           └── misc
-    │   │               └── license.txt
+    │   │   ├── fonts
+    │   │   │   └── future-z-font
+    │   │   │       ├── FutureZ-MVEaw.ttf
+    │   │   │       ├── FutureZItalic-2OBml.ttf
+    │   │   │       ├── info.txt
+    │   │   │       └── misc
+    │   │   │           └── license.txt
+    │   │   └── img
+    │   │       └── gif futurista.gif
+    │   ├── bootstrap
+    │   │   ├── Inicio
+    │   │   │   ├── css
+    │   │   │   │   └── style.css
+    │   │   │   ├── index.html
+    │   │   │   └── seguido.html
+    │   │   └── Peliculas
+    │   │       ├── assets
+    │   │       │   ├── img
+    │   │       │   │   ├── ejemplo-footer.png
+    │   │       │   │   └── ejemplo-form.png
+    │   │       │   └── movies_icon.ico
+    │   │       ├── css
+    │   │       │   └── estilitos.css
+    │   │       ├── index.html
+    │   │       └── readme.md
     │   ├── css
     │   │   └── styles.css
     │   ├── index.html
