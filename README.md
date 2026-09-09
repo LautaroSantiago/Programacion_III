@@ -51,7 +51,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - 🔗 [APIs públicas para probar](https://github.com/public-apis/public-apis) *(pendiente de ver en clase)*
 
 **Otros**
-- 📄 [Atajos de teclado (Linux)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/keyboard-shortcuts-linux.pdf)
+- 📄 [Atajos de teclado en VSCode / VSCodium (Linux)](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/keyboard-shortcuts-linux.pdf)
 
 ---
 
