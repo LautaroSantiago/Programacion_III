@@ -23,7 +23,12 @@ body{
 } */
 
 nav ul{
-   list-style: none;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    margin: 10px auto;
+    list-style: none;
 }
 
 nav ul li{
@@ -57,7 +62,6 @@ nav ul link{
 main{
     max-width: 1900px;
     margin: 50px;
-    
 
 }
 
