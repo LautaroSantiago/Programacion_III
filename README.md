@@ -15,6 +15,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 1 — 21/8 · HTML básico</strong></font>](#clase-1)
 - [<font color="#8250DF"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font>](#clase-2)
 - [<font color="#8250DF"><strong>Clase 3 — 4/9 · CSS Parte 2 (Box Model, Posicionamiento, Pseudo selectores)</strong></font>](#clase-3)
+- [<font color="#8250DF"><strong>Clase 4 — 9/9 · CSS Avanzado (Display, Position, Overflow, Especificidad)</strong></font>](#clase-4)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
@@ -562,6 +563,76 @@ Reglas CSS que permiten reorganizar el contenido según las condiciones de visua
 - Enfoques de diseño responsive: **mobile-first** (se diseña primero para pantallas chicas y se van agregando media queries para pantallas más grandes) vs. **mobile-last** (al revés, se parte del diseño de escritorio).
 
 **Guía:** [Introducción a CSS - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/02%20-%20UNIDAD_01-Introducci%C3%B3n%20CSS%20-%20P2.pdf)
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-4"></a><font color="#1A7F37"><strong>Clase 4 — 9/9 · CSS Avanzado (Display, Position, Overflow, Especificidad)</strong></font></summary>
+
+### Temas vistos
+
+#### Display
+
+La propiedad `display` controla el layout de un elemento. Los valores que realmente importan hoy son:
+
+- **`flex`**: el que se usa siempre para maquetar. No se ve `grid` ni las formas viejas de maquetar en esta cursada.
+- **`none`**: oculta completamente el elemento — el espacio que ocupaba desaparece y el resto del contenido se reacomoda para llenar ese lugar (la página sigue su flujo normal como si el elemento no existiera).
+- **`block`**: muestra un elemento como elemento de bloque. Se usa sobre todo para "desocultar" algo que estaba en `display: none` — por ejemplo, combinado con `:hover`, es la base de un **menú dropdown**: el menú arranca oculto (`display: none`) y al pasar el mouse por el disparador pasa a `display: block`.
+- `inline` e `inline-block` son formas viejas de simular comportamiento de bloque/línea que ya no hace falta usar — la regla general sigue siendo: toda etiqueta en línea va dentro de una de bloque, y para maquetar se usa flexbox.
+
+La diferencia entre `display: none` y `visibility: hidden`: `none` saca el elemento del flujo del documento (el espacio se libera), mientras que `visibility: hidden` solo lo oculta visualmente pero conserva el espacio que ocupaba.
+
+#### Position
+
+`position` define cómo se posiciona un elemento respecto a distintos puntos de referencia:
+
+- **`static`**: el valor por defecto — el elemento sigue el flujo normal del documento (los de bloque ocupan todo el ancho y se apilan uno debajo del otro; los de línea se acomodan uno al lado del otro). No lo afectan `top`/`right`/`bottom`/`left`.
+- **`relative`**: igual que `static`, pero si se le aplican `top`/`right`/`bottom`/`left`, se desplaza desde su posición original — dejando un espacio vacío donde estaba. Es una forma vieja de maquetar (previa a flexbox), así que no se usa mucho hoy.
+- **`fixed`**: se posiciona respecto al **viewport** (la pantalla visible) — queda pegado siempre en el mismo lugar sin importar el scroll de la página. Es el que más se usa junto con `sticky` (por ejemplo, para un botón de "volver arriba" que siempre está en la esquina).
+- **`absolute`**: igual que `fixed`, pero toma como referencia su contenedor padre más cercano que tenga posición definida, en vez de la pantalla completa.
+- **`sticky`**: mezcla de `relative` y `fixed` — el elemento sigue el flujo normal hasta que, al hacer scroll, llega a cierto punto y ahí se "pega" y se queda fijo (típico en headers/navs que acompañan al bajar la página).
+- **`z-index`**: controla qué elemento se ve por encima de otro cuando se superponen — se usa poco y solo para casos puntuales.
+
+#### Overflow
+
+Controla qué pasa cuando el contenido desborda su contenedor: `visible` (por defecto, deja que el contenido se salga), `hidden` (lo recorta, casi nunca tiene sentido usarlo) y `auto` (agrega scroll únicamente en el eje donde hace falta, horizontal o vertical). En general un desborde de contenido es señal de un error de diseño más que algo para "solucionar" con overflow.
+
+#### Float y otras técnicas viejas (ya no se usan)
+
+`float`, `display: inline-block` para simular horizontalidad, y el posicionamiento manual con `relative` + `top/left` eran las formas de maquetar antes de que existiera flexbox. Quedan mencionadas solo para reconocerlas si aparecen en código viejo — hoy se resuelven todas con `flex`.
+
+#### Práctica sugerida: menú dropdown
+
+Armar un menú de navegación (`nav`) que combine: una clase que arranque con `display: none`, un disparador con `:hover` que cambie ese `display` a `block`, y posicionamiento `fixed`, `sticky` o `absolute` según el caso — todo junto para lograr un dropdown funcional al pasar el mouse.
+
+#### Formularios: guía de estilos
+
+Recomendaciones para no dejar un formulario con el estilo por defecto del navegador: buen `padding` alrededor de las etiquetas y adentro de los `input`, y tipografía con tamaño de letra grande y legible.
+
+#### Especificidad y cascada
+
+Repaso del orden de prioridad al aplicar estilos, de menor a mayor: **etiqueta < clase < ID**. Por encima de esas tres reglas quedan dos "atajos" que se usan solo para resolver apuros puntuales (parches sobre código ajeno, un plugin que pisa estilos, etc.), no como forma normal de trabajar:
+
+- **Estilo en línea** (atributo `style` directo en el HTML): pisa a `id`, clase y etiqueta.
+- **`!important`**: ignora todo el resto de las reglas de especificidad y se aplica sí o sí.
+
+#### Otros conceptos mencionados (no prioritarios)
+
+Quedaron mencionados como para saber que existen, sin necesidad de profundizar: **contadores** CSS, **herencia** de propiedades (por ejemplo, el color del borde puede heredar el color de la fuente si no se especifica uno propio), **funciones matemáticas** en CSS (`calc()` y similares, útiles solo para casos muy puntuales de geometría) y los **selectores de atributo**.
+
+#### Accesibilidad
+
+Buenas prácticas para que una página sea usable por personas con distintas capacidades (visual, auditiva, motriz): buen contraste de color, tamaños de fuente grandes y legibles, uso de `<label>` en los campos de formulario, y etiquetas HTML semánticas para que los lectores de pantalla puedan interpretar bien el contenido.
+
+**Guía:** [07 - CSS Avanzado](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/07%20-%20CSS%20Avanzado.pdf)
 
 ### Aplicado en
 
