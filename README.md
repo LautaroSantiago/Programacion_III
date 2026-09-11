@@ -637,12 +637,12 @@ Buenas prácticas para que una página sea usable por personas con distintas cap
 
 ### Aplicado en
 
-**1° Ejercicio** — práctica aplicando lo visto en esta clase (`display`, `position`, etc). El **2° Ejercicio** todavía no tiene contenido subido.
+**1° Ejercicio** — práctica aplicando lo visto en esta clase (`display`, `position`, etc). La carpeta `4 y 5° Clase/` reúne la ejercitación de ambas clases; el **2° Ejercicio** todavía no tiene contenido subido.
 
 ### Código
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
 
 </details>
 
@@ -705,11 +705,12 @@ Algunos criterios que surgieron en esa práctica:
 
 ### Aplicado en
 
--
+**1° Ejercicio** — misma carpeta de práctica que la Clase 4 (`4 y 5° Clase/`), ya que reúne la ejercitación de ambas.
 
 ### Código
 
--
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
 
 </details>
 
@@ -1005,7 +1006,7 @@ Programación III
 │   │       │   ├── linux_os_logo_icon_134670.ico
 │   │       │   └── style.css
 │   │       └── index.html
-│   └── 4° Clase
+│   └── 4 y 5° Clase
 │       ├── 1° Ejercicio
 │       │   ├── assets
 │       │   │   └── styles.css
