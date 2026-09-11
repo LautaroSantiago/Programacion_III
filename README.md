@@ -16,6 +16,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 2 — 25/8 · HTML avanzado + Introducción a CSS</strong></font>](#clase-2)
 - [<font color="#8250DF"><strong>Clase 3 — 4/9 · CSS Parte 2 (Box Model, Posicionamiento, Pseudo selectores)</strong></font>](#clase-3)
 - [<font color="#8250DF"><strong>Clase 4 — 9/9 · CSS Avanzado (Display, Position, Overflow, Especificidad)</strong></font>](#clase-4)
+- [<font color="#8250DF"><strong>Clase 5 — 11/9 · CSS Avanzado (Border Radius, Gradientes, Box Shadow, Variables)</strong></font>](#clase-5)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
@@ -631,6 +632,73 @@ Quedaron mencionados como para saber que existen, sin necesidad de profundizar: 
 #### Accesibilidad
 
 Buenas prácticas para que una página sea usable por personas con distintas capacidades (visual, auditiva, motriz): buen contraste de color, tamaños de fuente grandes y legibles, uso de `<label>` en los campos de formulario, y etiquetas HTML semánticas para que los lectores de pantalla puedan interpretar bien el contenido.
+
+**Guía:** [07 - CSS Avanzado](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/07%20-%20CSS%20Avanzado.pdf)
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-5"></a><font color="#1A7F37"><strong>Clase 5 — 11/9 · CSS Avanzado (Border Radius, Gradientes, Box Shadow, Variables)</strong></font></summary>
+
+### Temas vistos
+
+#### Border radius y estética moderna
+
+El `border-radius` aparece prácticamente en todas las interfaces modernas — botones, tarjetas, contenedores, íconos, hasta en la tipografía. Psicológicamente lo redondeado se percibe como más suave y amigable; lo angular/recto se asocia a interfaces más viejas o "clásicas" (como una Wikipedia). El estilo moderno típico combina: contenido grande y centrado, colores pastel con poco contraste entre sí, y bordes redondeados por todos lados — en contraposición a interfaces antiguas con letra chica, enlaces en azul plano y sin ningún redondeo.
+
+#### Gradientes (`linear-gradient`)
+
+Los degradados de color (`background: linear-gradient(...)`) son un recurso visual habitual — se los ve, por ejemplo, en el fondo de muchas landing pages modernas (Apple los usa bastante). Se arman fácil con herramientas visuales en vez de escribirlos a mano.
+
+#### Box shadow
+
+`box-shadow` sirve para sugerir un borde o una separación sin tener que dibujar un borde explícito — le da profundidad a una tarjeta o contenedor. En la práctica casi nadie lo escribe a mano: se usa algún generador visual para ajustar los valores (offset, blur, color) y se copia el resultado.
+
+#### Variables CSS (custom properties)
+
+Se definen dentro de `:root { }` con el prefijo `--`, y se usan en cualquier parte de la hoja de estilos con `var(--nombre)`:
+
+```css
+:root {
+    --rojo-primario: #ec0000;
+    --gris-fondo: #f2f2f2;
+    --blanco-primario: #ffffff;
+    --negro-primario: #000000;
+}
+
+.card-primario {
+    background-color: var(--rojo-primario);
+    color: var(--blanco-primario);
+}
+```
+
+Evitan tener que andar buscando y repitiendo el mismo valor de color (u otro) por todo el código — se define una vez y se reutiliza, lo que hace mucho más fácil mantener consistencia (por ejemplo, un color primario y uno secundario que se repiten en toda la página).
+
+#### Repaso general de "CSS Advanced" — qué priorizar y qué no
+
+Cierre con un repaso rápido de todo lo que suele listarse bajo "CSS Advanced", marcando qué vale la pena y qué no:
+- **Vale la pena / ya cubierto:** `border-radius`, gradientes, `box-shadow`, variables CSS, `@font-face` (fuentes custom), media queries, y `flex` para absolutamente todo el maquetado.
+- **Transitions** queda marcado como lo más interesante de lo que falta — útil, por ejemplo, para suavizar el efecto del menú dropdown al aparecer/desaparecer con `:hover`.
+- **No prioritario / se puede ignorar:** efectos de texto, transformaciones 2D/3D (nativas de CSS, sin necesidad de librerías, pero no se usan en la cursada), animaciones, tooltips, trucos de imagen (masking, filters, shapes — mejor resueltos con `background-image` + `background-size: cover` que ya se vio), múltiples columnas, `@property`, y las propiedades de "user interface" (como resize).
+
+#### Práctica en vivo
+
+Se armó en vivo una página de contacto/galería aplicando todo lo anterior: tarjetas (`cards`) con `box-shadow`, `border-radius` y colores por variables CSS, fondo del `body` en gris oscuro contra secciones en blanco (efecto "shadow box"), y una galería de imágenes.
+
+Algunos criterios que surgieron en esa práctica:
+- Para la galería de imágenes se pidió específicamente usar **`display: grid`** (en vez de flex) para poder definir filas y columnas de forma directa.
+- El resto de las secciones se resolvió con **flexbox**, alternando `flex-direction: row` y `column` según la sección (por ejemplo, la colección de fotos en `column`).
+- Para el espaciado entre elementos, se discutió `gap` vs. ajustar manualmente con `justify-content` — ambas son válidas, es más una cuestión de gusto y de qué resulta más simple de mantener.
+- A nivel semántico surgió la duda de si una colección de imágenes debía ir en varios `<div>` sueltos o en una lista `<ul>` con un `<li>` por imagen — se concluyó que la lista es semánticamente más correcta cuando se trata de elementos uniformes que se repiten (una colección), aunque con pocos elementos un `<div>` simple también es válido si no se quiere sumar más código.
+- Para datos de contacto (email, teléfono) se remarcaron con `<strong>`.
 
 **Guía:** [07 - CSS Avanzado](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/07%20-%20CSS%20Avanzado.pdf)
 
