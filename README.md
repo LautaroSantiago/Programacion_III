@@ -649,6 +649,8 @@ Buenas prácticas para que una página sea usable por personas con distintas cap
 <details>
 <summary><a id="clase-5"></a><font color="#1A7F37"><strong>Clase 5 — 11/9 · CSS Avanzado (Border Radius, Gradientes, Box Shadow, Variables)</strong></font></summary>
 
+[![Ver clase en YouTube](https://img.shields.io/badge/▶️_Ver_clase_en_YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/gy9ajuN2dR8?si=LsPUnl55Vz09bFFK)
+
 ### Temas vistos
 
 #### Border radius y estética moderna
