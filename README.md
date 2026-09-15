@@ -862,6 +862,18 @@ Cierra con un ejercicio de armar una página con título, párrafo, lista, image
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/05-%20HTML%20Avanzado.pdf)
 
+Repasa las **etiquetas semánticas** de HTML5 (`header`, `nav`, `article`, `section`, `footer`, `main`) y cómo dan significado y jerarquía al contenido, ayudando tanto al SEO como a la accesibilidad y al mantenimiento del código.
+
+Explica **formularios y validación nativa**: tipos de `input` comunes (`text`, `email`, `number`, `password`, `date`) y atributos de validación sin JavaScript — `required`, `min`/`max`, y `pattern` (con expresiones regulares para exigir un formato específico).
+
+Detalla usos de la etiqueta `<a>` más allá de navegar entre sitios: **anclas** internas (`href="#id"` combinado con un `id` en el elemento destino), enlaces de **correo** (`mailto:`) y **descarga** forzada de archivos con el atributo `download`.
+
+Cubre **multimedia**: `<video>` y `<audio>` nativos de HTML5 (sin depender de plugins como Flash), con atributos `controls`, `autoplay` y `loop`.
+
+Explica **tablas complejas**: estructura semántica con `<thead>`, `<tbody>` y `<tfoot>`, y combinación de celdas con `colspan` (varias columnas) y `rowspan` (varias filas).
+
+Cierra reforzando la **accesibilidad**: el uso correcto de las etiquetas semánticas permite que los lectores de pantalla naveguen el contenido por secciones, estructurando la página de forma lógica tanto para personas como para tecnologías de asistencia.
+
 </details>
 
 <details>
