@@ -17,6 +17,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 3 — 4/9 · CSS Parte 2 (Box Model, Posicionamiento, Pseudo selectores)</strong></font>](#clase-3)
 - [<font color="#8250DF"><strong>Clase 4 — 9/9 · CSS Avanzado (Display, Position, Overflow, Especificidad)</strong></font>](#clase-4)
 - [<font color="#8250DF"><strong>Clase 5 — 11/9 · CSS Avanzado (Border Radius, Gradientes, Box Shadow, Variables)</strong></font>](#clase-5)
+- [<font color="#8250DF"><strong>Clase 6 — 16/9 · Introducción a JavaScript (Variables, Tipos de Datos, Operadores, Condicionales)</strong></font>](#clase-6)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
@@ -43,7 +44,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - 📄 [Introducción a Bootstrap](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%201%20-%20Desarrollo%20de%20interfaces.%20Utilizaci%C3%B3n%20de%20HTML%20y%20CSS%20para%20el%20maquetado%20de%20las%20aplicaciones%20web/04%20-%20UNIDAD_01-Introducci%C3%B3n%20a%20Bootstrap.pdf) *(pendiente de ver en clase)*
 
 **UNIDAD N° 2 — Desarrollo de funcionalidades con JavaScript.** Manipulación del DOM.
-- 📄 [Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/05%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/05%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf)
 - 📄 [Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/06%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf) *(pendiente de ver en clase)*
 - 📄 [HTML y JavaScript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/07%20-%20UNIDAD_02-JAVASCRIPT%20y%20HTML%20-%20P3.pdf) *(pendiente de ver en clase)*
 
@@ -713,6 +714,81 @@ Algunos criterios que surgieron en esa práctica:
 
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
+
+</details>
+
+<details>
+<summary><a id="clase-6"></a><font color="#1A7F37"><strong>Clase 6 — 16/9 · Introducción a JavaScript (Variables, Tipos de Datos, Operadores, Condicionales)</strong></font></summary>
+
+### Temas vistos
+
+#### Hoja de ruta de JavaScript
+
+Se presentó el recorrido completo que va a seguir la materia en JS, de punta a punta:
+- **JS 1:** conceptos elementales, sintaxis básica, variables, tipos de datos y operadores.
+- **JS 2:** control de flujo, estructuras de control, condicionales y bucles básicos.
+- **JS 3:** scope (alcance/ámbito), funciones y tipos de funciones.
+- **JS 4:** arrays y objetos, métodos de strings y arrays.
+- **JS 5:** objetos globales, almacenamiento persistente (LocalStorage) y Web APIs.
+- **JS 6:** manipulación del DOM y eventos.
+- **JS 7:** callbacks, higher order functions, destructuring, spread operator y Web APIs en profundidad.
+- **JS 8:** JSON, asincronía, promesas, fetch y manejo de errores (`try`/`catch`).
+- **Extra:** introducción al backend con Node.js, Express, protocolos de internet y API REST.
+
+#### ¿Qué es JavaScript?
+
+Lenguaje de programación para procesar información y crear páginas interactivas, a diferencia de HTML y CSS que arman páginas estáticas. Tradicionalmente se ejecuta en el navegador sin instalar nada, y gracias a Node.js también puede correr del lado del servidor. **ECMAScript** es el estándar que define las especificaciones del lenguaje — ES6 (2015) introdujo los cambios modernos fundamentales, y desde entonces se actualiza todos los años.
+
+#### Integración en HTML
+
+La etiqueta `<script>` sirve para JS interno o para enlazar un archivo externo (ya no hace falta el atributo `type="text/javascript"`). Ubicación histórica: justo antes de cerrar `</body>`, para no bloquear el renderizado mientras carga el HTML. Ubicación moderna: en el `<head>` con el atributo `defer` (`<script src="ruta/index.js" defer></script>`), que descarga el script en paralelo con el HTML pero recién lo ejecuta cuando termina de cargar toda la página.
+
+#### Sintaxis básica y herramientas
+
+`console.log()` es la herramienta de depuración del navegador para ver mensajes, errores y probar código de forma interactiva. Comentarios: `//` para una sola línea, `/* ... */` para varias.
+
+#### Variables
+
+- **`var`**: forma histórica, alcance global o de función (no de bloque) — obsoleta, no se recomienda usarla.
+- **`let`** (ES6): valor reasignable, con **alcance de bloque** — reduce errores al limitar dónde se puede acceder a la variable.
+- **`const`** (ES6): para constantes, el valor (o la referencia en memoria) no se puede reasignar una vez definido. También tiene alcance de bloque.
+
+#### Tipos de datos primitivos
+
+`Number` (enteros o decimales), `String` (texto entre comillas simples o dobles), `Boolean` (`true`/`false`), `Null` (valor intencionalmente vacío) y `Undefined` (variable declarada sin valor asignado todavía). El operador `typeof` devuelve el tipo de dato de un valor o variable.
+
+#### Operadores
+
+- **Aritméticos:** `+`, `-`, `*`, `/`, `%` (resto), `**` (potencia), `++`/`--` (incremento/decremento).
+- **De asignación:** `=`, `+=`, `-=`, `*=`, `/=` (ej. `x += 5` equivale a `x = x + 5`).
+- **De comparación:** `==` (igualdad simple, convierte tipos — `5 == '5'` da `true`) vs. `===` (igualdad estricta, compara valor y tipo — `5 === '5'` da `false`, es la forma recomendada), `!=`/`!==`, `>`, `<`, `>=`, `<=`.
+- **Lógicos:** `&&` (AND, las dos condiciones deben ser verdaderas), `||` (OR, alcanza con que una lo sea), `!` (NOT, invierte el booleano — útil para lógicas de toggle).
+- Mención breve al operador de coalescencia nula `??`.
+
+#### Control de flujo y condicionales
+
+`if` ejecuta un bloque si la condición es verdadera; `else if` permite evaluar condiciones alternativas si la primera no se cumple; `else` es el bloque de respaldo si ninguna condición anterior se cumplió.
+
+#### Interacción con el usuario y casteo de datos
+
+`prompt()` despliega una ventana flotante para pedirle un dato al usuario. Todo lo que devuelve `prompt()` llega como **String**, incluso si el usuario tipeó números — para poder operar matemáticamente (o comparar con `===`) hace falta castear ese valor con `parseInt()`, que lo convierte a `Number`.
+
+#### Seguridad y validación de formularios (adelanto)
+
+Se adelantó la idea de sanitizar inputs de usuario en tres capas: **Frontend HTML** (atributo `pattern` con expresiones regulares para restringir el input), **Frontend JavaScript** (validar tipos con `typeof` del lado del cliente) y **Backend/Middleware** (la limpieza y validación final en el servidor con Node/Express antes de tocar la base de datos, porque el frontend siempre se puede evadir).
+
+**Guías:**
+[Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/05%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf) ·
+[09 - Introducción a Javascript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/09%20-%20Introducci%C3%B3n%20a%20Javascript.pdf) ·
+[10 - Condicionales y bucles en Javascript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/10%20-%20Condicionales%20y%20bucles%20en%20Javascript.pdf)
+
+### Aplicado en
+
+-
+
+### Código
+
+-
 
 </details>
 
