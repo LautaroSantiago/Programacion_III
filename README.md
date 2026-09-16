@@ -872,7 +872,29 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 
 </details>
 
-**apuntes.md** — notas sueltas de la cátedra, en la raíz de `UTN2026_c2Div132/` (no dentro de `1_html` ni `2_css`).
+<details>
+<summary><font color="#1A7F37"><strong>3_javascript</strong></font></summary>
+
+**index.html** — página de práctica que vincula `css/styles.css` y `js/index.js` (script externo), para los primeros ejemplos de JavaScript.
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
+
+**js/index.js** — script de JavaScript de la práctica.
+
+[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/js/index.js)
+
+**apuntesJS.md** — apuntes propios de JavaScript de la cátedra.
+
+[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/apuntesJS.md)
+
+**README.md**
+
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/README.md)
+
+</details>
+
+**apuntes.md** — notas sueltas de la cátedra, en la raíz de `UTN2026_c2Div132/` (no dentro de `1_html`, `2_css` ni `3_javascript`).
 
 [📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/apuntes.md)
 
@@ -1170,6 +1192,14 @@ Programación III
     │   ├── index.html
     │   ├── muestraDivs.html
     │   ├── portfolio.html
+    │   └── README.md
+    ├── 3_javascript
+    │   ├── apuntesJS.md
+    │   ├── css
+    │   │   └── styles.css
+    │   ├── index.html
+    │   ├── js
+    │   │   └── index.js
     │   └── README.md
     ├── apuntes.md
     └── README.md
