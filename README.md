@@ -784,11 +784,13 @@ Se adelantó la idea de sanitizar inputs de usuario en tres capas: **Frontend HT
 
 ### Aplicado en
 
--
+Práctica de JavaScript aplicando variables, tipos de datos y operadores vistos en esta clase.
 
 ### Código
 
--
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/6%C2%B0%20Clase/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/6%C2%B0%20Clase/index.html)
+[![Ver Script.js](https://img.shields.io/badge/💻_Ver_Script.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/6%C2%B0%20Clase/Script.js)
 
 </details>
 
@@ -1118,12 +1120,15 @@ Programación III
 │   │       │   ├── linux_os_logo_icon_134670.ico
 │   │       │   └── style.css
 │   │       └── index.html
-│   └── 4 y 5° Clase
-│       ├── 1° Ejercicio
-│       │   ├── assets
-│       │   │   └── styles.css
-│       │   └── index.html
-│       └── 2° Ejercicio
+│   ├── 4 y 5° Clase
+│   │   ├── 1° Ejercicio
+│   │   │   ├── assets
+│   │   │   │   └── styles.css
+│   │   │   └── index.html
+│   │   └── 2° Ejercicio
+│   └── 6° Clase
+│       ├── index.html
+│       └── Script.js
 ├── Recursos Adicionales
 │   ├── 01 - Introducción al Diseño UX_UI.pdf
 │   ├── 02- Introducción al Modelo Cliente_Servidor.pdf
