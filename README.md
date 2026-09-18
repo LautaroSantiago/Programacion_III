@@ -998,6 +998,14 @@ Suma una segunda parte sobre **fuentes e íconos externos**: cómo importar tipo
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/07%20-%20CSS%20Avanzado.pdf)
 
+Repasa `position` y sus 5 valores: `static` (default, flujo normal), `relative` (se mueve desde su posición original con `top`/`bottom`/`left`/`right` sin afectar a los demás), `absolute` (toma como referencia el contenedor más cercano con posición distinta de `static`, o el documento entero si no hay ninguno), `fixed` (relativo a la ventana, no se mueve con el scroll) y `sticky` (mezcla de `relative` y `fixed` — se "pega" al llegar a un punto definido, como `top: 0`).
+
+Explica **Flexbox** para maquetado unidimensional: activarlo con `display: flex`, alinear en el eje principal con `justify-content` (`flex-start`, `center`, `space-between`) y en el eje secundario con `align-items` (`flex-start`, `center`, `stretch`).
+
+Explica **CSS Grid** para maquetado bidimensional: activarlo con `display: grid`, definir columnas y filas con `grid-template-columns`/`grid-template-rows`, y armar cuadrículas adaptables combinando `repeat()` con la unidad `1fr` (ej. `grid-template-columns: repeat(3, 1fr);`).
+
+Cierra con **diseño responsivo**: sintaxis de media queries (`@media (max-width: 768px) { ... }`), el uso típico de pasar de columnas en Flexbox a una sola columna apilada (`flex-direction: column`) en pantallas chicas, la regla básica para que las imágenes no se desborden (`max-width: 100%; height: auto;`), y los breakpoints más comunes: 576px (móviles), 768px (tablets), 992px (laptops/desktops chicos) y 1200px (pantallas grandes).
+
 </details>
 
 <details>
