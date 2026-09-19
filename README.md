@@ -638,12 +638,12 @@ Buenas prácticas para que una página sea usable por personas con distintas cap
 
 ### Aplicado en
 
-**1° Ejercicio** — práctica aplicando lo visto en esta clase (`display`, `position`, etc). La carpeta `4 y 5° Clase/` reúne la ejercitación de ambas clases; el **2° Ejercicio** todavía no tiene contenido subido.
+Práctica aplicando lo visto en esta clase (`display`, `position`, etc), en `Prácticas/4° Clase/`.
 
 ### Código
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%C2%B0%20Clase/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%C2%B0%20Clase/index.html)
 
 </details>
 
@@ -708,12 +708,11 @@ Algunos criterios que surgieron en esa práctica:
 
 ### Aplicado en
 
-**1° Ejercicio** — misma carpeta de práctica que la Clase 4 (`4 y 5° Clase/`), ya que reúne la ejercitación de ambas.
+**2° Ejercicio**, en `Prácticas/5° Clase/` — todavía no tiene contenido subido.
 
 ### Código
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/4%20y%205%C2%B0%20Clase/1%C2%B0%20Ejercicio/index.html)
+-
 
 </details>
 
@@ -1131,12 +1130,12 @@ Programación III
 │   │       │   ├── linux_os_logo_icon_134670.ico
 │   │       │   └── style.css
 │   │       └── index.html
-│   ├── 4 y 5° Clase
-│   │   ├── 1° Ejercicio
-│   │   │   ├── assets
-│   │   │   │   ├── ARKHAS.ico
-│   │   │   │   └── styles.css
-│   │   │   └── index.html
+│   ├── 4° Clase
+│   │   ├── assets
+│   │   │   ├── ARKHAS.ico
+│   │   │   └── styles.css
+│   │   └── index.html
+│   ├── 5° Clase
 │   │   └── 2° Ejercicio
 │   └── 6° Clase
 │       ├── ARKHAS.ico
