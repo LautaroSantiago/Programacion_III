@@ -1114,10 +1114,12 @@ Programación III
 │       └── 10 - Apis Publicas para Probar
 ├── Prácticas
 │   ├── 1° Clase - (inicio)
+│   │   ├── ARKHAS.ico
 │   │   ├── atajosTeclado.html
 │   │   └── index.html
 │   ├── 2° Clase
 │   │   ├── assets
+│   │   │   ├── ARKHAS.ico
 │   │   │   ├── formas-onduladas-abstractas-escala-grises-capas_779267-3577.jpg
 │   │   │   ├── script.js
 │   │   │   └── style.css
@@ -1125,16 +1127,19 @@ Programación III
 │   │   ├── PagOne.html
 │   │   └── Portfolio
 │   │       ├── img
+│   │       │   ├── ARKHAS.ico
 │   │       │   ├── linux_os_logo_icon_134670.ico
 │   │       │   └── style.css
 │   │       └── index.html
 │   ├── 4 y 5° Clase
 │   │   ├── 1° Ejercicio
 │   │   │   ├── assets
+│   │   │   │   ├── ARKHAS.ico
 │   │   │   │   └── styles.css
 │   │   │   └── index.html
 │   │   └── 2° Ejercicio
 │   └── 6° Clase
+│       ├── ARKHAS.ico
 │       ├── index.html
 │       └── Script.js
 ├── Recursos Adicionales
