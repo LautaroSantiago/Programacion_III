@@ -937,6 +937,17 @@ Cierra con una actividad práctica en dos partes: armar el wireframe de una app 
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/03-%20Introducci%C3%B3n%20al%20Desarrollo%20Web.pdf)
 
+Presenta el desarrollo web como el proceso de crear sitios y aplicaciones que combinan **estructura, estilo y comportamiento** para dar una buena experiencia al usuario, y no solo la parte visual — sostenido sobre tres pilares: HTML, CSS y JavaScript.
+
+Describe cada pilar con una metáfora sencilla:
+- **HTML** ("el estructurador"): define y organiza el contenido mediante etiquetas entre `< >` (títulos, párrafos, imágenes) — los cimientos de la página.
+- **CSS** ("el decorador"): se encarga de la apariencia visual — colores, tipografías, márgenes, tamaños —, ya sea en el mismo HTML o en un archivo aparte.
+- **JavaScript** ("el cerebro"): agrega interactividad, escucha acciones del usuario (clics, etc) y puede modificar el HTML/CSS en tiempo real, mostrar alertas o actualizar contenido sin recargar la página.
+
+Resume cómo trabajan juntos: HTML pone los cimientos y el contenido, CSS lo embellece, y JavaScript le da vida y hace que responda al usuario.
+
+Repasa tres conceptos clave: el **DOM** (la página representada como un árbol, que le permite a JavaScript acceder y manipular los elementos HTML), la **responsividad** (que la página se adapte a cualquier tamaño de pantalla, principalmente vía CSS) y los **eventos** (interacciones del usuario — clic, mover el mouse, escribir — que JavaScript captura para disparar acciones).
+
 </details>
 
 <details>
