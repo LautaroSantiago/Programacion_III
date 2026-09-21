@@ -930,6 +930,16 @@ Cierra con una actividad práctica en dos partes: armar el wireframe de una app 
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/02-%20Introducci%C3%B3n%20al%20Modelo%20Cliente_Servidor.pdf)
 
+Explica el modelo cliente-servidor con la metáfora de un restaurante (el comensal pide, el camarero procesa y entrega): el **cliente** es el dispositivo o software que solicita información o un servicio (una compu, un teléfono, un navegador), y el **servidor** es la máquina o programa que recibe esa solicitud, hace los cálculos o búsquedas necesarias, y responde.
+
+Describe el ciclo de comunicación en tres pasos: **solicitud** (el cliente pide algo), **procesamiento** (el servidor busca lo pedido) y **respuesta** (el servidor devuelve los datos al cliente).
+
+Enumera las ventajas del modelo: **centralización** (más fácil administrar y mantener los datos), **escalabilidad** (un servidor puede atender a millones de clientes a la vez, como Google o Facebook) y **seguridad** (centralizar la información permite mecanismos de protección más fuertes).
+
+Repasa el vocabulario técnico: **request** (la petición del cliente), **response** (lo que devuelve el servidor), **protocolo** (las reglas que siguen ambas partes para comunicarse — en la web, principalmente **HTTP**) y **API** (la interfaz que permite que los sistemas se comuniquen entre sí, como el "menú" de opciones que el cliente le puede pedir al servidor).
+
+Cierra remarcando que este modelo es la base de aplicaciones cotidianas como WhatsApp, Instagram, el correo electrónico y la navegación web.
+
 </details>
 
 <details>
