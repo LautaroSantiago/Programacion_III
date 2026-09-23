@@ -1052,6 +1052,18 @@ Cierra con un ejercicio guiado: armar una **landing page** completa (navbar, her
 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/09%20-%20Introducci%C3%B3n%20a%20Javascript.pdf)
 
+Presenta JavaScript como el lenguaje que hace que la página responda a acciones del usuario, haga cálculos y maneje eventos — a diferencia de HTML (estructura) y CSS (estilo). Se ejecuta en cualquier navegador sin instalar nada, y se usa tanto en **front-end** como en **back-end**.
+
+Repasa sintaxis básica: instrucciones terminadas en `;`, y comentarios de una línea (`//`) o varias (`/* */`). Menciona **ES6** (2015) como la actualización clave que trajo `let`/`const`, funciones de flecha y otras mejoras modernas.
+
+Cubre **variables**: `var` (forma antigua, alcance global o de función, propensa a errores), `let` (alcance de bloque, para valores que van a cambiar) y `const` (para valores que no se reasignan).
+
+Repasa **tipos de datos**: `Number`, `String` (comillas simples, dobles o invertidas para templates), `Boolean`, `Array` (colección entre `[]`), `Object` (pares clave-valor entre `{}`), `Null` (ausencia de valor explícita) y `Undefined` (variable declarada sin valor asignado).
+
+Cubre **operadores** aritméticos (`+`, `-`, `*`, `/`), de comparación (`==`, `===`, `>`) y lógicos (`&&`, `||`, `!`).
+
+Cierra con herramientas de **interacción y depuración**: `console.log()` para ver valores en la consola, `alert()` para una ventana emergente que interrumpe la página hasta cerrarse, y `prompt()` para pedirle un dato al usuario (que siempre llega como String).
+
 </details>
 
 <details>
