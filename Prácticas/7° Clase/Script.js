@@ -117,7 +117,7 @@ saludar("mick");//argumento
 
 // TODO tipos de funciones
 
-// * FUNCION DECLARADA Basic Function funciones con nombre o necesite hoisting
+// * FUNCION DECLARADA Basic Function funciones con nombre o necesite hoisting esta dentrp de una variable
 test();  //invoco antes de declarar esto es por el entorno de ejecucion
 function test(){ //declaro funcion
     console.log("test");
@@ -127,9 +127,89 @@ function test(){ //declaro funcion
 // ! * funcion expresada es la que esta dentro de una variable util para ser usada como argumento dentro de otra funcion
 
 const funcionExpresada = function(){
-    console.log("func expresada");
+    console.log("func expresada HM");
 }
 
+funcionExpresada(); // HM de f expr
+
 // * funcion anonima
+setTimeout(function(){
+    console.log("HM dentro de 2 s");
+}, 2000); //segundo parametro milisegundos
+
+/* 
+    funciones flecha:
+        -   funciones para una linea
+        -    son anonimas 
+        -   no tienen dis
+*/
+
+const sumarFlecha = (a,b) => a + b;
+
+console.log(sumarFlecha(5,43));
 
 
+// * funcion de metodo (definidas dentro de un objeto o clase)
+
+const persona = {
+    nombre : "Yo",
+    saludar(){
+        console.log(`Soy ${this.nombre}`);   
+    }
+}
+
+persona.saludar();
+
+// * constructor
+
+function Usuario(nombre, id){
+    this.nombre = nombre; 
+    this.id = id;
+}
+
+const Ramos = new Usuario("Ivan", 444);
+console.log(Ramos.id, Ramos.nombre);
+
+// * expresion IIFE expr de func expr inmediatamente
+
+(function(){
+    console.log("estoesIFFE");
+})(); //se autoinvoca
+
+// * funcion generadora / generadores
+// ? fabrica de iteradores
+// ? pausan ejecucion terminan mas tarde
+// ? se definen con function
+
+// * funcion de orden superior 
+/*
+ -
+  -
+   -
+    -
+     -
+     
+*/
+
+// * funcion asincronica usar para bugs
+
+// ! TIPOS DE FUNCIONES FLECHA
+// ? sin parametro: si la funcion no lleva parametros se puede usar parentesis vacias
+const saludame = () => console.log("HI");
+saludame();
+
+// ? un parametro: parentesis opcionales
+const cuadrado = x => x * x; // en una sola linea el return esta implícito
+console.log(cuadrado(5));
+
+
+// ? mas de un parametro: 
+const sumarConFlecha = (a, b) => a + b;
+console.log(sumarConFlecha(4,8));
+
+// ? mas de una instruccion en la funcion: se usa { } y return p/retornar un valor
+const saludarConFlecha = nombre => {
+    const armarSaludo = `Hola ${nombre} tdbn?`;
+    return armarSaludo;
+}
+console.log(saludarConFlecha(memem));
