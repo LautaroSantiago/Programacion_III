@@ -18,6 +18,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 4 — 9/9 · CSS Avanzado (Display, Position, Overflow, Especificidad)</strong></font>](#clase-4)
 - [<font color="#8250DF"><strong>Clase 5 — 11/9 · CSS Avanzado (Border Radius, Gradientes, Box Shadow, Variables)</strong></font>](#clase-5)
 - [<font color="#8250DF"><strong>Clase 6 — 16/9 · Introducción a JavaScript (Variables, Tipos de Datos, Operadores, Condicionales)</strong></font>](#clase-6)
+- [<font color="#8250DF"><strong>Clase 7 — 23/9 · JavaScript 3 y 4 (Scope, Hoisting, Tipos de Funciones)</strong></font>](#clase-7)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
@@ -45,7 +46,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 
 **UNIDAD N° 2 — Desarrollo de funcionalidades con JavaScript.** Manipulación del DOM.
 - 📄 [Introducción a JavaScript - parte 1](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/05%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P1.pdf)
-- 📄 [Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/06%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf) *(pendiente de ver en clase)*
+- 📄 [Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/06%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf)
 - 📄 [HTML y JavaScript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/07%20-%20UNIDAD_02-JAVASCRIPT%20y%20HTML%20-%20P3.pdf) *(pendiente de ver en clase)*
 
 **UNIDAD N° 3 — Conexiones HTTP y asincronías.**
@@ -793,6 +794,71 @@ Práctica de JavaScript aplicando variables, tipos de datos y operadores vistos 
 
 </details>
 
+<details>
+<summary><a id="clase-7"></a><font color="#1A7F37"><strong>Clase 7 — 23/9 · JavaScript 3 y 4 (Scope, Hoisting, Tipos de Funciones)</strong></font></summary>
+
+### Temas vistos
+
+#### Scope (alcance/ámbito)
+
+El scope es el contexto en el cual las variables y funciones son accesibles y pueden ser referenciadas. Entender el scope es clave para escribir código claro y sin errores. Existen tres tipos:
+
+- **Global scope:** las variables declaradas fuera de cualquier función o bloque (`{ }`) tienen alcance global y son accesibles desde cualquier parte del código. Aplica a `var`, `let` y `const` por igual. En el navegador, además, las variables `var` globales se adjuntan al objeto `window` (esto solo afecta a `var`).
+- **Local scope (o de función):** las variables declaradas dentro de una función solo son accesibles dentro de esa función — fuera de ella, tirán `ReferenceError` (`"x is not defined"`).
+- **Block scope (a partir de ES6):** las variables declaradas con `let`/`const` solo son accesibles dentro de las llaves (`{ }`) en las que se declararon — por ejemplo, dentro de un `if`, un `for`, etc.
+
+**Diferencia clave entre `var` y `let`/`const`:** `var` tiene alcance de *función*, no de bloque — si se declara con `var` dentro de un `if` (u otro bloque que no sea una función), su valor "se escapa" y sigue siendo accesible afuera de esas llaves. `let`/`const`, en cambio, quedan estrictamente limitadas al bloque donde se declararon; intentar acceder afuera tira `ReferenceError`.
+
+#### Hoisting (elevación)
+
+Las declaraciones de variables y funciones se "mueven" hacia arriba de su contexto de ejecución (su scope) — pero solo se elevan las **declaraciones**, no las inicializaciones (los valores asignados).
+
+- **`var`:** se eleva y además se inicializa automáticamente como `undefined`. Esto permite acceder a la variable antes de su declaración sin que tire error, pero el valor va a ser `undefined` en vez del valor real — una fuente clásica de bugs difíciles de rastrear en código largo.
+- **`let`/`const`:** se elevan, pero **no** se inicializan. Acceder a ellas antes de su declaración tira un error de referencia (`ReferenceError`, "no capturado" / *Uncaught*).
+- **Funciones declaradas** (con la keyword `function`) también se elevan al principio de su scope — por eso se puede invocar una función antes de escribir su declaración más abajo en el código.
+
+Estos dos conceptos (scope y hoisting) son considerados fundamentales — habituales en preguntas de entrevistas técnicas de JavaScript.
+
+#### Tipos de funciones
+
+Repaso de los distintos tipos de funciones que existen en JavaScript (10 en total, aunque en la práctica se usan sobre todo tres: función declarada, función expresada y función flecha):
+
+- **Función declarada** (*function declaration*, también llamada *named function* o *basic function*): se define con la keyword `function nombreFuncion() { }`. Se recomienda cuando se necesita hoisting, ya que se eleva al principio de su scope y permite invocarla antes de su declaración.
+- **Función expresada** (*function expression*): la función queda guardada dentro de una variable (`const saludar = function() { }`). Es especialmente útil cuando la función se va a pasar como argumento a otra función.
+- **Función anónima** (*anonymous function*): no tiene nombre, y generalmente se usa como *callback* — por ejemplo, como argumento de `setTimeout(function() { ... }, 2000)`.
+- **Función flecha** (*arrow function*): pensada especialmente para escribir funciones cortas, de una sola línea; no tiene su propio `this` y siempre es anónima. Tiene 6 variaciones según el caso:
+  1. **Sin parámetros:** se usan paréntesis vacíos, `() => { }`.
+  2. **Un solo parámetro:** los paréntesis son opcionales — `cuadrado = x => x * x` (con `return` implícito).
+  3. **Más de un parámetro:** los paréntesis sí son obligatorios — `suma = (a, b) => a + b`.
+  4. **Más de una instrucción en el cuerpo:** hacen falta llaves y un `return` explícito, porque el retorno implícito deja de aplicar — `saludar = nombre => { const msj = "Hola " + nombre; return msj; }`.
+  5. **Devolviendo un objeto literal:** el objeto debe envolverse entre paréntesis para que no se confunda con el cuerpo de la función — `crearPersona = (nombre, edad) => ({ nombre: nombre, edad: edad })`.
+  6. Combinaciones de lo anterior según el caso (por ejemplo, un solo parámetro + cuerpo de una sola línea con retorno implícito, como en el ejemplo de `cuadrado`).
+- **Función de método:** una función definida dentro de un objeto o una clase (por ejemplo, `persona.saludar()`).
+- **Función constructora:** se usa para crear objetos y se invoca con la keyword `new` (`function Usuario(nombre, id) { this.nombre = nombre; this.id = id; } const gonzalo = new Usuario(...)`).
+- Mencionadas brevemente, sin entrar en detalle todavía (se retoman más adelante en la cursada): **IIFE** (*Immediately Invoked Function Expression*), **función generadora**, y **función de orden superior** (una función que recibe o devuelve otra función como argumento — por ejemplo `numeros.map(num => num * 2)` —, que se va a ver en profundidad junto con los *callbacks* en JavaScript 6/7).
+
+#### Ejercicios sugeridos
+
+- Crear una función tradicional que reciba dos números y devuelva la suma de ambos.
+- Convertir esa misma función en una función flecha.
+- Crear una función que reciba un nombre y una edad (pedidos con `prompt()`) y devuelva, con una función flecha, un mensaje personalizado.
+
+**Guías:**
+[Introducción a JavaScript - parte 2](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Material/UNIDAD%20N%C2%B0%202%20-%20Desarrollo%20de%20funcionalidades%20con%20JavaScript.%20Manipulaci%C3%B3n%20del%20DOM/06%20-%20UNIDAD_02-Introducci%C3%B3n%20a%20JAVASCRIPT%20-%20P2.pdf) ·
+[11 - Funciones en Javascript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/11%20-%20Funciones%20en%20Javascript.pdf)
+
+### Aplicado en
+
+Práctica de scope, hoisting y tipos de funciones, en `Prácticas/7° Clase/`.
+
+### Código
+
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/7%C2%B0%20Clase/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/7%C2%B0%20Clase/index.html)
+[![Ver Script.js](https://img.shields.io/badge/💻_Ver_Script.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/7%C2%B0%20Clase/Script.js)
+
+</details>
+
 ---
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
@@ -1170,8 +1236,11 @@ Programación III
 │   │   └── index.html
 │   ├── 5° Clase
 │   │   └── 2° Ejercicio
-│   └── 6° Clase
-│       ├── ARKHAS.ico
+│   ├── 6° Clase
+│   │   ├── ARKHAS.ico
+│   │   ├── index.html
+│   │   └── Script.js
+│   └── 7° Clase
 │       ├── index.html
 │       └── Script.js
 ├── Recursos Adicionales
