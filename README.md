@@ -19,6 +19,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 5 — 11/9 · CSS Avanzado (Border Radius, Gradientes, Box Shadow, Variables)</strong></font>](#clase-5)
 - [<font color="#8250DF"><strong>Clase 6 — 16/9 · Introducción a JavaScript (Variables, Tipos de Datos, Operadores, Condicionales)</strong></font>](#clase-6)
 - [<font color="#8250DF"><strong>Clase 7 — 23/9 · JavaScript 3 y 4 (Scope, Hoisting, Tipos de Funciones)</strong></font>](#clase-7)
+- [<font color="#8250DF"><strong>Clase 8 — 25/9 · JavaScript 4 (Métodos de Strings, Arrays, Objetos)</strong></font>](#clase-8)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
@@ -856,6 +857,70 @@ Práctica de scope, hoisting y tipos de funciones, en `Prácticas/7° Clase/`.
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/7%C2%B0%20Clase/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/7%C2%B0%20Clase/index.html)
 [![Ver Script.js](https://img.shields.io/badge/💻_Ver_Script.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/7%C2%B0%20Clase/Script.js)
+
+</details>
+
+<details>
+<summary><a id="clase-8"></a><font color="#1A7F37"><strong>Clase 8 — 25/9 · JavaScript 4 (Métodos de Strings, Arrays, Objetos)</strong></font></summary>
+
+### Temas vistos
+
+#### Métodos de strings
+
+Un truco para acordarse de muchos métodos (parecido a lo que pasa con etiquetas HTML o propiedades CSS): el nombre suele ser la traducción literal al inglés de lo que hacen.
+
+| Método | Qué hace |
+|---|---|
+| `charAt(i)` | Devuelve el carácter en la posición `i`. |
+| `charCodeAt(i)` | Devuelve el código Unicode del carácter en la posición `i`. |
+| `concat(str1, str2, ...)` | Concatena (une) strings. |
+| `includes(substring)` | Devuelve `true`/`false` según si el string incluye ese substring — es *case sensitive* (distingue mayúsculas de minúsculas). |
+| `slice(start, end)` | Extrae parte del string, desde `start` hasta `end` (no incluido). Acepta índices negativos, contados desde el final. |
+| `substring(start, end)` | Similar a `slice`, pero **no** acepta índices negativos. |
+| `substr()` | Ya está marcado como *deprecated* por el propio editor de código — no usar. |
+| `split(separador)` | Divide el string en un array, cortando por el separador indicado (ej. `"rojo, verde, azul".split(", ")` da `["rojo", "verde", "azul"]`; separador vacío separa carácter por carácter). |
+| `repeat(n)` | Repite el string `n` veces. |
+| `match(regex)` | Devuelve las coincidencias con una expresión regular (se usa sin necesidad de saber armar regex complejas). |
+
+#### Métodos de arrays
+
+Los que más hay que tener siempre presentes son los 4 que agregan/eliminan al principio o al final — junto con `splice`:
+
+| Método | Qué hace |
+|---|---|
+| `push(elemento)` | Agrega un elemento al **final** del array. |
+| `pop()` | Elimina el **último** elemento del array y lo devuelve. |
+| `unshift(elemento)` | Agrega un elemento al **principio** del array. |
+| `shift()` | Elimina el **primer** elemento del array y lo devuelve. |
+| `concat(array2)` | Une (concatena) dos arrays en uno nuevo. |
+| `join(separador)` | Proceso inverso a `split()` de strings: une todos los elementos del array en un string, usando el separador indicado. |
+| `slice(start, end)` | Extrae una copia parcial del array, sin modificar el original. |
+| `splice(start, deleteCount, ...items)` | A partir de la posición `start`, elimina `deleteCount` elementos y, opcionalmente, inserta nuevos elementos ahí mismo — a diferencia de `slice`, si modifica el array original. |
+| `indexOf(elemento)` / `lastIndexOf(elemento)` | Devuelven la posición de la primera/última aparición del elemento; si no lo encuentran, devuelven `-1`. |
+| `includes(elemento)` | Devuelve `true`/`false` según si el array incluye ese elemento. |
+
+Quedan para más adelante en la cursada los métodos de iteración (`map`, `filter`, `find`, `reduce`), que se retoman junto con las funciones de orden superior.
+
+#### Objetos y arrays de objetos
+
+Un objeto es una estructura de datos en pares **clave-valor**, que además de propiedades puede tener comportamiento propio mediante métodos.
+
+Un **array de objetos** permite almacenar múltiples objetos que comparten la misma estructura (los mismos atributos) — por ejemplo, una lista de personas, cada una con `nombre`, `edad` y `ocupación`. Sirve para casos como un listado de usuarios registrados, un inventario de productos, o un historial de transacciones.
+
+Guía rápida de cuándo usar cada estructura:
+- **Objeto simple:** cuando hay una única entidad con varias propiedades (ej. la configuración de un usuario) — acceder a sus propiedades individuales es rápido y directo.
+- **Array simple:** para una lista ordenada de valores primitivos que no necesitan atributos adicionales (ej. una lista de nombres o identificadores) — se puede manipular con métodos de array como `sort`, `reverse`, `push`, etc.
+- **Array de objetos:** cuando hay una lista de entidades complejas, cada una con varias propiedades — es la estructura ideal para hacer operaciones en lote y mantener organizada una colección de elementos relacionados (y es la que después se recorre con `map`, `filter`, `find`, `reduce`).
+
+**Guía:** [12 - Arrays y objetos](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/12%20-%20Arrays%20y%20objetos.pdf)
+
+### Aplicado en
+
+-
+
+### Código
+
+-
 
 </details>
 
