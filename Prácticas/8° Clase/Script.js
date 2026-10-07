@@ -132,10 +132,10 @@ console.log([1, 2 , 3].includes(2)); // ! true si incluye lo buscado
 */
 
 // * OBJ GLOBALES SON AQUELLOS QUE ESTAN DISPONIBLES EN TODO EL ENTORNO DE EJECUCION(NAVEGADOR Y NODE.JS)
-// * *DEPENDEN DEL ENTORNO SU PROPOSITO ES FACILITR EL ACCESO A FUNCIONALIDADE Y VALORES PREDETERMINADOS* *
+// * *DEPENDEN DEL ENTORNO SU PROPOSITO ES FACILITAR EL ACCESO A FUNCIONALIDADES Y VALORES PREDETERMINADOS* *
 console.log(console); // ! muestra TODO
 
-// * js embuelbe todo como un objeto como arays strings objects por eso provee .length a tipos de datos primitivos
+// * js envuelve todo como un objeto como arays strings objects por eso provee .length a tipos de datos primitivos
 // * asi los objetos intractuan con la pag web y su entorno
 
 // * - `window` obj global principal en el entorno del navegador, representa la ventana del navegador y actua como contenedor global.
@@ -181,3 +181,33 @@ let laPersona =  {
 // * cuando necesitamos acceder a propiedades especificas mediante sus nombres
 
 // ! ARAY DE OBJETOS: almacenar listas de objetos similares
+// Declaramos un array que almacena una lista de objetos (usuarios)
+const usuarios = [
+  {
+    id: 1,
+    nombre: "Ana",
+    edad: 25,
+    activo: true
+  },
+  {
+    id: 2,
+    nombre: "Carlos",
+    edad: 30,
+    activo: false
+  },
+  {
+    id: 3,
+    nombre: "Elena",
+    edad: 22,
+    activo: true
+  }
+];
+
+// Acceder al primer objeto y a su propiedad 'nombre'
+console.log(usuarios[0].nombre); // "Ana"
+
+// Recorrer el array de objetos con forEach
+usuarios.forEach((usuario) => {
+  console.log(`${usuario.nombre} tiene ${usuario.edad} años.`);
+});
+
