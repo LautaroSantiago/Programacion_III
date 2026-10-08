@@ -1649,7 +1649,14 @@ Programación III
 │   │   ├── ARKHAS.ico
 │   │   ├── index.html
 │   │   └── Script.js
-│   └── 7° Clase
+│   ├── 7° Clase
+│   │   ├── index.html
+│   │   └── Script.js
+│   ├── 8° Clase
+│   │   ├── index.html
+│   │   └── Script.js
+│   └── 9° Clase
+│       ├── ayudaMemoria.jpeg
 │       ├── index.html
 │       └── Script.js
 ├── Recursos Adicionales
@@ -1722,7 +1729,9 @@ Programación III
     │   ├── portfolio.html
     │   └── README.md
     ├── 3_javascript
-    │   ├── apuntesJS.md
+    │   ├── bitacora
+    │   │   ├── objectWrappers.md
+    │   │   └── README.md
     │   ├── css
     │   │   └── styles.css
     │   ├── index.html
