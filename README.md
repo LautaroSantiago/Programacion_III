@@ -1578,7 +1578,7 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 ### Modalidad y fecha
 
 - **Parcial sincrónico:** viernes 16/10, 8:30 hs, en horario de clase.
-- **Recuperatorio:** miércoles 23/10, 8:30 hs — se desarrolla en paralelo al dictado de esa clase, así que quien lo rinda debe recuperar el contenido de esa clase a partir de la grabación.
+- **Recuperatorio:** miércoles 23/10, 8:30 hs.
 
 ### Contenido que entra
 
