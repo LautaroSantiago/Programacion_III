@@ -20,7 +20,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 6 — 16/9 · Introducción a JavaScript (Variables, Tipos de Datos, Operadores, Condicionales)</strong></font>](#clase-6)
 - [<font color="#8250DF"><strong>Clase 7 — 23/9 · JavaScript 3 y 4 (Scope, Hoisting, Tipos de Funciones)</strong></font>](#clase-7)
 - [<font color="#8250DF"><strong>Clase 8 — 25/9 · JavaScript 4 (Métodos de Strings, Arrays, Objetos)</strong></font>](#clase-8)
-- [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 (Métodos de Iteración)</strong></font>](#clase-9)
+- [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 y 6 (Métodos de Iteración, DOM y Eventos)</strong></font>](#clase-9)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -927,7 +927,7 @@ Guía rápida de cuándo usar cada estructura:
 </details>
 
 <details>
-<summary><a id="clase-9"></a><font color="#1A7F37"><strong>Clase 9 — 7/10 · JavaScript 5 (Métodos de Iteración)</strong></font></summary>
+<summary><a id="clase-9"></a><font color="#1A7F37"><strong>Clase 9 — 7/10 · JavaScript 5 y 6 (Métodos de Iteración, DOM y Eventos)</strong></font></summary>
 
 ### Temas vistos
 
@@ -1046,6 +1046,8 @@ const sumaDecenas = decenas.reduce((total, num) => total + num, 0);
 const totalVentas = ventas.reduce((suma, p) => suma + (p.precio * p.cantidad), 0);
 ```
 
+⚠️ El segundo parámetro (el valor inicial, `0` en los ejemplos) es clave: si se omite, `reduce()` toma como punto de partida el primer elemento del array tal cual es. Con números no da problema, pero con un array de objetos el primer "total" sería un objeto completo, y las sumas siguientes terminan concatenando en vez de sumar (ej. `object8080` en vez de un número). Por eso siempre conviene declarar explícitamente el valor inicial.
+
 #### `find()` y `findIndex()`
 
 - **Propósito:** buscar el primer elemento que cumpla una condición (es como `filter`, pero se queda con el primero que encuentra).
@@ -1106,6 +1108,126 @@ Queda pendiente para más adelante el detalle de cómo recorrer objetos puntualm
 | Verificar condiciones | `some()`, `every()` |
 
 **Guía:** [13 - Funciones de orden superior](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/13%20-%20Funciones%20de%20orden%20superior.pdf)
+
+#### ¿Qué es el DOM?
+
+El **DOM** (Document Object Model, modelo de objetos del documento) es una interfaz de programación que representa un documento HTML como una estructura jerárquica de objetos, conocida como árbol DOM. Cada etiqueta HTML se convierte en un nodo dentro de ese árbol, y todos los nodos están relacionados entre sí mediante relaciones de padres, hijos y hermanos (la misma terminología que ya se usaba con los combinadores de selectores en CSS).
+
+Es un modelo estandarizado por el W3C, y si bien nació como una extensión de JavaScript, hoy es una API independiente del lenguaje: se puede usar desde JavaScript, pero también desde Python, C++, etc. En resumen, el DOM es la base que le permite a JavaScript interactuar con el contenido de una página web, transformando el HTML en una estructura de objetos manipulable, accesible a través del objeto global `document`.
+
+#### Selección de elementos
+
+| Método | Qué hace |
+|---|---|
+| `document.getElementById(id)` | Selecciona un único elemento por su `id`. Si no lo encuentra, devuelve `null`. Es el más usado, porque el `id` identifica un único elemento. |
+| `document.querySelector(selectorCSS)` | Selecciona el **primer** elemento que coincida con un selector CSS (por clase, id, etiqueta, combinadores, etc.). |
+| `document.querySelectorAll(selectorCSS)` | Selecciona **todos** los elementos que coincidan con un selector CSS. Devuelve una `NodeList` (similar a un array) que se puede recorrer, por ejemplo, con `forEach()`. |
+
+```javascript
+const titulo = document.getElementById("titulo");
+console.log(titulo.textContent); // contenido de texto del elemento
+
+const mensaje = document.querySelector(".mensaje"); // primer elemento con class="mensaje"
+
+const parrafos = document.querySelectorAll(".mensaje"); // todos los elementos con esa clase
+parrafos.forEach(p => console.log(p.textContent));
+```
+
+`querySelector`/`querySelectorAll` son una forma más moderna que condensa a los históricos `getElementsByClassName` y `getElementsByTagName`, pero para seleccionar por `id` se sigue usando `getElementById`.
+
+#### Modificación de contenido, atributos y estilos
+
+| Propiedad / método | Qué hace |
+|---|---|
+| `elemento.textContent` | Lee o modifica el texto plano de un elemento. No interpreta HTML: más rápido y más seguro. |
+| `elemento.innerHTML` | Lee o modifica el contenido **HTML** de un elemento (permite insertar etiquetas). Es más lento, porque el navegador tiene que parsear y renderizar ese HTML, y conlleva riesgo de inyección de scripts si el contenido no es confiable. |
+| `elemento.setAttribute(atributo, valor)` | Modifica (o agrega) un atributo del elemento, por ejemplo su `id` o cualquier atributo HTML. |
+| `elemento.style.propiedad` | Modifica el estilo en línea del elemento (no es lo ideal frente a usar clases CSS, pero es útil para cambios puntuales desde JS). |
+
+```javascript
+const mensaje = document.querySelector(".mensaje");
+mensaje.textContent = "Nuevo contenido dinámico desde JavaScript";
+
+const ultimoParrafo = document.getElementById("ultimo-mensaje");
+ultimoParrafo.innerHTML = "<strong>Nuevo HTML dinámico creado con JS</strong>";
+
+const boton = document.getElementById("boton");
+boton.setAttribute("id", "nuevo-id");
+
+boton.style.backgroundColor = "#00ff41";
+boton.style.padding = "10px";
+boton.style.border = "2px solid";
+boton.style.borderRadius = "5px";
+```
+
+Si solo hay que cambiar un valor de texto, conviene usar `textContent` antes que `innerHTML`: es más eficiente (solo manipula texto plano) y más seguro (no ejecuta scripts insertados).
+
+#### Eventos
+
+Los eventos le permiten a una página web detectar interacciones del usuario (un clic, una tecla presionada, mover el mouse, enviar un formulario, etc.) y ejecutar una función específica cuando ocurren. Un **evento** es, básicamente, una señal que se dispara cuando ocurre una interacción o un cambio en el documento.
+
+Tipos de eventos más comunes:
+
+| Categoría | Eventos |
+|---|---|
+| Mouse | `click`, `dblclick`, `mouseover`, `mouseout`, `mousemove` |
+| Teclado | `keydown` (tecla presionada hacia abajo), `keyup` (tecla soltada) |
+| Formulario | `submit`, `change`, `input`, `focus` |
+| Ventana | `resize`, `scroll`, `load` |
+
+Para reaccionar a un evento, se le agrega al elemento un **escuchador de eventos** (*event listener*) con `addEventListener`. Recibe dos parámetros: un string con el tipo de evento a escuchar, y una función (callback) que se ejecuta cada vez que el evento ocurre.
+
+```javascript
+const boton = document.getElementById("boton");
+boton.addEventListener("click", () => {
+    alert("Hiciste click");
+});
+
+const input = document.getElementById("texto");
+input.addEventListener("keyup", (event) => {
+    console.log("Valor del campo de texto:", input.value);
+    console.log("Carácter presionado:", event.key);
+    console.log("Código de la tecla:", event.code); // distingue, por ej., el "1" de arriba del teclado del "1" del numpad
+});
+```
+
+El objeto **`event`**, que el navegador pasa automáticamente como argumento a la función manejadora, trae toda la información sobre el evento disparado: qué tecla se presionó (`event.key`, `event.code`), qué botón del mouse hizo clic, las coordenadas del mouse, etc.
+
+Entre `keydown` y `keyup` conviene elegir según el caso: `keydown` se dispara apenas se presiona la tecla (útil para videojuegos, mapeo de teclas), mientras que `keyup` es mejor para leer el valor final de un campo de texto, porque recién ahí terminó de escribirse.
+
+##### Propagación de eventos
+
+Cuando un evento ocurre sobre un elemento que tiene elementos padres con el mismo tipo de evento escuchado, ese evento se propaga a través del DOM (en fase de burbuja, de abajo hacia arriba). Esto significa que si un botón "hijo" está dentro de un "padre" y ambos escuchan `click`, al hacer clic en el hijo se van a disparar **ambos** manejadores.
+
+```javascript
+const padre = document.getElementById("padre");
+const hijo = document.getElementById("hijo");
+
+padre.addEventListener("click", () => {
+    console.log("Se hizo clic en el padre");
+});
+
+hijo.addEventListener("click", (event) => {
+    event.stopPropagation(); // evita que el click se propague al padre
+    console.log("Se hizo clic en el hijo");
+});
+```
+
+`event.stopPropagation()` corta esa propagación, para que cada evento quede contenido en el elemento donde ocurrió.
+
+##### Comportamientos por defecto: `preventDefault()`
+
+Algunos elementos HTML tienen un comportamiento por defecto ante ciertos eventos — por ejemplo, un `<form>` se envía (y recarga la página) automáticamente al hacer submit. `event.preventDefault()` evita ese comportamiento por defecto, lo que permite, por ejemplo, validar o limpiar los datos del formulario en JavaScript antes de decidir qué hacer con ellos.
+
+```javascript
+const formulario = document.getElementById("mi-formulario");
+formulario.addEventListener("submit", (event) => {
+    event.preventDefault(); // evita el envío automático del formulario
+    console.log("Formulario no enviado todavía: acá se puede validar o limpiar los datos");
+});
+```
+
+**Guía:** [15 - Introducción al DOM](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/15%20-%20Introducci%C3%B3n%20al%20DOM.pdf)
 
 ### Aplicado en
 
@@ -1450,6 +1572,9 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 
 ## <a id="parcial"></a><font color="#8250DF">📝 Primer parcial</font>
 
+<details>
+<summary><font color="#1A7F37"><strong>Ver información del parcial</strong></font></summary>
+
 ### Modalidad y fecha
 
 - **Parcial sincrónico:** viernes 16/10, 8:30 hs, en horario de clase.
@@ -1469,6 +1594,8 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 
 - Se compone del **TP integrador**, desarrollado en grupos de dos personas.
 - Se defiende de forma oral el último día de clase, a modo de entrevista técnica: cada integrante del grupo debe poder explicar cualquier parte del código de su propio trabajo (qué hace, por qué se armó así, dónde está cada responsabilidad del proyecto).
+
+</details>
 
 ---
 
