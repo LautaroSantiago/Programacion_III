@@ -23,6 +23,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 (Métodos de Iteración)</strong></font>](#clase-9)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
+- [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
 
 ---
 
@@ -1444,6 +1445,30 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 [🌐 Ver PDF](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/17%20-%20Asincron%C3%ADa%20y%20Promesas.pdf)
 
 </details>
+
+---
+
+## <a id="parcial"></a><font color="#8250DF">📝 Primer parcial</font>
+
+### Modalidad y fecha
+
+- **Parcial sincrónico:** viernes 16/10, 8:30 hs, en horario de clase.
+- **Recuperatorio:** miércoles 23/10, 8:30 hs — se desarrolla en paralelo al dictado de esa clase, así que quien lo rinda debe recuperar el contenido de esa clase a partir de la grabación.
+
+### Contenido que entra
+
+- Entra todo lo visto hasta **JavaScript 6 (Manipulación del DOM)** inclusive, es decir, todas las clases dictadas hasta el 7/10.
+
+### Formato
+
+- Es una prueba técnica individual: armar una interfaz (maquetado + lógica) con HTML, CSS y JavaScript en un tiempo acotado dentro del horario de clase.
+- Está permitido y es recomendable tener a mano los apuntes propios y los machetes de cada clase durante el parcial.
+- Se controla que las resoluciones no estén hechas con IA; una entrega copiada implica tener que recursar la materia.
+
+### Segunda nota de la cursada
+
+- Se compone del **TP integrador**, desarrollado en grupos de dos personas.
+- Se defiende de forma oral el último día de clase, a modo de entrevista técnica: cada integrante del grupo debe poder explicar cualquier parte del código de su propio trabajo (qué hace, por qué se armó así, dónde está cada responsabilidad del proyecto).
 
 ---
 
