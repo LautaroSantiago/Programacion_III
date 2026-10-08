@@ -20,6 +20,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 6 — 16/9 · Introducción a JavaScript (Variables, Tipos de Datos, Operadores, Condicionales)</strong></font>](#clase-6)
 - [<font color="#8250DF"><strong>Clase 7 — 23/9 · JavaScript 3 y 4 (Scope, Hoisting, Tipos de Funciones)</strong></font>](#clase-7)
 - [<font color="#8250DF"><strong>Clase 8 — 25/9 · JavaScript 4 (Métodos de Strings, Arrays, Objetos)</strong></font>](#clase-8)
+- [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 (Métodos de Iteración)</strong></font>](#clase-9)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 
@@ -913,6 +914,197 @@ Guía rápida de cuándo usar cada estructura:
 - **Array de objetos:** cuando hay una lista de entidades complejas, cada una con varias propiedades — es la estructura ideal para hacer operaciones en lote y mantener organizada una colección de elementos relacionados (y es la que después se recorre con `map`, `filter`, `find`, `reduce`).
 
 **Guía:** [12 - Arrays y objetos](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/12%20-%20Arrays%20y%20objetos.pdf)
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-9"></a><font color="#1A7F37"><strong>Clase 9 — 7/10 · JavaScript 5 (Métodos de Iteración)</strong></font></summary>
+
+### Temas vistos
+
+Siguiendo la guía de cuándo usar objeto, array o array de objetos, el siguiente paso es ver las distintas formas de recorrer esas estructuras.
+
+#### Bucle `for` clásico
+
+```javascript
+for (let i = 0; i < array.length; i++) {
+    console.log(array[i]);
+}
+```
+
+- **Ventajas:** máximo control y velocidad, permite usar `break` y `continue`.
+- **Desventajas:** más verboso (más difícil de leer).
+
+```javascript
+// Sumando elementos con un bucle for clásico
+const numeros = [1, 2, 3, 4, 5];
+let suma = 0;
+for (let i = 0; i < numeros.length; i++) {
+    suma += numeros[i];
+}
+console.log(suma); // 15
+
+// Buscar el primer elemento que empiece con "ban" y cortar la iteración
+const frutas = ["manzana", "banana", "naranja"];
+for (let i = 0; i < frutas.length; i++) {
+    if (frutas[i].startsWith("ban")) {
+        console.log(frutas[i]);
+        break;
+    }
+}
+
+// Filtrar productos con precio mayor a $150.000
+const productos = [
+    { id: 1, nombre: "Mouse", precio: 5000 },
+    { id: 2, nombre: "Notebook", precio: 350000 },
+    { id: 3, nombre: "Teclado", precio: 12000 }
+];
+let productosCaros = [];
+for (let i = 0; i < productos.length; i++) {
+    if (productos[i].precio > 150000) {
+        productosCaros.push(productos[i]);
+    }
+}
+console.table(productosCaros);
+```
+
+#### `forEach()`
+
+```javascript
+array.forEach((elemento, indice, arrayOriginal) => {
+    console.log(elemento, indice);
+});
+```
+
+- **Ventajas:** sintaxis limpia, no necesita contador.
+- **Desventajas:** no se puede cortar el bucle (no admite `break` ni `continue`).
+
+```javascript
+const colores = ["rojo", "celeste", "azulgrana"];
+colores.forEach(color => console.log(color));
+
+const duplicados = [];
+numeros.forEach(n => duplicados.push(n * 2));
+
+const estudiantes = [
+    { nombre: "Fabrizio", nota: 9 },
+    { nombre: "Camila", nota: 5 }
+];
+estudiantes.forEach(e => { e.aprobado = e.nota >= 6; });
+```
+
+#### `map()`
+
+```javascript
+const nuevosValores = array.map(elemento => elemento * 2);
+```
+
+- **Propósito:** transformar cada elemento.
+- **Retorna:** un nuevo array con los resultados.
+
+```javascript
+const cuadrados = numeros.map(num => num * num);
+const edadesMsg = edades.map(edad => `Hola, tengo ${edad} años!`);
+const nombresEstudiantes = estudiantes.map(e => e.nombre);
+```
+
+#### `filter()`
+
+```javascript
+const filtrados = array.filter(elemento => elemento > 10);
+```
+
+- **Propósito:** seleccionar los elementos que cumplan una condición.
+- **Retorna:** un nuevo array con los elementos filtrados.
+
+```javascript
+const numerosPares = numeros.filter(num => num % 2 === 0);
+const palabrasLargas = palabras.filter(p => p.length > 5);
+const estudiantesAprobados = estudiantes.filter(e => e.nota > 8);
+```
+
+#### `reduce()`
+
+```javascript
+const sumaTotal = array.reduce((total, elemento) => total + elemento, 0);
+```
+
+- **Propósito:** reducir el array a un único valor.
+- **Retorna:** el valor acumulado.
+
+```javascript
+const sumaDecenas = decenas.reduce((total, num) => total + num, 0);
+const totalVentas = ventas.reduce((suma, p) => suma + (p.precio * p.cantidad), 0);
+```
+
+#### `find()` y `findIndex()`
+
+- **Propósito:** buscar el primer elemento que cumpla una condición (es como `filter`, pero se queda con el primero que encuentra).
+- **Retorna:** el elemento (o `undefined`) con `find()`; el índice (o `-1`) con `findIndex()`.
+
+```javascript
+const encontrado = numerosRandom.find(num => num > 10);
+const indice = numerosRandom.findIndex(num => num > 100);
+```
+
+#### `some()` y `every()`
+
+- **Propósito:** verificar si **alguno** (`some`) o **todos** (`every`) los elementos cumplen una condición.
+- **Retorna:** un booleano.
+
+```javascript
+const hayPares = listaNums.some(num => num % 2 === 0);
+const todosPositivos = listaNums.every(num => num > 0);
+```
+
+#### `for...of`
+
+- **Ventajas:** sintaxis limpia, permite `break` y `continue`.
+- **Desventajas:** no provee un índice automáticamente.
+
+```javascript
+for (const simb of simbolos) {
+    if (simb === "¥") break;
+    console.log(simb);
+}
+
+for (const est of estudiantes) {
+    if (est.nota < 6) {
+        console.log(`${est.nombre} no aprobó`);
+        break;
+    }
+}
+```
+
+#### Iteración en objetos
+
+Queda pendiente para más adelante el detalle de cómo recorrer objetos puntualmente (`for...in`, `Object.keys()`, `Object.values()`, `Object.entries()`).
+
+#### Comparación de rendimiento y recomendaciones de uso
+
+1. Los bucles clásicos (`for`, `while`) son los más rápidos para iteraciones simples.
+2. Los métodos funcionales (`map`, `filter`, etc.) son más lentos pero más expresivos (más fáciles de leer).
+3. `for...of` ofrece un buen equilibrio entre rendimiento y legibilidad.
+
+| Necesito... | Uso |
+|---|---|
+| Transformar un array | `map()` |
+| Filtrar elementos | `filter()` |
+| Reducir a un valor | `reduce()` |
+| Buscar un elemento | `find()`, `findIndex()` |
+| Iterar de forma fácil de leer | `forEach()` |
+| Poder cortar el bucle | `for` o `for...of` |
+| Verificar condiciones | `some()`, `every()` |
+
+**Guía:** [13 - Funciones de orden superior](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/13%20-%20Funciones%20de%20orden%20superior.pdf)
 
 ### Aplicado en
 
