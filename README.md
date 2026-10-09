@@ -21,6 +21,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 7 — 23/9 · JavaScript 3 y 4 (Scope, Hoisting, Tipos de Funciones)</strong></font>](#clase-7)
 - [<font color="#8250DF"><strong>Clase 8 — 25/9 · JavaScript 4 (Métodos de Strings, Arrays, Objetos)</strong></font>](#clase-8)
 - [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 y 6 (Métodos de Iteración, DOM y Eventos)</strong></font>](#clase-9)
+- [<font color="#8250DF"><strong>Clase 10 — 9/10 · JavaScript 7 (Callbacks, HOF, Destructuring, Spread, Funciones anidadas)</strong></font>](#clase-10)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -903,6 +904,36 @@ Los que más hay que tener siempre presentes son los 4 que agregan/eliminan al p
 
 Quedan para más adelante en la cursada los métodos de iteración (`map`, `filter`, `find`, `reduce`), que se retoman junto con las funciones de orden superior.
 
+#### Objetos globales y almacenamiento persistente
+
+Los **objetos globales** son aquellos disponibles en todo el entorno de ejecución (navegador o Node.js) sin necesidad de importarlos ni declararlos. Varían según el entorno, pero su propósito es siempre facilitar el acceso a funciones y valores predeterminados. En el navegador, estos objetos (`Array`, `String`, `Object`, etc.) son también la explicación de por qué JavaScript provee métodos como `.length` a tipos de datos primitivos: internamente los "envuelve" en un objeto (*object wrapper*) para poder darles esos métodos.
+
+El objeto global principal del navegador es **`window`**, que representa la ventana del navegador y actúa como contenedor de todas las variables, funciones y objetos globales de la página. ⚠️ Solo las variables declaradas con `var` se anexan automáticamente a `window`.
+
+| Propiedad / método de `window` | Qué hace |
+|---|---|
+| `document` | Representa el DOM de la página actual, permite acceder y manipular elementos HTML. |
+| `alert()`, `prompt()`, `confirm()` | Muestran diálogos al usuario. |
+| `setTimeout()`, `setInterval()` | Programan la ejecución de código luego de un tiempo, o en intervalos regulares. |
+| `location` | Info sobre la URL actual y permite redireccionar (`location.href`). |
+| `navigator` | Info sobre el navegador (versión, user agent, geolocalización). |
+| `console` | Acceso a la consola del navegador para mensajes de depuración. |
+| `localStorage` / `sessionStorage` | Permiten guardar datos en el navegador de forma persistente o temporal, respectivamente. |
+| `history` | Acceso al historial de navegación (`history.back()`, etc.). |
+
+```javascript
+document.getElementById("miElemento");
+
+alert("Mensaje de alerta");
+
+console.log(window.location.href); // URL actual
+
+localStorage.setItem("nombre", "Matias");
+console.log(localStorage.getItem("nombre")); // queda guardado en el navegador de forma permanente
+```
+
+A la hora de almacenar datos, JavaScript ofrece distintas estructuras según el caso: variables simples (para un único valor), objetos (para una entidad con varias propiedades), arrays (para una lista de elementos) y arrays de objetos (para una lista de entidades complejas).
+
 #### Objetos y arrays de objetos
 
 Un objeto es una estructura de datos en pares **clave-valor**, que además de propiedades puede tener comportamiento propio mediante métodos.
@@ -1228,6 +1259,280 @@ formulario.addEventListener("submit", (event) => {
 ```
 
 **Guía:** [15 - Introducción al DOM](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/15%20-%20Introducci%C3%B3n%20al%20DOM.pdf)
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-10"></a><font color="#1A7F37"><strong>Clase 10 — 9/10 · JavaScript 7 (Callbacks, HOF, Destructuring, Spread, Funciones anidadas)</strong></font></summary>
+
+### Temas vistos
+
+#### Callbacks
+
+Un **callback** es, básicamente, una función que se pasa como argumento a otra función y que se ejecuta después de que ocurra algún evento o se complete alguna operación.
+
+```javascript
+function saludar(nombre, callback) {
+    console.log(`Hola ${nombre}!`);
+    callback();
+}
+
+function despedirse() {
+    console.log("Chau!");
+}
+
+// despedirse es un callback: una función pasada como argumento que se ejecuta en el orden que se quiera
+saludar("Matias", despedirse);
+// Hola Matias!
+// Chau!
+```
+
+Los callbacks son posibles porque en JavaScript las funciones son **ciudadanas de primera clase** (*first class citizens*): pueden asignarse a variables, pasarse como argumentos y retornarse desde otras funciones.
+
+```javascript
+const miMensaje = function () {
+    console.log("Callback ejecutado!");
+};
+
+function ejecutarCallback(callback) {
+    callback();
+}
+
+ejecutarCallback(miMensaje); // Callback ejecutado!
+```
+
+##### Sincronía y asincronía
+
+```javascript
+// Proceso sincrónico: bloquea la ejecución hasta terminar
+function procesoPesado(callback) {
+    console.log("Iniciando proceso pesado sincrónico...");
+    for (let i = 0; i < 3000; i++) { /* ... */ }
+    callback(); // recién acá, cuando termina el bucle
+}
+
+// Proceso asincrónico: no bloquea, el callback corre en paralelo cuando esté listo
+function procesoAsincrono(callback) {
+    console.log("Iniciando proceso asíncrono..."); // 2do mensaje
+    setTimeout(function () {
+        callback(); // 4to mensaje
+    }, 2000); // primer parámetro: función; segundo parámetro: milisegundos
+}
+
+console.log("Mensaje antes de la llamada"); // 1er mensaje
+procesoAsincrono(function () {
+    console.log("Proceso asíncrono completado"); // 4to mensaje (a los 2 seg)
+});
+console.log("Mensaje que se ejecuta inmediatamente"); // 3er mensaje
+```
+
+Casos de uso típicos de callbacks: temporizadores (`setTimeout`, `setInterval`), eventos del DOM (`addEventListener`), métodos funcionales (`forEach`, `map`, etc.), peticiones HTTP y lectura de archivos con Node.js (estos dos últimos, más adelante en la cursada).
+
+##### Ventajas y desventajas
+
+- **Ventajas:** simplicidad (fáciles de entender para operaciones simples), universalidad (compatibles con todos los navegadores), flexibilidad (permiten código reutilizable).
+- **Desventajas:** *callback hell* o "pirámide de la perdición" (anidamiento excesivo que dificulta la lectura), manejo de errores complicado cuando están anidados, y flujo de control difícil de seguir en operaciones complejas.
+
+```javascript
+// Callback Hell (Pyramid of Doom)
+function procesoCompleto(callback) {
+    paso1(function (error, resultado1) {
+        if (error) return callback(error);
+        paso2(resultado1, function (error, resultado2) {
+            if (error) return callback(error);
+            paso3(resultado2, function (error, resultado3) {
+                if (error) return callback(error);
+                paso4(resultado3, function (error, resultadoFinal) {
+                    if (error) return callback(error);
+                    callback(null, resultadoFinal);
+                });
+            });
+        });
+    });
+}
+```
+
+Como alternativas más modernas al callback hell están las **promesas** (`.then().catch()`) y **async/await**, que se ven más adelante:
+
+```javascript
+// Mismo ejemplo con async/await
+async function procesoCompleto() {
+    try {
+        const resultado1 = await paso1();
+        const resultado2 = await paso2(resultado1);
+        const resultado3 = await paso3(resultado2);
+        const resultadoFinal = await paso4(resultado3);
+        return resultadoFinal;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+```
+
+Aunque las promesas y `async/await` sean alternativas más modernas, entender los callbacks es fundamental porque se usan para manejar eventos del usuario, operaciones asíncronas, temporizadores, procesamiento de datos y comunicación con servidores.
+
+#### Callbacks y Higher Order Functions (HOF)
+
+Un callback es simplemente la función que se pasa como argumento a otra función. Una **Higher Order Function** (función de orden superior) es una función que cumple al menos una de estas dos condiciones:
+
+1. Recibe una o más funciones como argumento (ej. `map`, `filter`, `reduce`).
+2. Devuelve una función como resultado.
+
+```javascript
+// Caso 1: recibe una función (map es una HOF porque recibe un callback)
+const numeros = [1, 2, 3, 4, 5];
+const cuadrados = numeros.map(num => num * num);
+
+// Caso 2: devuelve una función
+function multiplicador(factor) {
+    return function (x) {
+        return x * factor;
+    };
+}
+// multiplicador es una HOF porque retorna una función
+
+const duplicar = multiplicador(2);
+const triplicar = multiplicador(3);
+console.log(duplicar(5)); // 10
+console.log(triplicar(5)); // 15
+```
+
+En resumen: el callback es la función pasada como argumento; la HOF es la función que la recibe o la devuelve.
+
+#### Destructuring
+
+El **destructuring** (desestructuración) es una sintaxis que permite extraer valores de arrays o propiedades de objetos y asignarlos a variables de forma concisa, sin tener que acceder manualmente a cada elemento o propiedad. Mejora la legibilidad, facilita el acceso a datos de estructuras complejas y reduce la verbosidad.
+
+```javascript
+const numeros = [1, 2, 3, 4, 5];
+
+// Sin destructuring
+const prim = numeros[0];
+const seg = numeros[1];
+
+// Con destructuring
+const [uno, dos] = numeros;
+console.log(uno, dos); // 1 2
+
+// Con objetos
+const persona = { nombre: "Fabrizio", edad: 24 };
+const { nombre, edad } = persona;
+console.log(nombre, edad); // Fabrizio 24
+
+// Renombrando variables al destructurar
+const { nombre: n, edad: e } = persona;
+console.log(n, e); // Fabrizio 24
+
+// Omitiendo valores en arrays
+const [primero, , tercero] = [10, 20, 30];
+console.log(primero, tercero); // 10 30
+
+// Rest operator con destructuring (arrays)
+const [a, ...resto] = [1, 2, 3, 4];
+console.log(a); // 1
+console.log(resto); // [2, 3, 4]
+
+// Rest operator con destructuring (objetos)
+const { nombre: nom, ...otros } = { nombre: "Martino", edad: 30, pais: "Argentina" };
+console.log(nom); // Martino
+console.log(otros); // { edad: 30, pais: "Argentina" }
+```
+
+#### Spread Operator
+
+El **spread operator** (`...`) es una sintaxis de ES6 que permite descomponer elementos iterables (arrays, strings, objetos) en elementos individuales. Convierte el iterable en una secuencia de valores y los "propaga" en el nuevo contexto (array, objeto, llamada a función), sin modificar el original. Sirve para copiar/concatenar arrays, combinar objetos y pasar argumentos a funciones.
+
+```javascript
+// Copia superficial (shallow copy)
+const arrayOriginal = [1, 2, 3];
+const arrayCopia = [...arrayOriginal];
+arrayCopia[0] = 10;
+console.log(arrayOriginal); // [1, 2, 3] — no se modifica
+console.log(arrayCopia);    // [10, 2, 3]
+
+// Si hay objetos anidados, esos SÍ se siguen referenciando (copia de un solo nivel)
+const objetoOriginal = [{ nombre: "Cosme" }];
+const objetoCopia = [...objetoOriginal];
+objetoCopia[0].nombre = "Fulanito";
+console.log(objetoOriginal[0].nombre); // Fulanito — el objeto interno es compartido
+
+// Concatenación de arrays (reemplaza a concat() y es más eficiente)
+const combinado = [...[1, 2], ...[3, 4]]; // [1, 2, 3, 4]
+
+// Convertir un string en array de caracteres (reemplaza a split(""))
+const chars = [...("Holis")]; // ['H', 'o', 'l', 'i', 's']
+
+// Combinar objetos (las propiedades posteriores sobreescriben a las anteriores)
+const defaults = { theme: "dark", fontSize: 16 };
+const userSettings = { fontSize: 18 };
+const finalConfig = { ...defaults, ...userSettings }; // { theme: 'dark', fontSize: 18 }
+
+// Pasar argumentos desde un array
+function sum(a, b, c) { return a + b + c; }
+const nums = [1, 2, 3];
+console.log(sum(...nums)); // 6
+
+// Rest parameters: agrupa argumentos sobrantes en un array
+function logArgs(first, ...rest) {
+    console.log(first); // "a"
+    console.log(rest);  // ["b", "c"]
+}
+logArgs("a", "b", "c");
+```
+
+Que una copia hecha con spread sea "superficial" (*shallow copy*) significa que copia el array u objeto externo, pero **no** copia los objetos o arrays anidados dentro — esos siguen apuntando a la misma referencia en memoria.
+
+#### Funciones anidadas
+
+Una **función anidada** es una función definida dentro de otra función: vive en el ámbito léxico (scope) de la función externa, tiene acceso a todas sus variables y parámetros, y puede usarse para organizar mejor el código, modularizar la lógica o crear *closures*. Ojo: una función anidada no está disponible fuera del scope donde se define, y abusar de funciones anidadas puede dificultar la legibilidad si no están bien organizadas.
+
+```javascript
+function saludar(nombre) {
+    function construirMensaje() { // función anidada: tiene acceso a "nombre" por scope léxico
+        return `Holis! ${nombre}, cómo te va?`;
+    }
+    return construirMensaje();
+}
+
+console.log(saludar("Gonzalo"));
+```
+
+Usos comunes:
+
+```javascript
+// 1. Organización de código: sub-funciones internas para modularizar la lógica
+function procesarTexto(texto) {
+    function limpiar(t) {
+        return t.trim().toLowerCase();
+    }
+    function contarPalabras(t) {
+        return t.split(/\s+/).length;
+    }
+    const limpio = limpiar(texto);
+    return contarPalabras(limpio);
+}
+
+// 2. Funciones helper privadas: no son accesibles desde afuera
+function crearUsuario(nombre) {
+    function validarNombre(n) {
+        return typeof n === "string" && n.length > 2;
+    }
+    if (!validarNombre(nombre)) {
+        throw new Error("Nombre no válido");
+    }
+    return nombre;
+}
+```
+
+**Guía:** [11 - Funciones en Javascript](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/11%20-%20Funciones%20en%20Javascript.pdf)
 
 ### Aplicado en
 
