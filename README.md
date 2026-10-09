@@ -1275,6 +1275,15 @@ formulario.addEventListener("submit", (event) => {
 
 ### Temas vistos
 
+#### ¿Cómo ejecuta JavaScript las instrucciones internamente?
+
+JavaScript "lee" el código antes de ejecutarlo, en un proceso de dos fases:
+
+1. **Fase de compilación** (o creación del contexto): antes de ejecutar línea por línea, el motor analiza todo el código, registra variables y funciones, determina el alcance (*scope*) y prepara el entorno de ejecución. Esto es lo que explica, por ejemplo, el *hoisting*.
+2. **Fase de ejecución**: recién después se ejecuta el código en orden, línea por línea.
+
+Entender esto ayuda a comprender mejor los conceptos de sincronía y asincronía que siguen a continuación.
+
 #### Callbacks
 
 Un **callback** es, básicamente, una función que se pasa como argumento a otra función y que se ejecuta después de que ocurra algún evento o se complete alguna operación.
@@ -1882,23 +1891,32 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 
 ### Modalidad y fecha
 
-- **Parcial sincrónico:** viernes 16/10, 8:30 hs, en horario de clase.
-- **Recuperatorio:** miércoles 23/10, 8:30 hs.
+- **Parcial sincrónico:** viernes 16/10, en horario de clase.
+- **Recuperatorio:** miércoles 23/10.
 
 ### Contenido que entra
 
-- Entra todo lo visto hasta **JavaScript 6 (Manipulación del DOM)** inclusive, es decir, todas las clases dictadas hasta el 7/10.
+- Entra todo lo visto hasta **JavaScript 6 (Manipulación del DOM)** inclusive, es decir, todas las clases dictadas hasta el 7/10. Lo visto a partir de JavaScript 7 (Callbacks, HOF, Destructuring, Spread, etc. — Clase 10, 9/10) **no entra** en este primer parcial.
 
 ### Formato
 
-- Es una prueba técnica individual: armar una interfaz (maquetado + lógica) con HTML, CSS y JavaScript en un tiempo acotado dentro del horario de clase.
+- Es una consigna (no es multiple choice): una prueba técnica individual para armar una interfaz (maquetado + lógica) con HTML, CSS y JavaScript en un tiempo acotado (pensado para resolverse en menos de lo que dura una clase completa, dentro del horario de clase).
+- Es probable que la cátedra provea el HTML base y/o un array de objetos (o incluso un string para parsear, por ejemplo con `JSON.parse` y lo visto de almacenamiento persistente) y que la consigna pida recorrerlo y mostrarlo en pantalla.
 - Está permitido y es recomendable tener a mano los apuntes propios y los machetes de cada clase durante el parcial.
+- Se evalúa el código entregado y también la capacidad de explicarlo con comentarios.
 - Se controla que las resoluciones no estén hechas con IA; una entrega copiada implica tener que recursar la materia.
+
+### Qué conviene practicar antes
+
+- Los ejercicios de JavaScript 4, 5 y 6 (métodos de strings/arrays, objetos y arrays de objetos, métodos de iteración).
+- Maquetado y estilos básicos con CSS, haciendo hincapié en **Flexbox**.
+- Recorrer un array de objetos y renderizarlo dinámicamente en el DOM.
+- Manejo de eventos (`addEventListener`, el objeto `event`, etc.).
 
 ### Segunda nota de la cursada
 
 - Se compone del **TP integrador**, desarrollado en grupos de dos personas.
-- Se defiende de forma oral el último día de clase, a modo de entrevista técnica: cada integrante del grupo debe poder explicar cualquier parte del código de su propio trabajo (qué hace, por qué se armó así, dónde está cada responsabilidad del proyecto).
+- Se defiende de forma oral el último día de clase, a modo de entrevista técnica: cada integrante del grupo debe poder explicar cualquier parte del código de su propio trabajo (qué hace, por qué se armó así, dónde está cada responsabilidad del proyecto). Esta defensa pesa más en la nota final que el primer parcial en sí.
 
 </details>
 
