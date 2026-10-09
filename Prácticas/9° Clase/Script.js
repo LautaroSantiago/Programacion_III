@@ -153,10 +153,33 @@ console.log(encontrado);
 // * some() every()
 
 
-// ? for...of
+// ? for...of p/cortar con coincidencias
 
-// for (const est of estudiantes){
-//     if 
-// }
+for (const est of estudiantes){
+    if (est.nota < 6){
+        console.log(`${est.nombre} reprobo con un ${est.nota}`);
+        break;
+    }
+}
+
+const simbolos = ['₵', '¢', '₡'];
+for (const simb of simbolos){
+    if (simb === '฿') break;
+    console.log(simb);
+}
 
 // ? iteracion en objetos
+
+/*
+
+    ! SELECCION DE ELEMENTOS
+
+    -getElementById() seleccion por id o null 1° coincidencia
+    -querySelectorAll()
+
+*/
+
+const titulo = document.getElementById("titulo");
+console.log(titulo);
+console.log(titulo.textContent);
+
