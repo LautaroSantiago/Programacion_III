@@ -23,6 +23,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 y 6 (Métodos de Iteración, DOM y Eventos)</strong></font>](#clase-9)
 - [<font color="#8250DF"><strong>Clase 10 — 9/10 · JavaScript 7 (Callbacks, HOF, Destructuring, Spread, Funciones anidadas)</strong></font>](#clase-10)
 - [<font color="#8250DF"><strong>Clase 11 — 14/10 · JavaScript 8 (Web APIs, JSON, Asincronía, Fetch, Try/Catch) e Introducción a Backend</strong></font>](#clase-11)
+- [<font color="#8250DF"><strong>Clase 12 — 16/10 · Repaso de Backend y Protocolo HTTP, Introducción a Node.js</strong></font>](#clase-12)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -1760,6 +1761,68 @@ Un **servidor** puede entenderse de dos maneras:
 | 500 | Internal Server Error — error del lado del servidor |
 
 En la próxima clase se empieza a codear directamente con **Node.js**, creando el primer servidor que escuche peticiones en un puerto y devuelva respuestas HTTP.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-12"></a><font color="#1A7F37"><strong>Clase 12 — 16/10 · Repaso de Backend y Protocolo HTTP, Introducción a Node.js</strong></font></summary>
+
+> Nota: esta clase fue el mismo día del **primer parcial**, así que se dedicó principalmente a repasar conceptos de backend ya vistos en la Clase 11 y a introducir Node.js de forma teórica, sin llegar a codear todavía.
+
+#### Repaso: servidor, arquitectura cliente-servidor y protocolo HTTP
+
+Se repasaron los conceptos ya vistos en la Clase 11, profundizando un poco más en algunos puntos:
+
+- Un **servidor** puede entenderse de dos formas: como una **computadora física especializada** (la que está en un data center, con mucha RAM y muchos núcleos/hilos para atender gran cantidad de peticiones simultáneas), o como un **proceso** que se ejecuta constantemente escuchando peticiones y devolviendo respuestas. Para programar, a nosotros nos interesa esta segunda definición.
+- La analogía con el **`addEventListener`** vuelve a aparecer: así como un listener es un proceso que queda constantemente a la espera de un evento (click, mouseover, etc.) para ejecutar un callback, un servidor es un proceso que queda constantemente a la espera de una petición HTTP para ejecutar una función y devolver una respuesta.
+- La comunicación cliente-servidor se da bajo el protocolo **HTTP**, que se apoya sobre TCP/IP. Un **HTTP request** se compone de un verbo (`GET`, `POST`, `PUT`, `DELETE`), el host, la ruta del recurso solicitado y la versión de HTTP. Una **HTTP response** incluye la versión de HTTP, el código de estado, las cabeceras (fecha, tipo de contenido, servidor, etc.) y el cuerpo de la respuesta (HTML, JSON, texto plano, etc.).
+
+```javascript
+// Ejemplo de los verbos HTTP y su propósito
+// GET    -> obtener recursos (es el método por defecto que usa fetch)
+// POST   -> crear recursos
+// PUT    -> modificar recursos
+// DELETE -> eliminar recursos
+```
+
+#### Backend vs. Frontend
+
+Una forma sencilla de explicar la diferencia: si una aplicación web fuera una heladera, el **frontend** es la parte visible con la que interactuamos (la puerta, los botones, la pantalla), y el **backend** es el motor y la parte de atrás que hace que todo funcione, aunque no se vea.
+
+- **Frontend:** lo que el usuario ve y con lo que interactúa (botones, formularios, textos, contenido dinámico pintado con JavaScript a partir de datos que llegan vía `fetch`).
+- **Backend:** la parte invisible que se encarga de:
+  - Procesar solicitudes (por ejemplo, recibir los datos de un formulario enviado desde el front).
+  - Acceder y gestionar bases de datos.
+  - Proteger información sensible (contraseñas, datos personales).
+  - Manejar autenticación y autorización (quién puede acceder a qué funcionalidades o rutas).
+  - Proveer los datos al frontend a través de una URL/endpoint para que éste los renderice (lo que veníamos haciendo con `fetch`), o directamente devolver páginas completas ya armadas (esto último se vincula a conceptos que se van a ver más adelante como *client-side rendering* vs. *server-side rendering* y motores de plantillas).
+
+⚠️ Sobre la seguridad de los datos que viajan entre front y back: los datos que se envían, por ejemplo, en una petición `GET` (como las de un formulario simple) quedan visibles en la propia URL, por lo que no hay que enviar información sensible de esa forma. Por eso conviene sanear los datos de entrada en varios niveles: desde el HTML (con el atributo `type` del input y `pattern` para aplicar una expresión regular), desde el JavaScript del cliente, y nuevamente al recibirlos en el backend.
+
+#### Introducción a Node.js
+
+Los navegadores pueden ejecutar JavaScript porque cada uno trae incorporado un **motor de JavaScript** (el de Chrome, por ejemplo, se llama **V8**). Hace más de una década, ese motor se extrajo del navegador para poder ejecutar JavaScript de forma independiente, por fuera de cualquier navegador: así nació **Node.js**.
+
+- **Node.js** es un **entorno de ejecución de JavaScript** (no un lenguaje nuevo ni un framework) que permite correr JavaScript del lado del servidor.
+- Esto permite usar el mismo lenguaje (JavaScript) tanto para el frontend como para el backend de una aplicación.
+- Trae módulos preinstalados útiles para backend, entre ellos el módulo **`http`**, que permite crear servidores y manejar peticiones y respuestas HTTP sin depender de un navegador.
+- Node también permite interactuar con el sistema de archivos (crear, leer archivos) y con el sistema operativo en general, cosas que JavaScript en el navegador no puede hacer por motivos de seguridad.
+
+**Otros stacks de backend que existen** (mencionados a modo de panorama general, no se profundiza en ellos en esta materia): Python con el framework Django, Java con Spring Boot, y .NET. La elección de stack depende de las necesidades del proyecto y de la demanda del mercado; Node.js, Spring Boot y .NET fueron señalados como los que más se piden actualmente, especialmente en el sector financiero.
+
+**Tarea para la próxima clase:**
+
+- Instalar **Node.js** y **npm** (el *Node Package Manager*, el gestor de paquetes de Node), siguiendo las instrucciones según el sistema operativo desde [nodejs.org](https://nodejs.org).
+- Instalar **Git Bash** (en Windows), ya que se va a trabajar mucho desde la terminal, incluyendo comandos básicos de Linux.
+- Repasar lo visto en JavaScript 8 (Web APIs, JSON, asincronía, fetch, try/catch — ver Clase 11) antes de empezar a codear con Node.
 
 ### Aplicado en
 
