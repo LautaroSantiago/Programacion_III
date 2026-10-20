@@ -22,6 +22,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 8 — 25/9 · JavaScript 4 (Métodos de Strings, Arrays, Objetos)</strong></font>](#clase-8)
 - [<font color="#8250DF"><strong>Clase 9 — 7/10 · JavaScript 5 y 6 (Métodos de Iteración, DOM y Eventos)</strong></font>](#clase-9)
 - [<font color="#8250DF"><strong>Clase 10 — 9/10 · JavaScript 7 (Callbacks, HOF, Destructuring, Spread, Funciones anidadas)</strong></font>](#clase-10)
+- [<font color="#8250DF"><strong>Clase 11 — 14/10 · JavaScript 8 (Web APIs, JSON, Asincronía, Fetch, Try/Catch) e Introducción a Backend</strong></font>](#clase-11)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -1553,6 +1554,223 @@ function crearUsuario(nombre) {
 
 </details>
 
+<details>
+<summary><a id="clase-11"></a><font color="#1A7F37"><strong>Clase 11 — 14/10 · JavaScript 8 (Web APIs, JSON, Asincronía, Fetch, Try/Catch) e Introducción a Backend</strong></font></summary>
+
+#### Relación entre lenguaje, entorno de ejecución, objetos globales y Web APIs
+
+JavaScript como **lenguaje** (formalmente estandarizado por **ECMAScript**) es, en sí mismo, bastante básico: no incluye de forma nativa cosas como hacer peticiones HTTP, manipular el DOM o guardar datos en el navegador. Esas capacidades las aporta el **entorno de ejecución** (el navegador, o más adelante Node.js), que le da "superpoderes" a JavaScript mediante las **Web APIs**.
+
+- **Lenguaje:** lo que usamos para escribir instrucciones (JavaScript, estandarizado por ECMAScript).
+- **Entorno de ejecución:** quien ejecuta ese código (el navegador, o Node.js).
+- **Objeto global:** el lugar donde el entorno expone estas funcionalidades (`window` en el navegador).
+- **Web API:** el conjunto de funciones y herramientas que el entorno pone a disposición para interactuar con él (por ejemplo, `console`, `setTimeout`, `fetch`, `document`).
+
+Por ejemplo, `console.log` no es una única cosa: `console` es un objeto global y `log` es un método que ese objeto expone. Lo mismo pasa con `setTimeout`, que en realidad es `window.setTimeout`, o con `fetch`, que también cuelga del objeto global.
+
+```javascript
+window.setTimeout(() => {
+    console.log("Pasaron 2 segundos");
+}, 2000);
+```
+
+Una **API** (*Application Programming Interface*) es, en términos generales, un conjunto de funciones y herramientas que se usan para interactuar con algo. Las **APIs REST** son un tipo particular de API (la que vamos a usar para comunicarnos con el backend), pero el concepto de API es más amplio.
+
+#### Tipos de Web APIs
+
+| Categoría | Ejemplos | Para qué sirven |
+|---|---|---|
+| **APIs del DOM** | `document`, `getElementById`, etc. | Acceder y modificar HTML/CSS, manipular elementos, eventos, clases, estilos |
+| **APIs de red** | `fetch`, `WebSocket` | Hacer peticiones HTTP, comunicación en tiempo real (ej. chats) |
+| **APIs de almacenamiento** | `localStorage`, `sessionStorage`, `document.cookie` | Guardar preferencias, datos de sesión, trabajar sin conexión |
+| **Timers** | `setTimeout`, `setInterval` | Ejecutar funciones luego de un tiempo (retrasos, animaciones) |
+| **APIs de dispositivos y multimedia** | `geolocation`, `getUserMedia`, `Notification`, `Clipboard API` | GPS, cámara/micrófono, notificaciones del sistema, portapapeles |
+| **APIs de interfaz gráfica** | `Canvas`, `WebGL` | Dibujar gráficos 2D/3D, hacer videojuegos web |
+
+#### JSON (JavaScript Object Notation)
+
+**JSON** es un formato de texto plano, ligero, que se convirtió en el estándar para el intercambio de datos entre aplicaciones web. En esencia es un **string** (una cadena de caracteres), pero ordenado siguiendo reglas específicas, lo que permite convertirlo fácilmente a estructuras de datos manipulables (como un array de objetos) y viceversa.
+
+- Está formado por pares **nombre-valor** separados por comas, y por listas ordenadas de valores.
+- Las llaves `{}` representan objetos, los corchetes `[]` representan arrays.
+- Las comillas dobles son obligatorias (no se pueden usar comillas simples).
+- Es independiente del lenguaje, aunque su sintaxis esté basada en los objetos de JavaScript.
+
+```javascript
+const usuarioJson = '{"nombre": "Ana", "edad": 25, "activo": true}';
+
+const usuarioObjeto = JSON.parse(usuarioJson);
+console.log(usuarioObjeto.nombre);
+
+const carrito = [{ producto: "Mouse", precio: 1500 }];
+const carritoString = JSON.stringify(carrito);
+localStorage.setItem("carrito", carritoString);
+```
+
+- `JSON.parse()`: convierte un string JSON en un objeto/array de JavaScript.
+- `JSON.stringify()`: convierte un objeto/array de JavaScript en un string JSON.
+
+**Usos típicos:** comunicación cliente-servidor (formato estándar de las APIs REST), almacenamiento local (`localStorage`), archivos de configuración (por ejemplo, el `package.json` de un proyecto Node).
+
+⚠️ **Limitaciones:** JSON no soporta comentarios, no soporta funciones, y no admite tipos especiales como fechas o expresiones regulares tal cual (hay que convertirlos a string). Por eso conviene siempre validar el JSON antes de parsearlo y manejar los errores de parseo con `try/catch`.
+
+#### Asincronía: repaso y Promesas
+
+JavaScript es un lenguaje de **un solo hilo** (*single thread*): solo puede ejecutar una tarea a la vez. La **asincronía** es el mecanismo que le permite delegar operaciones que toman tiempo (una petición a una API, un temporizador) sin bloquear la ejecución del resto del código mientras esas tareas se completan.
+
+En Clase 10 ya habíamos visto los **callbacks** como primera herramienta para trabajar con asincronía, con la desventaja del *Callback Hell*. Las **promesas** son una forma más prolija de resolver lo mismo.
+
+Una **promise** es un objeto que representa un valor que puede estar disponible ahora, en el futuro, o nunca. Tiene tres estados posibles:
+
+- **Pending** (pendiente): la operación todavía no terminó.
+- **Fulfilled** (completada): la operación se resolvió con éxito.
+- **Rejected** (rechazada): se produjo un error.
+
+#### Fetch API
+
+`fetch()` es una función incorporada en los navegadores modernos que permite realizar peticiones HTTP de forma asincrónica usando promesas. Forma parte de las Web APIs (no del lenguaje JavaScript en sí) y fue introducida para reemplazar al viejo y más complejo `XMLHttpRequest`.
+
+- Devuelve un objeto `Promise` que se resuelve con un objeto `Response`.
+- Funciona bien con `async/await`.
+- Soporta distintos verbos HTTP (`GET`, `POST`, `PUT`, `DELETE`, etc.) mediante su segundo parámetro, `options`.
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/users")
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+    });
+```
+
+**Sintaxis básica:** `fetch(url, options)`, donde `url` es el único parámetro obligatorio (un string) y `options` es opcional (método, headers, body, etc. — por defecto hace una petición `GET`).
+
+El objeto `response` que devuelve `fetch` incluye, entre otras cosas:
+
+- `response.ok`: booleano, `true` si el status está entre 200 y 299.
+- `response.status`: código de estado (200, 404, etc.).
+- `response.statusText`: texto del estado ("OK", "Not Found").
+- `response.headers`: las cabeceras de la respuesta.
+- `response.json()`, `response.text()`, `response.blob()`: métodos para parsear el cuerpo de la respuesta.
+
+⚠️ `fetch` solo rechaza la promesa (cae en el `catch`) ante errores de red reales (no hay conexión, el servidor está caído). **No** rechaza la promesa ante códigos de error HTTP como 404 o 500 — esos hay que revisarlos a mano a partir de `response.ok` o `response.status`.
+
+**Ejemplo completo: consumir datos y renderizarlos en el DOM**
+
+```javascript
+const contenedorDatos = document.getElementById("contenedor-datos");
+
+fetch("https://jsonplaceholder.typicode.com/todos")
+    .then((response) => response.json())
+    .then((data) => {
+        let htmlTodos = "";
+        data.forEach((lista) => {
+            htmlTodos += `<li>${lista.id}: ${lista.title}</li>`;
+        });
+        contenedorDatos.innerHTML = htmlTodos;
+    })
+    .catch((error) => {
+        console.error("Error al obtener los datos:", error);
+    });
+```
+
+⚠️ Nota sobre el operador `+=` en este contexto: si en lugar de `+=` se usa `=` dentro del `forEach`, cada vuelta del bucle **reemplaza** el contenido de la variable en vez de acumularlo, y al final solo queda renderizado el último elemento recorrido.
+
+#### async/await
+
+`async/await` es *syntactic sugar* (azúcar sintáctico) introducido en ES8 (2017) para trabajar con promesas de forma más legible, como si el código fuera sincrónico, aunque por dentro siga siendo asincrónico.
+
+- La palabra clave `async` antes de una función hace que esa función siempre devuelva una promesa.
+- La palabra clave `await` pausa la ejecución **de esa función** (no del hilo principal) hasta que la promesa se resuelva o se rechace.
+
+```javascript
+async function obtenerAlbumes() {
+    const response = await fetch("https://jsonplaceholder.typicode.com/albums");
+    const data = await response.json();
+    console.log(data);
+}
+
+obtenerAlbumes();
+```
+
+**Ventajas frente a `.then()/.catch()` encadenados:** más legible y secuencial, mejor manejo de errores (combinado con `try/catch`), e ideal para flujos largos y complejos de asincronía (donde encadenar `.then()` se vuelve difícil de leer).
+
+#### Manejo de errores con try/catch/finally
+
+`try/catch` es una estructura de control para capturar y manejar errores que ocurren durante la ejecución de un bloque de código, evitando que un error inesperado detenga todo el programa.
+
+```javascript
+async function obtenerAlbumes() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/albums");
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error("Error al obtener los datos:", error);
+    } finally {
+        console.log("Esto se ejecuta siempre, haya o no error.");
+    }
+}
+```
+
+- **`try`**: bloque de código que podría lanzar errores.
+- **`catch (error)`**: código para manejar esos errores. El objeto `error` tiene, entre otras, las propiedades `name` (tipo de error: `TypeError`, `ReferenceError`, etc.) y `message` (mensaje descriptivo).
+- **`finally`** (opcional): código que se ejecuta siempre, haya ocurrido un error o no.
+- También se pueden lanzar errores manualmente con `throw new Error("mensaje")`.
+
+`catch` captura errores en tiempo de ejecución (variables no definidas, funciones inexistentes, errores lanzados con `throw`, problemas al parsear JSON, etc.), pero **no** captura errores de sintaxis, porque esos impiden que el código llegue a ejecutarse.
+
+⚠️ No conviene abusar del `try/catch`: puede ocultar errores reales si no se maneja correctamente, y tiene un costo de rendimiento (sobre todo dentro de bucles). Es mejor reservarlo para las secciones donde hay un riesgo real de error: operaciones de entrada/salida, parseo de datos, peticiones de red, etc.
+
+**Guía:** [12 - Introducción a las APIs](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/LautaroSantiago/Programacion_III/master/Recursos%20Adicionales/12%20-%20Introducci%C3%B3n%20a%20las%20APIs.pdf)
+
+#### Introducción a Backend
+
+Cierre de los 8 módulos de JavaScript del lado del cliente, y comienzo de los conceptos para empezar a trabajar con **Node.js** y el backend.
+
+**Arquitectura cliente-servidor:** un cliente (por ejemplo, el navegador) realiza peticiones a un servidor, que las atiende y devuelve una respuesta.
+
+Un **servidor** puede entenderse de dos maneras:
+
+- **Como hardware:** una computadora especializada (la que suele estar en un data center), diseñada para atender una enorme cantidad de peticiones a la vez.
+- **Como proceso (lo que a nosotros nos interesa programar):** un proceso que se ejecuta de forma constante, escuchando peticiones desde un puerto y devolviendo respuestas. Es un concepto muy similar al de un `addEventListener`: un proceso siempre activo, esperando un evento (en este caso, una petición HTTP) para ejecutar una función (un callback) en respuesta.
+
+**Protocolo HTTP:** un protocolo es, básicamente, un conjunto de reglas que hay que seguir para que se produzca una comunicación (como las reglas del correo postal: carta dentro de un sobre, con sello y direcciones de origen/destino). La comunicación en internet se apoya sobre los protocolos **TCP/IP**, y sobre estos se asienta el protocolo **HTTP**, que define cómo un cliente web se comunica con un servidor web mediante peticiones y respuestas.
+
+- **HTTP Request (petición):** compuesta por un método o verbo HTTP, una ruta, cabeceras (headers) y una versión de HTTP.
+- **HTTP Response (respuesta):** incluye la versión de HTTP, un código de estado, cabeceras y un cuerpo (body) con el contenido (HTML, JSON, texto plano, etc.).
+
+**Verbos HTTP principales:**
+
+| Verbo | Uso |
+|---|---|
+| `GET` | Obtener recursos |
+| `POST` | Crear recursos |
+| `PUT` | Modificar recursos |
+| `DELETE` | Eliminar recursos |
+
+**Códigos de estado HTTP:** respuestas de tres dígitos que indican el resultado de una solicitud entre cliente y servidor, organizadas en categorías (informativo, éxito, redirección, error del cliente, error del servidor). Los más comunes que vamos a usar:
+
+| Código | Significado |
+|---|---|
+| 200 | OK — la solicitud se completó correctamente |
+| 404 | Not Found — el recurso solicitado no existe |
+| 500 | Internal Server Error — error del lado del servidor |
+
+En la próxima clase se empieza a codear directamente con **Node.js**, creando el primer servidor que escuche peticiones en un puerto y devuelva respuestas HTTP.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
 ---
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
@@ -1891,8 +2109,9 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 
 ### Modalidad y fecha
 
-- **Parcial sincrónico:** viernes 16/10, en horario de clase.
+- **Parcial sincrónico:** viernes 16/10, en horario de clase, con una duración de aproximadamente 2 horas.
 - **Recuperatorio:** miércoles 23/10.
+- No se exige tener cámara encendida ni compartir pantalla durante este primer parcial (eso sí es requisito en la segunda nota/defensa oral del TP integrador).
 
 ### Contenido que entra
 
