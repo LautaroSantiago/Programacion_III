@@ -24,6 +24,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 10 — 9/10 · JavaScript 7 (Callbacks, HOF, Destructuring, Spread, Funciones anidadas)</strong></font>](#clase-10)
 - [<font color="#8250DF"><strong>Clase 11 — 14/10 · JavaScript 8 (Web APIs, JSON, Asincronía, Fetch, Try/Catch) e Introducción a Backend</strong></font>](#clase-11)
 - [<font color="#8250DF"><strong>Clase 12 — 16/10 · Repaso de Backend y Protocolo HTTP, Introducción a Node.js</strong></font>](#clase-12)
+- [<font color="#8250DF"><strong>Clase 13 — 21/10 · Módulos nativos de Node, Módulo HTTP, npm/package.json e Introducción a Express</strong></font>](#clase-13)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -1823,6 +1824,197 @@ Los navegadores pueden ejecutar JavaScript porque cada uno trae incorporado un *
 - Instalar **Node.js** y **npm** (el *Node Package Manager*, el gestor de paquetes de Node), siguiendo las instrucciones según el sistema operativo desde [nodejs.org](https://nodejs.org).
 - Instalar **Git Bash** (en Windows), ya que se va a trabajar mucho desde la terminal, incluyendo comandos básicos de Linux.
 - Repasar lo visto en JavaScript 8 (Web APIs, JSON, asincronía, fetch, try/catch — ver Clase 11) antes de empezar a codear con Node.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-13"></a><font color="#1A7F37"><strong>Clase 13 — 21/10 · Módulos nativos de Node, Módulo HTTP, npm/package.json e Introducción a Express</strong></font></summary>
+
+#### Repaso: endpoint, verbos HTTP y códigos de estado
+
+- Un **endpoint** no es lo mismo que una URL: una URL es solo la dirección, mientras que un endpoint es la combinación de una **URL + un verbo HTTP (acción) + la lógica** que se ejecuta. Por eso una misma URL puede tener varios endpoints distintos según el verbo usado (por ejemplo, la misma ruta puede atender un `GET` para traer un recurso y un `DELETE` para eliminarlo).
+- Repaso de los verbos: `GET` para obtener recursos, `POST` para crear recursos, `PUT` para modificar recursos y `DELETE` para eliminar recursos. Este conjunto de operaciones (crear, leer, actualizar, eliminar) es lo que se conoce como **CRUD** (*Create, Read, Update, Delete*), y es básicamente lo que va a implementar el TP integrador sobre una base de datos.
+- Repaso de los códigos de estado HTTP agrupados por rango: **100-199** mensajes informativos, **200-299** éxito (ej. `200 OK`), **300-399** redirecciones, **400-499** error del lado del cliente (ej. `404` recurso inexistente), **500-599** error interno del servidor.
+
+#### Módulos nativos de Node.js
+
+Node trae **módulos preinstalados** (nativos) que no hace falta instalar con npm, solo importar con `require`. Se repasaron tres:
+
+- **`fs`** (*File System*): permite leer, escribir, crear y borrar archivos y carpetas.
+  ```javascript
+  const fs = require('fs');
+
+  // Crear una carpeta y leer un archivo de texto dentro de ella
+  fs.readFile('archivos/notas.txt', 'utf8', (error, data) => {
+    if (error) {
+      console.log('Ocurrió un error');
+      return;
+    }
+    console.log(data);
+  });
+  ```
+  El segundo parámetro (`'utf8'`) indica la codificación de caracteres a usar para interpretar el archivo. El tercer parámetro es un callback que recibe dos objetos: uno de error (si la lectura falló) y otro con el contenido leído (`data`). Es una operación **asincrónica** (existe también `readFileSync` para la versión sincrónica).
+- **`path`**: ayuda a manejar y manipular rutas de archivos y directorios (va a ser importante más adelante para servir imágenes, CSS, JavaScript, etc. desde el servidor).
+  ```javascript
+  const path = require('path');
+
+  const rutaArchivo = '/home/usuario/proyecto/archivos/notas.txt';
+  const nombreArchivo = path.basename(rutaArchivo); // "notas.txt"
+  ```
+- **`os`** (*Operating System*): permite obtener información del sistema operativo en el que corre Node, como la memoria libre o el tipo de sistema operativo.
+  ```javascript
+  const os = require('os');
+
+  const memoriaLibre = os.freemem(); // cantidad de bytes disponibles (estimado)
+  const tipoSistema = os.type();
+  ```
+
+#### Módulo `http`: servidor nativo de Node
+
+Node también trae preinstalado el módulo **`http`**, que permite crear un servidor web sin necesidad de instalar nada adicional. Express, de hecho, se construye por encima de este módulo nativo (es posible hacer el TP sin Express, pero resultaría bastante más tedioso porque `http` es de más bajo nivel).
+
+```javascript
+const http = require('http');
+
+const servidor = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hola mundo desde un servidor con Node.js y el módulo http');
+});
+
+const puerto = 3000;
+servidor.listen(puerto, () => {
+  console.log(`Servidor corriendo en http://localhost:${puerto}`);
+});
+```
+
+- `http.createServer` recibe un callback con los objetos `req` (la petición) y `res` (la respuesta), de forma similar a como `addEventListener` recibe el objeto `event`.
+- `res.statusCode` define el código de estado de la respuesta (`200` = éxito).
+- `res.setHeader('Content-Type', ...)` define el tipo de contenido de la respuesta (texto plano, JSON, HTML, etc.).
+- `res.end(...)` envía el contenido final en el cuerpo (*body*) de la respuesta y cierra la conexión.
+- `servidor.listen(puerto, callback)` hace que el servidor escuche peticiones en el puerto indicado. Los puertos del 0 al 1024 están reservados para procesos del sistema; por convención se suele usar el puerto `3000` para desarrollo.
+- El servidor queda corriendo de forma indefinida escuchando peticiones (no termina solo); para detenerlo desde la terminal se usa `Ctrl + C`.
+- Todo esto corre en **localhost**, es decir, de forma local en la propia computadora: nadie más puede acceder a esa dirección. Para que una aplicación esté disponible públicamente hay que subirla a un servidor en internet (esto se conoce como hacer **deploy**, llevar el código a **producción**), algo que no se llega a ver en el marco de esta materia.
+
+#### Módulos propios: `require` y `module.exports`
+
+Así como existen módulos nativos y módulos de terceros (instalados vía npm), también se pueden crear **módulos propios** para dividir el código en distintos archivos en lugar de tener todo en uno solo, haciéndolo más limpio, fácil de mantener y escalar.
+
+```javascript
+// saludos.js
+function saludar(nombre) {
+  return `Hola, ${nombre}!`;
+}
+
+module.exports = { saludar };
+```
+
+```javascript
+// index.js
+const saludar = require('./saludos');
+
+console.log(saludar.saludar('Mundo'));
+```
+
+Este patrón con `require` / `module.exports` es la sintaxis histórica de Node (**CommonJS**). También existe la sintaxis moderna de **ES Modules** (`import` / `export`), que requiere agregar `"type": "module"` en el `package.json` del proyecto.
+
+#### npm y `package.json`
+
+**npm** (*Node Package Manager*) es el gestor de paquetes que viene integrado con Node, comparable a una tienda de aplicaciones (Google Play, App Store): permite instalar herramientas y librerías ya hechas por la comunidad (como Express, Mysql2 o EJS) en lugar de tener que programar todo desde cero.
+
+- `npm init` inicializa un proyecto Node de forma interactiva, preguntando los distintos campos; `npm init -y` hace lo mismo pero usando los valores por defecto, sin preguntar.
+- Esto genera un archivo **`package.json`**, que describe el proyecto. Entre sus campos principales:
+  - `name`: nombre del proyecto.
+  - `version`: versión del proyecto siguiendo el versionado semántico `X.Y.Z` (mayor.menor.parche).
+  - `description`: descripción breve.
+  - `keywords`: palabras clave, útiles para que el proyecto sea encontrado si se publica en npm.
+  - `main`: archivo de entrada del proyecto.
+  - `scripts`: atajos de comandos personalizados que se ejecutan con `npm run <nombre>` (por ejemplo, `"dev": "node --watch index.js"`).
+  - `author`, `license` (ISC, MIT, etc.).
+  - `dependencies`: se completa automáticamente cada vez que se instala un paquete con `npm install <paquete>`.
+  - `devDependencies`: dependencias usadas solo durante el desarrollo.
+- Instalar un paquete: `npm install express` (o `npm i express`).
+
+#### `node_modules` y `.gitignore`
+
+Al instalar paquetes, npm crea una carpeta **`node_modules`** con todo el código de esas dependencias (y las dependencias de esas dependencias). Esta carpeta **nunca se sube al repositorio** por varios motivos:
+
+- Ocupa mucho espacio y es fácilmente reproducible: cualquiera que clone el proyecto puede generarla de nuevo ejecutando `npm install`, que lee el `package.json` e instala automáticamente todo lo necesario.
+- Es un riesgo de seguridad: una cadena de dependencias puede incluir paquetes vulnerables o maliciosos (herramientas como `npm audit` sirven justamente para detectar este tipo de vulnerabilidades).
+
+Por eso se crea un archivo **`.gitignore`** en la raíz del proyecto, listando lo que Git debe ignorar y no subir al repositorio:
+
+```
+node_modules
+```
+
+(Es un archivo de configuración "oculto", en el mismo sentido que un archivo `.nomedia` oculta fotos de una galería en Android: le indica a la herramienta qué no debe mostrar/incluir.)
+
+#### Reinicio automático del servidor: `nodemon` vs. `node --watch`
+
+Para no tener que reiniciar el servidor manualmente cada vez que se guarda un cambio, existen dos opciones:
+
+- **`nodemon`**: paquete de terceros histórico, muy usado durante años, que reinicia el servidor automáticamente al detectar cambios. Al instalarlo puede traer dependencias con vulnerabilidades (se mencionó como ejemplo de los riesgos de la cadena de dependencias de npm).
+- **`node --watch`**: la alternativa nativa y moderna de Node, que cumple la misma función sin depender de un paquete externo. Es la opción recomendada en adelante.
+
+#### Introducción a Express
+
+**Express** es un framework minimalista construido sobre el módulo nativo `http`, que simplifica mucho la creación de servidores, el manejo de rutas y el uso de middlewares, resultando bastante más legible e intuitivo que trabajar directamente con `http`.
+
+- Instalación: `npm install express`.
+- Para usar la sintaxis moderna de `import`/`export` hay que agregar `"type": "module"` en el `package.json`.
+
+```javascript
+import express from 'express';
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hola mundo desde Express');
+});
+
+const puerto = 3000;
+app.listen(puerto, () => {
+  console.log(`Servidor corriendo en http://localhost:${puerto}`);
+});
+```
+
+- Un **endpoint** en Express se define combinando el verbo HTTP (`app.get`, `app.post`, `app.put`, `app.delete`), la ruta y un callback con la lógica, que recibe `req` y `res`.
+- Ejemplo de endpoint `GET` devolviendo datos simulados en formato JSON:
+  ```javascript
+  app.get('/api/usuarios', (req, res) => {
+    res.status(200).json([
+      { id: 1, nombre: 'Usuario 1' },
+      { id: 2, nombre: 'Usuario 2' },
+    ]);
+  });
+  ```
+- Ejemplo de endpoint `POST`, recibiendo datos del cuerpo de la petición (`req.body`) y simulando una inserción en base de datos:
+  ```javascript
+  app.post('/api/usuarios', (req, res) => {
+    // Acá iría la lógica para insertar el nuevo usuario en la base de datos
+    res.status(201).json({ mensaje: 'Usuario creado exitosamente' });
+  });
+  ```
+- Express también permite definir rutas que devuelven HTML directamente con `res.send(...)` (por ejemplo, rutas como `/about` o `/contact`), aunque para servir HTML real más adelante se va a usar un motor de plantillas.
+- **Middleware**: funciones que se ejecutan entre que llega la petición y se genera la respuesta (por ejemplo, un middleware que loguea por consola la fecha de cada petición entrante). Se va a retomar en próximas clases.
+
+#### Hoja de ruta del TP integrador
+
+Se adelantó cómo va a ir evolucionando el desarrollo del backend del TP integrador:
+
+1. Crear los endpoints CRUD (`GET`, `POST`, `PUT`, `DELETE`) para un recurso (por ejemplo, productos) conectado a una base de datos real.
+2. Agregar las vistas correspondientes, consumidas desde el frontend mediante `fetch`, de forma similar a lo trabajado en JavaScript 8.
+3. Más adelante, reorganizar el proyecto siguiendo el patrón **MVC** (*Modelo-Vista-Controlador*): las llamadas a la base de datos van en los **modelos**, el manejo de la petición/respuesta en los **controladores**, y el renderizado de HTML en las **vistas**, usando **EJS** como motor de plantillas para que el propio servidor pueda devolver páginas HTML ya armadas.
+- Para probar endpoints que no sean `GET` (`POST`, `PUT`, `DELETE`) se recomienda usar herramientas como **Postman** o **Insomnia**, ya que el navegador por sí solo no permite construir ese tipo de peticiones fácilmente.
 
 ### Aplicado en
 
