@@ -25,6 +25,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 11 — 14/10 · JavaScript 8 (Web APIs, JSON, Asincronía, Fetch, Try/Catch) e Introducción a Backend</strong></font>](#clase-11)
 - [<font color="#8250DF"><strong>Clase 12 — 16/10 · Repaso de Backend y Protocolo HTTP, Introducción a Node.js</strong></font>](#clase-12)
 - [<font color="#8250DF"><strong>Clase 13 — 21/10 · Módulos nativos de Node, Módulo HTTP, npm/package.json e Introducción a Express</strong></font>](#clase-13)
+- [<font color="#8250DF"><strong>Clase 14 — 23/10 · Práctica guiada: servidor Express, formularios y comunicación cliente-servidor con Fetch</strong></font>](#clase-14)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -2015,6 +2016,183 @@ Se adelantó cómo va a ir evolucionando el desarrollo del backend del TP integr
 2. Agregar las vistas correspondientes, consumidas desde el frontend mediante `fetch`, de forma similar a lo trabajado en JavaScript 8.
 3. Más adelante, reorganizar el proyecto siguiendo el patrón **MVC** (*Modelo-Vista-Controlador*): las llamadas a la base de datos van en los **modelos**, el manejo de la petición/respuesta en los **controladores**, y el renderizado de HTML en las **vistas**, usando **EJS** como motor de plantillas para que el propio servidor pueda devolver páginas HTML ya armadas.
 - Para probar endpoints que no sean `GET` (`POST`, `PUT`, `DELETE`) se recomienda usar herramientas como **Postman** o **Insomnia**, ya que el navegador por sí solo no permite construir ese tipo de peticiones fácilmente.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-14"></a><font color="#1A7F37"><strong>Clase 14 — 23/10 · Práctica guiada: servidor Express, formularios y comunicación cliente-servidor con Fetch</strong></font></summary>
+
+> Nota: esta fue una clase de práctica en vivo, armando paso a paso un servidor con Express y conectándolo con un formulario HTML. Quedó pendiente continuar la conexión con una base de datos real en una próxima clase.
+
+#### Inicialización del proyecto
+
+- `npm init` (sin el flag `-y`) para completar manualmente los campos del `package.json`: `name`, `version`, `description`, `entry point` (`index.js`), `test command` (se puede dejar vacío), `repository`, `keywords`, `author` y `license`.
+- Se cambió el campo `"type"` a `"module"` en el `package.json` para poder usar la sintaxis moderna de `import`/`export` en lugar de `require`.
+- Se instaló Express con `npm install express` (o `npm i express`), lo cual generó la carpeta `node_modules` y el archivo `package-lock.json`.
+- Este proceso (`init` + instalar dependencias + configurar el entorno) hay que repetirlo en cada proyecto nuevo armado "a mano". Frameworks como Nest, Next o React (para frontend) automatizan buena parte de este armado inicial de carpetas y configuración.
+
+#### Primer servidor con Express
+
+```javascript
+import express from 'express';
+
+const puerto = 3000; // declarar el puerto antes de usarlo en listen
+const app = express();
+
+app.listen(puerto, () => {
+  console.log(`Servidor corriendo en http://localhost:${puerto}`);
+});
+```
+
+- `express()` es una función que, al ejecutarla, devuelve el objeto de la aplicación con todas las funcionalidades necesarias (manejo de JSON, rutas, etc.).
+- `app.listen(puerto, callback)` necesita que el puerto ya esté declarado antes de usarlo.
+- Si se intenta usar el puerto **80** (el puerto por defecto para HTTP) y ya está ocupado por otro proceso de la computadora, el servidor no puede iniciarse: por eso conviene usar un puerto libre como el `3000`, evitando los primeros 1024 puertos (reservados para procesos del sistema).
+- Para detener el servidor desde la terminal: `Ctrl + C` (es un proceso que queda corriendo indefinidamente, no termina solo).
+
+#### Definiendo rutas (endpoints) y respuestas
+
+```javascript
+app.get('/', (req, res) => {
+  res.send('Hola mundo');
+});
+```
+
+- Si no se define ningún endpoint para una ruta, el navegador devuelve `Cannot GET /`.
+- El callback de una ruta siempre recibe los parámetros de la petición (`req`) y la respuesta (`res`), aunque no se vaya a usar `req`; en ese caso, por convención, se puede nombrar el parámetro `_` para indicar que no se utiliza.
+- `res.send(...)` permite enviar distintos tipos de contenido (texto, HTML, JSON, etc.) y Express se encarga de interpretarlo correctamente para el navegador. `res.end()` también finaliza la respuesta, pero sin pasarle contenido.
+- Si no se envía ninguna respuesta desde el servidor, la petición del navegador queda "cargando" indefinidamente, porque nunca recibió una respuesta.
+- Para fijar el código de estado de la respuesta se usa `res.status(código)` (por ejemplo `res.status(404)` para recurso no encontrado, o `res.status(402)` para "pago requerido"); si no se especifica, Express responde con `200` por defecto.
+- **Importante:** una petición solo puede recibir **una única respuesta**. Si el código envía una respuesta (`res.send(...)`) y después, sin cortar la ejecución, se intenta enviar otra, el servidor tira un error (`ERR_HTTP_HEADERS_SENT`). Por eso hay que usar `return` después de un `res.send(...)` cuando no es la última instrucción de la función, para cortar ahí mismo la ejecución y evitar que el código siga de largo y llegue a otro `res.send(...)` más abajo.
+- **Buena práctica:** `app.listen(...)` conviene dejarlo como la última instrucción del archivo, después de haber definido todas las rutas. Esto es porque Express funciona como un sistema de capas: se van "apilando" las rutas y configuraciones, y recién al final se pone a escuchar peticiones.
+
+#### Servir archivos desde el servidor
+
+Usando el módulo `fs` (leyendo el contenido del archivo manualmente):
+
+```javascript
+import { readFile as fs } from 'fs'; // ejemplo de alias al importar con "as"
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); // import.meta.url reemplaza al __dirname de CommonJS en ES Modules
+
+app.get('/', (req, res) => {
+  const rutaArchivo = path.join(__dirname, 'index.html');
+
+  fs(rutaArchivo, 'utf8', (error, data) => {
+    if (error) {
+      res.status(404);
+      res.send('Archivo no encontrado');
+      return; // corta la ejecución para no llegar al res.send de abajo
+    }
+    res.send(data);
+  });
+});
+```
+
+- `import.meta.url` es la forma de obtener la ruta del archivo actual al trabajar con ES Modules (en CommonJS se usaba la variable `__dirname`, que no está disponible directamente con `import`/`export`).
+- Al importar, se puede renombrar lo importado con `as` (por ejemplo `import { readFile as fs } from 'fs'`), como si fuera una desestructuración de objeto con alias.
+- Alternativa más simple: Express ofrece `res.sendFile(ruta)`, que envía un archivo directamente sin necesidad de leerlo primero a mano con `fs`.
+- Se pueden enviar otros tipos de archivo además de HTML (PDFs, imágenes, videos, etc.), pero hay que indicar el tipo de contenido correcto con `res.setHeader('Content-Type', tipo)` (por ejemplo `application/pdf` para PDFs, o `image/png`, `image/webp` para imágenes), ya que por defecto el navegador espera texto plano o HTML.
+- Para el envío de formularios con archivos adjuntos existe el tipo de contenido `multipart/form-data`, que se va a retomar más adelante.
+
+#### Formulario HTML con estilos básicos (Flexbox)
+
+Se armó un formulario simple de registro de usuario (nombre, apellido, edad y contraseña), con un `id` en cada input y el atributo `name` (necesario para luego poder identificar cada campo fácilmente desde JavaScript).
+
+```html
+<form id="formulario">
+  <div>
+    <label for="nombre">Nombre</label>
+    <input type="text" id="nombre" name="nombre">
+  </div>
+  <div>
+    <label for="edad">Edad</label>
+    <input type="number" id="edad" name="edad">
+  </div>
+  <!-- apellido y contraseña siguen el mismo patrón -->
+  <button type="submit">Enviar</button>
+</form>
+```
+
+```css
+#formulario {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+#formulario div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+```
+
+- Cada input para `number` acepta el atributo `type="number"` para restringir la entrada a valores numéricos.
+- El `type="password"` en un input oculta visualmente lo que se escribe con puntitos.
+- (Quedó pendiente para una próxima clase servir el CSS como archivo estático separado; por ahora, mientras no se configure esa parte del servidor, el CSS se dejó embebido directamente en el `<head>` del HTML.)
+
+#### Capturar el formulario y armar un objeto JSON (lado cliente)
+
+```javascript
+const formulario = document.querySelector('#formulario');
+
+formulario.addEventListener('submit', (event) => {
+  event.preventDefault(); // evita el comportamiento por defecto del formulario (recargar la página)
+
+  const usuario = {
+    nombre: event.target.nombre.value,
+    apellido: event.target.apellido.value,
+    edad: event.target.edad.value,
+  };
+
+  const usuarioJSON = JSON.stringify(usuario);
+  console.log(usuarioJSON);
+});
+```
+
+- Por defecto, al enviar un formulario, el navegador hace una petición y recarga toda la página; `event.preventDefault()` evita ese comportamiento para poder manejar el envío manualmente con JavaScript.
+- Los campos de un formulario se pueden recuperar accediendo a `event.target` (el propio formulario), ya sea por posición (`event.target[0]`, `event.target[1]`, etc.) o, de forma más clara, usando el atributo `name` de cada input como propiedad (`event.target.nombre.value`).
+- Se arma un objeto JavaScript con los datos recolectados, y luego se convierte a formato JSON con `JSON.stringify(...)`, ya que las APIs REST se comunican en ese formato.
+
+#### Enviar los datos al servidor con Fetch (POST)
+
+Se repasó que `fetch` no solo sirve para pedir recursos (`GET`), sino también para enviar datos al servidor (`POST`), pasándole un segundo parámetro de configuración:
+
+```javascript
+fetch('http://localhost:3000/crear-usuario', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: usuarioJSON,
+});
+```
+
+Y del lado del servidor, se creó el endpoint correspondiente para recibirlo:
+
+```javascript
+app.post('/crear-usuario', (req, res) => {
+  console.log(req.body); // se verifica en la consola del servidor, no en la del navegador
+});
+```
+
+- El `method` indica el verbo HTTP a usar (en mayúsculas).
+- Los `headers` del lado del cliente deben indicar `'Content-Type': 'application/json'` para avisarle al servidor qué formato de datos está enviando en el `body`.
+- El `body` ya viene en formato JSON (gracias al `JSON.stringify` hecho antes), por lo que se envía directamente.
+- Un punto importante para no confundirse: al trabajar con `fetch` desde el navegador y con Express del lado del servidor al mismo tiempo, hay **dos consolas distintas** en juego — la consola del navegador (contexto cliente) y la consola de la terminal donde corre el servidor (contexto servidor). Un `console.log` hecho del lado del servidor solo se va a ver en la terminal del servidor, no en la consola del navegador.
 
 ### Aplicado en
 
