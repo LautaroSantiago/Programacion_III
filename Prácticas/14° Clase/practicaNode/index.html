@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Division 132</title>
+
+    <style>
+        #formulario-1 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 50%;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <main>
+        <form action="" id="formulario-1">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido">
+            <label for="edad">Edad</label>
+            <input type="number" id="edad" name="edad">
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password">
+
+            <button type="submit">Enviar</button>
+        </form>
+
+    </main>
+
+</body>
+
+<script>
+
+    const formularioHTML = document.getElementById('formulario-1');
+
+    formularioHTML.addEventListener('submit', (event) => {
+
+        event.preventDefault();
+        const nombre = event.target[0].value;
+        const apellido = event.target[1].value;
+        const edad = event.target[2].value;
+        const password = event.target[3].value;
+
+        const usuario = {
+            nombre, // por azucar sintac. no hace falta key y valor
+            apellido,
+            edad,
+            password
+        };
+
+        const usuarioJSON = JSON.stringify(usuario);
+        console.log(usuarioJSON);
+
+        fetch('http://localhost:25565/crearUsuario', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: usuarioJSON });
+
+    });
+
+</script>
+
+</html>

@@ -2044,17 +2044,18 @@ Se adelantó cómo va a ir evolucionando el desarrollo del backend del TP integr
 ```javascript
 import express from 'express';
 
-const puerto = 3000; // declarar el puerto antes de usarlo en listen
 const app = express();
+app.use(express.json()); // middleware necesario para poder leer JSON desde req.body
 
-app.listen(puerto, () => {
-  console.log(`Servidor corriendo en http://localhost:${puerto}`);
-});
+const puerto = 25565; // puede ser cualquier puerto libre
+
+app.listen(puerto, () => console.log(`El servidor está encendido!: http://localhost:${puerto}`));
 ```
 
-- `express()` es una función que, al ejecutarla, devuelve el objeto de la aplicación con todas las funcionalidades necesarias (manejo de JSON, rutas, etc.).
+- `express()` es una función que, al ejecutarla, devuelve el objeto de la aplicación con todas las funcionalidades necesarias (manejo de rutas, etc.).
+- `app.use(express.json())` es un **middleware** incorporado en Express, necesario para que el servidor pueda parsear e interpretar el `body` de una petición cuando viene en formato JSON. Sin este middleware, `req.body` llega vacío o indefinido en los endpoints `POST`.
 - `app.listen(puerto, callback)` necesita que el puerto ya esté declarado antes de usarlo.
-- Si se intenta usar el puerto **80** (el puerto por defecto para HTTP) y ya está ocupado por otro proceso de la computadora, el servidor no puede iniciarse: por eso conviene usar un puerto libre como el `3000`, evitando los primeros 1024 puertos (reservados para procesos del sistema).
+- Si se intenta usar el puerto **80** (el puerto por defecto para HTTP) o el **443** y ya están ocupados por otro proceso de la computadora, el servidor no puede iniciarse: por eso conviene usar un puerto libre, evitando los primeros 1024 (reservados para procesos del sistema).
 - Para detener el servidor desde la terminal: `Ctrl + C` (es un proceso que queda corriendo indefinidamente, no termina solo).
 
 #### Definiendo rutas (endpoints) y respuestas
@@ -2078,29 +2079,27 @@ app.get('/', (req, res) => {
 Usando el módulo `fs` (leyendo el contenido del archivo manualmente):
 
 ```javascript
-import { readFile as fs } from 'fs'; // ejemplo de alias al importar con "as"
+import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename); // import.meta.url reemplaza al __dirname de CommonJS en ES Modules
+const __dirname = import.meta.dirname; // guarda la ruta raíz del proyecto (el Document Root)
 
-app.get('/', (req, res) => {
+app.get('/', (__, res) => { // convención: nombrar el parámetro "__" cuando no se va a usar req
   const rutaArchivo = path.join(__dirname, 'index.html');
 
-  fs(rutaArchivo, 'utf8', (error, data) => {
+  fs.readFile(rutaArchivo, (error, data) => {
     if (error) {
-      res.status(404);
-      res.send('Archivo no encontrado');
-      return; // corta la ejecución para no llegar al res.send de abajo
+      return res.status(404).send('Archivo no encontrado');
     }
-    res.send(data);
+    res.setHeader('Content-Type', 'text/html'); // por defecto res usa text/html, pero conviene ser explícito
+    return res.send(data); // el return corta la ejecución para no llegar a otro res.send más abajo
+    // res.sendFile(rutaArchivo); // otra forma más directa de lograr lo mismo
   });
 });
 ```
 
-- `import.meta.url` es la forma de obtener la ruta del archivo actual al trabajar con ES Modules (en CommonJS se usaba la variable `__dirname`, que no está disponible directamente con `import`/`export`).
-- Al importar, se puede renombrar lo importado con `as` (por ejemplo `import { readFile as fs } from 'fs'`), como si fuera una desestructuración de objeto con alias.
+- `import.meta.dirname` es la forma moderna y directa de obtener la ruta del archivo actual al trabajar con ES Modules (en versiones más viejas de Node había que armarlo a mano combinando `import.meta.url` con `fileURLToPath`; en CommonJS se usaba directamente la variable `__dirname`, no disponible con `import`/`export`).
+- Al importar, también se puede renombrar lo importado usando `as` (por ejemplo `import { readFile as fs } from 'fs'`), como si fuera una desestructuración de objeto con alias.
 - Alternativa más simple: Express ofrece `res.sendFile(ruta)`, que envía un archivo directamente sin necesidad de leerlo primero a mano con `fs`.
 - Se pueden enviar otros tipos de archivo además de HTML (PDFs, imágenes, videos, etc.), pero hay que indicar el tipo de contenido correcto con `res.setHeader('Content-Type', tipo)` (por ejemplo `application/pdf` para PDFs, o `image/png`, `image/webp` para imágenes), ya que por defecto el navegador espera texto plano o HTML.
 - Para el envío de formularios con archivos adjuntos existe el tipo de contenido `multipart/form-data`, que se va a retomar más adelante.
@@ -2110,52 +2109,52 @@ app.get('/', (req, res) => {
 Se armó un formulario simple de registro de usuario (nombre, apellido, edad y contraseña), con un `id` en cada input y el atributo `name` (necesario para luego poder identificar cada campo fácilmente desde JavaScript).
 
 ```html
-<form id="formulario">
-  <div>
-    <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" name="nombre">
-  </div>
-  <div>
-    <label for="edad">Edad</label>
-    <input type="number" id="edad" name="edad">
-  </div>
-  <!-- apellido y contraseña siguen el mismo patrón -->
+<form action="" id="formulario-1">
+  <label for="nombre">Nombre</label>
+  <input type="text" id="nombre" name="nombre">
+  <label for="apellido">Apellido</label>
+  <input type="text" id="apellido" name="apellido">
+  <label for="edad">Edad</label>
+  <input type="number" id="edad" name="edad">
+  <label for="password">Password</label>
+  <input type="text" id="password" name="password">
+
   <button type="submit">Enviar</button>
 </form>
 ```
 
 ```css
-#formulario {
+#formulario-1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-#formulario div {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  max-width: 50%;
+  align-items: center;
+  gap: 10px;
 }
 ```
 
-- Cada input para `number` acepta el atributo `type="number"` para restringir la entrada a valores numéricos.
-- El `type="password"` en un input oculta visualmente lo que se escribe con puntitos.
+- Cada input para `number` acepta el atributo `type="number"` para restringir la entrada a valores numéricos. En esta práctica el campo `password` se dejó como `type="text"` (en una app real debería ser `type="password"`, que oculta visualmente lo que se escribe con puntitos).
 - (Quedó pendiente para una próxima clase servir el CSS como archivo estático separado; por ahora, mientras no se configure esa parte del servidor, el CSS se dejó embebido directamente en el `<head>` del HTML.)
 
 #### Capturar el formulario y armar un objeto JSON (lado cliente)
 
 ```javascript
-const formulario = document.querySelector('#formulario');
+const formularioHTML = document.getElementById('formulario-1');
 
-formulario.addEventListener('submit', (event) => {
-  event.preventDefault(); // evita el comportamiento por defecto del formulario (recargar la página)
+formularioHTML.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const nombre = event.target[0].value;
+  const apellido = event.target[1].value;
+  const edad = event.target[2].value;
+  const password = event.target[3].value;
 
   const usuario = {
-    nombre: event.target.nombre.value,
-    apellido: event.target.apellido.value,
-    edad: event.target.edad.value,
+    nombre, // por azúcar sintáctica no hace falta repetir key y valor
+    apellido,
+    edad,
+    password,
   };
 
   const usuarioJSON = JSON.stringify(usuario);
@@ -2164,43 +2163,53 @@ formulario.addEventListener('submit', (event) => {
 ```
 
 - Por defecto, al enviar un formulario, el navegador hace una petición y recarga toda la página; `event.preventDefault()` evita ese comportamiento para poder manejar el envío manualmente con JavaScript.
-- Los campos de un formulario se pueden recuperar accediendo a `event.target` (el propio formulario), ya sea por posición (`event.target[0]`, `event.target[1]`, etc.) o, de forma más clara, usando el atributo `name` de cada input como propiedad (`event.target.nombre.value`).
-- Se arma un objeto JavaScript con los datos recolectados, y luego se convierte a formato JSON con `JSON.stringify(...)`, ya que las APIs REST se comunican en ese formato.
+- Los campos de un formulario se pueden recuperar accediendo a `event.target` (el propio formulario) por posición (`event.target[0]`, `event.target[1]`, etc., en el mismo orden en que aparecen los inputs en el HTML); también se puede acceder de forma más explícita usando el atributo `name` de cada input como propiedad (`event.target.nombre.value`).
+- Al armar el objeto `usuario`, como el nombre de cada variable ya coincide con el nombre de la propiedad deseada, se puede usar la **azúcar sintáctica** de los objetos literales de ES6 (`{ nombre, apellido, edad, password }`) en lugar de escribir `{ nombre: nombre, apellido: apellido, ... }`.
+- Se convierte el objeto a formato JSON con `JSON.stringify(...)`, ya que las APIs REST se comunican en ese formato.
 
 #### Enviar los datos al servidor con Fetch (POST)
 
 Se repasó que `fetch` no solo sirve para pedir recursos (`GET`), sino también para enviar datos al servidor (`POST`), pasándole un segundo parámetro de configuración:
 
 ```javascript
-fetch('http://localhost:3000/crear-usuario', {
+fetch('http://localhost:25565/crearUsuario', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
   body: usuarioJSON,
 });
 ```
 
-Y del lado del servidor, se creó el endpoint correspondiente para recibirlo:
+Y del lado del servidor, se creó el endpoint correspondiente para recibirlo, guardando temporalmente los usuarios en un array en memoria (a falta todavía de una base de datos real):
 
 ```javascript
-app.post('/crear-usuario', (req, res) => {
-  console.log(req.body); // se verifica en la consola del servidor, no en la del navegador
+const usuarios = [];
+
+app.post('/crearUsuario', (req, res) => {
+  let { nombre, apellido, edad, password } = req.body;
+  edad = parseInt(edad); // los valores llegan como texto desde el formulario, hay que convertir la edad a número
+
+  usuarios.push({ nombre, apellido, edad, password });
+  console.log(usuarios); // se verifica en la consola del servidor, no en la del navegador
 });
 ```
 
 - El `method` indica el verbo HTTP a usar (en mayúsculas).
 - Los `headers` del lado del cliente deben indicar `'Content-Type': 'application/json'` para avisarle al servidor qué formato de datos está enviando en el `body`.
 - El `body` ya viene en formato JSON (gracias al `JSON.stringify` hecho antes), por lo que se envía directamente.
+- Gracias al middleware `express.json()` agregado al principio, `req.body` llega ya parseado como un objeto JavaScript, lo que permite desestructurarlo directamente (`let { nombre, apellido, edad, password } = req.body`).
+- Como todos los valores de un formulario viajan como texto (string), hay que convertir explícitamente a número los campos que lo requieran (por ejemplo, `edad` con `parseInt(edad)`).
+- Por ahora los usuarios se van acumulando en un array (`usuarios`) que vive en la memoria del servidor mientras este sigue corriendo; se va a reemplazar más adelante por una base de datos real, que si no se pierde todo al reiniciar el servidor.
 - Un punto importante para no confundirse: al trabajar con `fetch` desde el navegador y con Express del lado del servidor al mismo tiempo, hay **dos consolas distintas** en juego — la consola del navegador (contexto cliente) y la consola de la terminal donde corre el servidor (contexto servidor). Un `console.log` hecho del lado del servidor solo se va a ver en la terminal del servidor, no en la consola del navegador.
 
 ### Aplicado en
 
--
+Práctica guiada de servidor Express (formulario + endpoint `POST`), en `Prácticas/14° Clase/`.
 
 ### Código
 
--
+[![Ver index.html](https://img.shields.io/badge/💻_Ver_index.html-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/14%C2%B0%20Clase/index.html)
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/14%C2%B0%20Clase/index.js)
+[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/14%C2%B0%20Clase/package.json)
 
 </details>
 
