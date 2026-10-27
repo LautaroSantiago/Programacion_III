@@ -2201,9 +2201,141 @@ app.post('/crearUsuario', (req, res) => {
 - Por ahora los usuarios se van acumulando en un array (`usuarios`) que vive en la memoria del servidor mientras este sigue corriendo; se va a reemplazar más adelante por una base de datos real, que si no se pierde todo al reiniciar el servidor.
 - Un punto importante para no confundirse: al trabajar con `fetch` desde el navegador y con Express del lado del servidor al mismo tiempo, hay **dos consolas distintas** en juego — la consola del navegador (contexto cliente) y la consola de la terminal donde corre el servidor (contexto servidor). Un `console.log` hecho del lado del servidor solo se va a ver en la terminal del servidor, no en la consola del navegador.
 
+#### Por qué hace falta el middleware `express.json()`
+
+Antes de agregar `app.use(express.json())`, al intentar leer `req.body` este llegaba vacío/indefinido. La causa es que las peticiones HTTP no se transmiten "de una sola vez": el contenido del `body` viaja en **streams**, dividido en pequeños fragmentos (*chunks*) que se van recibiendo de a poco (de forma similar a como una página va cargando progresivamente una imagen grande, en vez de mostrarla toda junta de golpe). A bajo nivel, esto se podría escuchar manualmente con el evento `data` del objeto `request` (algo que no hace falta programar a mano gracias a Express):
+
+```javascript
+// Forma de bajo nivel (sin usar express.json()) — solo a modo ilustrativo
+req.on('data', (chunk) => {
+  console.log(chunk.toString());
+});
+```
+
+El middleware `express.json()` se encarga automáticamente de ir juntando esos *chunks*, interpretarlos como JSON y dejar el resultado ya armado y disponible en `req.body`. Por eso conviene declararlo con `app.use(...)` **antes** de cualquier ruta que lo vaya a necesitar: como Express funciona por capas, ese middleware tiene que ejecutarse primero para que las rutas definidas después puedan aprovecharlo.
+
+#### `try`/`catch` en los endpoints
+
+Se recomienda envolver en un bloque `try`/`catch` la lógica de un endpoint cuando se sabe que puede llanzar una excepción (por ejemplo, al consultar una base de datos), para poder capturar el error y responder al cliente de forma controlada (por ejemplo, con un `res.status(500)`) en vez de que el servidor se caiga. Más adelante en la cursada se va a ver cómo armar un middleware propio dedicado a manejar errores de forma unificada, en lugar de repetir el `try`/`catch` en cada endpoint.
+
+#### `node --watch` en la práctica
+
+Se retomó lo visto en la Clase 13 sobre `node --watch` (la alternativa nativa a `nodemon`): se configuró para que vigile los cambios tanto en el archivo de entrada (`index.js`) como en la carpeta de archivos públicos, de forma que el servidor se reinicie solo cada vez que se guarda un cambio, sin tener que cortar (`Ctrl + C`) y volver a ejecutar `node index.js` manualmente cada vez.
+
+#### Introducción a bases de datos
+
+- Una **base de datos** es un sistema que permite estructurar y almacenar datos de forma organizada.
+- Existen dos grandes tipos:
+  - **Relacionales:** los datos se organizan en **tablas** que se interconectan entre sí mediante relaciones de claves primarias y foráneas. Se consultan con un lenguaje estándar llamado **SQL** (*Structured Query Language*).
+  - **No relacionales:** usan una estructura más dinámica, basada en el almacenamiento de objetos o documentos (por ejemplo, en formato JSON), sin un esquema de tablas fijo.
+- Para esta práctica se usó una base de datos relacional con **MySQL**, administrada visualmente con una herramienta como **MySQL Workbench**.
+- Se creó una base de datos nueva con una tabla `usuario`, con las columnas `id` (entero, clave primaria, autoincremental), `nombre`, `apellido`, `edad` y `password` (estas últimas de tipo `VARCHAR`, es decir, cadenas de texto de longitud variable, con un máximo de caracteres definido).
+
+#### Conexión a MySQL desde Node con `mysql2`
+
+Para que el servidor se pueda comunicar con la base de datos sin tener que programar a mano toda la lógica de conexión por *sockets* TCP (el *handshake*, el protocolo de comunicación, etc.), se usa un **driver** ya hecho por la comunidad: la librería **`mysql2`**.
+
+```bash
+npm install mysql2
+```
+
+```javascript
+import mysql from 'mysql2/promise'; // se usa la versión que trabaja con promesas
+
+const conexion = await mysql.createConnection({
+  host: 'localhost', // si se omite, usa localhost por defecto
+  user: 'root',
+  password: '', // la contraseña del usuario de MySQL que se esté usando
+  database: 'usuarios132',
+});
+```
+
+- Se usa específicamente `mysql2/promise` (en vez del `mysql2` "a secas") para poder trabajar con **promesas** y `async`/`await`, en lugar de tener que manejar todo con callbacks.
+- El puerto por defecto de MySQL es el **3306**, por lo que tampoco hace falta especificarlo si se usa ese.
+- Una prueba simple para verificar que la conexión funciona es ejecutar una consulta básica:
+  ```javascript
+  const [resultado] = await conexion.query('SELECT 1 + 1');
+  console.log(resultado); // devuelve el resultado de la consulta junto con información extra sobre el tipo de dato
+  ```
+
+#### Insertar usuarios en la base de datos
+
+Se reemplazó el array en memoria (`usuarios`) por una inserción real en la tabla `usuario`:
+
+```javascript
+app.post('/crearUsuario', async (req, res) => {
+  try {
+    let { nombre, apellido, edad, password } = req.body;
+    edad = parseInt(edad, 10);
+
+    const query = `INSERT INTO usuario (nombre, apellido, edad, password) VALUES ('${nombre}', '${apellido}', ${edad}, '${password}')`;
+    const resultado = await conexion.query(query);
+
+    res.status(200).json(resultado);
+  } catch (error) {
+    res.status(500).json({ error: 'Ocurrió un error al crear el usuario' });
+  }
+});
+```
+
+- Toda la lógica que interactúa con la base de datos se envuelve en `try`/`catch`, ya que la consulta (`conexion.query(...)`) es una operación asincrónica que puede fallar.
+- `await` permite esperar el resultado de la promesa que devuelve `query(...)` sin tener que anidar callbacks.
+- ⚠️ Armar la consulta SQL concatenando directamente los valores recibidos del `body` (como en el ejemplo de arriba) es un enfoque didáctico para esta práctica, pero **no es seguro**: deja la puerta abierta a *inyección SQL*. La forma correcta, que se va a ver más adelante, es usar **consultas parametrizadas** (placeholders `?` en la query, pasando los valores aparte).
+
+#### Listar usuarios: endpoint `GET` que devuelve JSON
+
+Se armó un segundo endpoint `GET`, pero en vez de devolver un archivo HTML, devuelve los datos de la tabla en formato JSON:
+
+```javascript
+app.get('/traerUsuarios', async (__, res) => {
+  try {
+    const [filas] = await conexion.query('SELECT * FROM usuario');
+    res.status(200).json(filas);
+  } catch (error) {
+    res.status(500).json({ error: 'Ocurrió un error al traer los usuarios' });
+  }
+});
+```
+
+- `conexion.query(...)` devuelve un arreglo con dos elementos: las **filas** (`rows`) resultantes de la consulta y los **campos** (`fields`, metadatos de las columnas). Para quedarse solo con las filas se usa desestructuración de array: `const [filas] = await conexion.query(...)`.
+
+Del lado del cliente, se armó una página (`lista-usuarios.html`) con una tabla vacía y un botón que, al hacer clic, pide la lista al servidor y la renderiza dinámicamente:
+
+```javascript
+const botonCargar = document.querySelector('#cargar');
+const tabla = document.querySelector('table');
+
+botonCargar.addEventListener('click', async () => {
+  const respuesta = await fetch('http://localhost:25565/traerUsuarios');
+
+  if (!respuesta.ok) {
+    alert('Error al traer los usuarios');
+    return;
+  }
+
+  const usuarios = await respuesta.json();
+  const cuerpoTabla = tabla.querySelector('tbody');
+
+  cuerpoTabla.innerHTML = ''; // se limpia la tabla antes de volver a cargar, para no duplicar filas en cada click
+
+  for (const usuario of usuarios) {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `<td>${usuario.nombre}</td><td>${usuario.apellido}</td>`;
+    cuerpoTabla.appendChild(fila);
+  }
+});
+```
+
+- `respuesta.json()` convierte la respuesta del `fetch` (que no viene directamente en formato utilizable) a un objeto/array de JavaScript; también es una operación asincrónica, por lo que se usa `await`.
+- `respuesta.ok` es un booleano que indica si la respuesta tuvo un código de estado de éxito (2xx); es una forma simple de chequear errores antes de seguir procesando los datos.
+- Para armar las filas de la tabla dinámicamente se puede usar `document.createElement(...)` + propiedades del nodo creado, o directamente `innerHTML` con un string armado a mano (como en el ejemplo); ambas formas son válidas y la elección es más una cuestión de estilo personal. `createElement` da un poco más de control a la hora de manejar los nodos (por ejemplo, con *event listeners* que puedan quedar "colgados" en el DOM si no se remueven correctamente al borrar el nodo con `innerHTML`).
+- Importante: hay que limpiar el contenido previo de la tabla (`cuerpoTabla.innerHTML = ''`) antes de volver a renderizar, para no ir duplicando filas cada vez que se hace clic en el botón.
+
+**Próxima clase:** se va a introducir **EJS**, un motor de plantillas que simplifica el renderizado dinámico de HTML desde el servidor, y se van a liberar las consignas del TP integrador.
+
 ### Aplicado en
 
-Práctica guiada de servidor Express (formulario + endpoint `POST`), en `Prácticas/14° Clase/`.
+Práctica guiada de servidor Express: formulario, endpoint `POST`, conexión a MySQL con `mysql2`, inserción y listado de usuarios, en `Prácticas/14° Clase/`.
 
 ### Código
 
