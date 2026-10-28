@@ -1,3 +1,96 @@
+# Caracteres Unicode para VSCode
+En Visual Studio Code en Linux, podés escribir caracteres Unicode de varias formas, dependiendo de si usás Ubuntu, Debian, Linux Mint u otra distribución.
+
+## 1. Insertar caracteres Unicode en Linux
+
+En muchas distribuciones Linux con GNOME, KDE u otros entornos, podés usar esta combinación:
+
+1. Presioná `Ctrl + Shift + U`.
+2. Escribí el código hexadecimal Unicode.
+3. Presioná `Enter` o `Espacio`.
+
+Por ejemplo, para escribir una flecha:
+
+text
+```
+Ctrl + Shift + U
+2192
+Enter
+```
+
+Resultado: → (`U+2192`).
+
+Importante: en VS Code, esta combinación puede depender del entorno gráfico, la distribución del teclado y el método de entrada. Si no funciona, podés usar los métodos alternativos de abajo.
+
+## 2. Códigos Unicode útiles para programar
+
+Copiá el carácter o usá su código hexadecimal con el método anterior.
+
+| Carácter | Unicode | Descripción |
+| --- | --- | --- |
+| → | `U+2192` | Flecha derecha |
+| ← | `U+2190` | Flecha izquierda |
+| ↑ | `U+2191` | Flecha arriba |
+| ↓ | `U+2193` | Flecha abajo |
+| ✓ | `U+2713` | Marca de verificación |
+| ✗ | `U+2717` | Cruz |
+| ★ | `U+2605` | Estrella |
+| • | `U+2022` | Viñeta |
+| π | `U+03C0` | Pi |
+| λ | `U+03BB` | Lambda |
+| ∞ | `U+221E` | Infinito |
+| ≠ | `U+2260` | Distinto |
+| ≤ | `U+2264` | Menor o igual |
+| ≥ | `U+2265` | Mayor o igual |
+| √ | `U+221A` | Raíz cuadrada |
+| © | `U+00A9` | Copyright |
+| ® | `U+00AE` | Marca registrada |
+| € | `U+20AC` | Euro |
+| ñ | `U+00F1` | Eñe minúscula |
+| Ñ | `U+00D1` | Eñe mayúscula |
+
+## 3. Insertar Unicode directamente en VS Code
+
+Si el atajo de Linux no funciona, podés copiar y pegar el carácter directamente en el editor.
+
+También podés usar secuencias según el lenguaje:
+
+Python
+
+python
+```
+print("\u2192")  # →
+print("\u03C0")  # π
+print("\U0001F600")  # 😀
+```
+
+JavaScript
+
+javascript
+```
+console.log("\u2192");     // →
+console.log("\u{1F600}");  // 😀
+```
+
+HTML
+
+HTMLAjustar líneasCopiar códigoVista previa
+
+```
+&#8594;      <!-- → -->
+&#x2192;     <!-- → -->
+```
+
+Estas secuencias son para escribir caracteres dentro del código; no son necesariamente el método para insertarlos directamente en el editor.
+
+## 4. Ver el código Unicode de un carácter
+
+Podés consultar la lista oficial en [Unicode Character Table](<https://www.unicode.org/charts/>).
+
+
+---
+
+
 # Atajos VSCode / VSCodium
 ## [Atajos de VSCode para Linux](https://docs.google.com/viewer?url=https%3A%2F%2Fraw.githubusercontent.com%2FLautaroSantiago%2FProgramacion_III%2Fmaster%2FMaterial%2Fkeyboard-shortcuts-linux.pdf&authuser=2)
 ## 40 atajos comunes de VS Code
