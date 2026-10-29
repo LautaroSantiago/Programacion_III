@@ -26,6 +26,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 12 — 16/10 · Repaso de Backend y Protocolo HTTP, Introducción a Node.js</strong></font>](#clase-12)
 - [<font color="#8250DF"><strong>Clase 13 — 21/10 · Módulos nativos de Node, Módulo HTTP, npm/package.json e Introducción a Express</strong></font>](#clase-13)
 - [<font color="#8250DF"><strong>Clase 14 — 23/10 · Práctica guiada: servidor Express, formularios y comunicación cliente-servidor con Fetch</strong></font>](#clase-14)
+- [<font color="#8250DF"><strong>Clase 15 — 28/10 · TP Integrador: consignas y arranque del backend (Express + mysql2 + CRUD)</strong></font>](#clase-15)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -2342,6 +2343,237 @@ Práctica guiada de servidor Express: formulario, endpoint `POST`, conexión a M
 [![Ver index.html](https://img.shields.io/badge/💻_Ver_index.html-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/14%C2%B0%20Clase/index.html)
 [![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/14%C2%B0%20Clase/index.js)
 [![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/Pr%C3%A1cticas/14%C2%B0%20Clase/package.json)
+
+</details>
+
+<details>
+<summary><a id="clase-15"></a><font color="#1A7F37"><strong>Clase 15 — 28/10 · TP Integrador: consignas y arranque del backend (Express + mysql2 + CRUD)</strong></font></summary>
+
+> Nota: en esta clase se presentaron las consignas del TP Integrador y se arrancó, en vivo, el armado del proyecto backend: configuración del entorno, conexión a la base de datos y los primeros endpoints CRUD.
+
+#### Consignas del TP Integrador
+
+El TP Integrador se divide en **dos proyectos separados**: un **frontend** y un **backend**. No se reparten por especialidad: ambos integrantes del grupo deben trabajar y ser evaluados en los dos proyectos por igual.
+
+**Frontend — "tótem" de autoservicio**
+
+Una interfaz de pedidos al estilo de los tótems de autoservicio (como los de McDonald's), ambientada en una categoría de productos a elección de cada grupo (no puede ser comidas/bebidas, porque ese es el rubro usado en la demo de la cátedra). Pantallas:
+
+- Pantalla de bienvenida.
+- Login simple (guarda solo un nombre en `sessionStorage`), que habilita el acceso al resto de la app.
+- Pantalla de productos: hace un `GET` a `/api/productos` (API REST) y los muestra.
+- Carrito de compras, manejado con `localStorage`.
+- Botón "confirmar compra": dispara un `POST` para registrar una nueva fila en una tabla `ventas`, y simula la impresión de un ticket.
+
+**Backend — API REST + panel de administración**
+
+Una API REST hecha con Express, conectada a una base de datos real, con endpoints CRUD (`GET`, `POST`, `PUT`, `DELETE`) para productos (y otros recursos). Además, un **panel de administración** ("backoffice"), que por ahora se arma como un conjunto de vistas separadas del servidor, y más adelante se va a migrar para que las sirva el propio servidor con un motor de plantillas (**EJS**). Pantallas del backoffice:
+
+- Login.
+- Listado de productos: a diferencia de la pantalla de productos del cliente (que solo muestra los disponibles), acá se ven **todos** los productos, incluidos los inactivos, con opción de activarlos/desactivarlos.
+- Alta, modificación y baja de productos.
+
+**Hoja de ruta del TP** (se va a ir armando en varias clases):
+
+1. Armar la API CRUD conectada a la base de datos — esta clase y la próxima.
+2. Una vez funcionando el CRUD, refactorizar la lógica de la app aplicando el patrón **MVC** (Modelo-Vista-Controlador).
+3. Una vez separado en MVC, migrar las vistas (por ahora sueltas) para que las sirva el servidor con un motor de plantillas.
+4. Proteger esas vistas con un login.
+
+Todo lo que esté por fuera de esto (CRUD + login funcionando) es **opcional**, y solo se va a pedir "si llegamos" con el tiempo — por ejemplo, subida de archivos con **Multer** o exportación a Excel con **ExcelJS**.
+
+#### Preparación del entorno del backend
+
+Se armó, en vivo, el proyecto base del backend:
+
+```bash
+npm init -y
+```
+
+En el `package.json` generado, se agregó `"type": "module"` (para poder usar `import`/`export`) y un script `dev`:
+
+```json
+{
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch index.js"
+  }
+}
+```
+
+`node --watch` reinicia automáticamente el servidor ante cualquier cambio en los archivos — es la alternativa nativa de Node a `nodemon`, que hace exactamente lo mismo pero ya no es necesaria.
+
+Se instalaron las dependencias necesarias:
+
+```bash
+npm install express mysql2 dotenv
+```
+
+- **`express`**: el framework para armar el servidor y la API.
+- **`mysql2`**: el cliente/driver de MySQL para Node.
+- **`dotenv`**: carga variables de entorno desde un archivo `.env` hacia `process.env`.
+
+Se creó un `.gitignore` para excluir del repositorio `node_modules` y `.env` (este último, por contener información sensible, nunca se sube).
+
+#### Variables de entorno (`.env`) y configuración
+
+En la raíz del proyecto se creó un archivo `.env` (no versionado) con los datos de conexión a la base de datos:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_NAME=tp25_autoservicio
+DB_USER=root
+DB_PASSWORD=
+```
+
+`DB_PASSWORD` queda vacío en Windows con XAMPP, que por defecto no define contraseña para el usuario `root` de MySQL. En Linux puede ser necesario definir una contraseña propia según cómo haya quedado configurada la instalación.
+
+Para visualizar y administrar la base de datos localmente se usó **phpMyAdmin**, incluido en **XAMPP** (un paquete que agrupa Apache, MySQL/MariaDB y PHP para desarrollo local — de ahí sus siglas: **X**platform, **A**pache, **M**ySQL/MariaDB, **P**HP). Desde la pestaña "Importar" de phpMyAdmin se cargó una base de datos de ejemplo provista por la cátedra (`tp25_autoservicio`), pensada para ir probando la conexión desde Express. Para la entrega del TP, cada grupo debe armar su propia base de datos con el tema de productos que haya elegido.
+
+En el código, en vez de leer `process.env` en cualquier parte del proyecto, se centralizó la lectura de las variables de entorno en un único archivo, dentro de una nueva carpeta `src/api/config/`:
+
+```javascript
+// src/api/config/environments.js
+import 'dotenv/config';
+
+export default {
+  port: process.env.PORT,
+  database: {
+    host: process.env.DB_HOST,
+    name: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  },
+};
+```
+
+De esta forma, cualquiera que lea el repositorio público en GitHub puede ver qué variables de entorno espera el proyecto (`PORT`, `DB_HOST`, etc.), pero nunca sus valores reales, que solo existen en el `.env` (ignorado por git).
+
+De paso, se introdujo la carpeta `src/` ("source") para ordenar el código fuente de la aplicación, con subcarpetas planificadas: `api/` (la lógica de la API REST, creada en esta clase), `views/` (para cuando se migren las vistas al servidor) y `public/` (para servir archivos estáticos), estas últimas dos todavía sin crear. Se remarcó evitar el error típico de anidar todo el contenido del repo dentro de una subcarpeta con el nombre del repo: los archivos de la raíz del proyecto van directamente en la raíz.
+
+#### Conexión a la base de datos: pool de conexiones
+
+Dentro de `src/api/database/db.js` se armó la conexión a MySQL usando `mysql2/promise`, a partir de los datos centralizados en `environments.js`:
+
+```javascript
+// src/api/database/db.js
+import mysql from 'mysql2/promise';
+import environments from '../config/environments.js';
+
+const { database } = environments;
+
+const connection = mysql.createPool({
+  host: database.host,
+  database: database.name,
+  user: database.user,
+  password: database.password,
+});
+
+export default connection;
+```
+
+Se explicó por qué se usa `createPool` en vez de `createConnection`: un **pool de conexiones** es un conjunto de conexiones activas y reutilizables hacia la base de datos. En vez de abrir y cerrar una conexión por cada consulta, el pool mantiene varias conexiones abiertas en simultáneo y las va reutilizando entre las distintas consultas, además de controlar cuántas conexiones concurrentes se permiten. Ventajas: evita el costo de estar creando y destruyendo conexiones todo el tiempo, reduce la carga sobre el servidor de base de datos, y mejora la velocidad de respuesta y la capacidad de la app para atender pedidos concurrentes.
+
+#### `index.js`: de "hola mundo" a usar las variables de entorno
+
+El servidor arrancó con lo mínimo:
+
+```javascript
+import express from 'express';
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hola mundo desde express.js');
+});
+
+app.listen(3000, () => {
+  console.log('Servidor corriendo en el puerto 3000');
+});
+```
+
+Se marcó como mala práctica dejar el `3000` "hardcodeado" directamente en el código, ya que ese valor debería salir de la configuración centralizada. Se refactorizó para usar `environments.js`:
+
+```javascript
+import express from 'express';
+import environments from './src/api/config/environments.js';
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hola mundo desde express.js');
+});
+
+app.listen(environments.port, () => {
+  console.log(`Servidor corriendo en el puerto ${environments.port}`);
+});
+```
+
+Se probó en vivo cambiando el valor de `PORT` en el `.env` y viendo cómo `node --watch` reiniciaba el servidor solo, levantándolo en el nuevo puerto.
+
+#### Primer endpoint CRUD: `GET /api/products`
+
+Con la conexión ya exportada desde `db.js`, se armó el primer endpoint para traer todos los productos:
+
+```javascript
+import connection from './src/api/database/db.js';
+
+app.get('/api/products', async (req, res) => {
+  const [rows] = await connection.query('SELECT * FROM products');
+
+  res.status(200).json({ data: rows });
+});
+```
+
+Puntos clave explicados durante el armado:
+
+- Al estar usando conexiones en modo promesa, `connection.query(...)` se espera con `await`, y por lo tanto el callback del endpoint tiene que ser `async`.
+- `connection.query(...)` devuelve un arreglo con dos valores: las filas resultantes de la consulta (`rows`) y metadatos sobre la estructura de la tabla (`fields`). Como solo interesan los datos, se usa desestructuración de array para quedarse exclusivamente con `rows` y no exponerle al cliente información interna de cómo está armada la tabla.
+- La respuesta se devuelve con `res.status(200).json(...)`, nunca solo con un `console.log`: mientras el servidor no le devuelva una respuesta al cliente, la petición queda "colgada" cargando.
+- Se usa la clave `data` (una convención habitual para nombrar la parte útil de la respuesta) para envolver el resultado de la consulta.
+
+#### Segundo endpoint: `GET /api/products/:id`
+
+Para traer un producto puntual por su ID, se usó un **parámetro de ruta** (`:id`), accesible desde `req.params`:
+
+```javascript
+app.get('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const [rows] = await connection.query(`SELECT * FROM products WHERE products.id = ${id}`);
+
+  res.status(200).json({ data: rows });
+});
+```
+
+Se aclaró que esta es una versión mínima y funcional, sin manejo de errores con `try`/`catch` todavía (eso se agrega en una etapa posterior de optimización), y que si el ID no existe, la consulta devuelve un array vacío — más adelante se va a diferenciar ese caso para devolver una respuesta más clara que un simple array vacío.
+
+#### El objeto `request` (`req`)
+
+Se repasaron las distintas formas de recibir datos en un endpoint a través del objeto `req`:
+
+- **`req.params`**: parámetros definidos directamente en la ruta (por ejemplo, el `:id` de `/api/products/:id`).
+- **`req.query`**: parámetros de consulta en la URL (por ejemplo, `?busqueda=...`).
+- **`req.body`**: datos enviados en el cuerpo de la petición, típicamente desde un formulario enviado por `POST` (a diferencia de los parámetros de URL, no tiene límite de caracteres).
+- **`req.headers`**: las cabeceras de la petición.
+- **`req.method`**: el verbo HTTP utilizado.
+
+En la práctica, los que más se van a usar en el TP son `req.body` y `req.params`.
+
+#### Probando los endpoints
+
+Se probaron ambos endpoints desde el navegador y desde **Postman**, una herramienta cliente para hacer peticiones HTTP con una interfaz gráfica. Se explicó que surgió como extensión porque el navegador, por sí solo, únicamente puede hacer peticiones `GET` escribiendo una URL — para probar `POST`, `PUT` o `DELETE` antes de tener armado el cliente hace falta una herramienta como Postman (también mencionadas como alternativas: Insomnia, o extensiones de Visual Studio Code).
+
+**Próxima clase:** quedan pendientes los endpoints `POST`, `PUT` y `DELETE` de `/api/products`, y empezar a consumir `GET /api/products` y `GET /api/products/:id` desde el cliente.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
 
 </details>
 
