@@ -27,6 +27,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 13 — 21/10 · Módulos nativos de Node, Módulo HTTP, npm/package.json e Introducción a Express</strong></font>](#clase-13)
 - [<font color="#8250DF"><strong>Clase 14 — 23/10 · Práctica guiada: servidor Express, formularios y comunicación cliente-servidor con Fetch</strong></font>](#clase-14)
 - [<font color="#8250DF"><strong>Clase 15 — 28/10 · TP Integrador: consignas y arranque del backend (Express + mysql2 + CRUD)</strong></font>](#clase-15)
+- [<font color="#8250DF"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font>](#clase-16)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -2566,6 +2567,149 @@ En la práctica, los que más se van a usar en el TP son `req.body` y `req.param
 Se probaron ambos endpoints desde el navegador y desde **Postman**, una herramienta cliente para hacer peticiones HTTP con una interfaz gráfica. Se explicó que surgió como extensión porque el navegador, por sí solo, únicamente puede hacer peticiones `GET` escribiendo una URL — para probar `POST`, `PUT` o `DELETE` antes de tener armado el cliente hace falta una herramienta como Postman (también mencionadas como alternativas: Insomnia, o extensiones de Visual Studio Code).
 
 **Próxima clase:** quedan pendientes los endpoints `POST`, `PUT` y `DELETE` de `/api/products`, y empezar a consumir `GET /api/products` y `GET /api/products/:id` desde el cliente.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-16"></a><font color="#1A7F37"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font></summary>
+
+> Nota: continuación en vivo del armado del backend del TP Integrador (ver [Clase 15](#clase-15)). Se completaron los cuatro endpoints CRUD de productos (`GET`, `POST`, `PUT`, `DELETE`) junto con sus vistas, y se introdujeron los middlewares, CORS y la diferencia entre renderizado del lado del cliente y del servidor.
+
+#### El error CORS y los middlewares
+
+Al intentar consumir los endpoints desde una vista (un `fetch` hecho desde un archivo HTML distinto al del servidor), apareció el error de **CORS** (*Cross-Origin Resource Sharing*): una política de seguridad de los navegadores — no del protocolo HTTP — que exige que el servidor otorgue permiso explícito, en las cabeceras de cada respuesta, para que un cliente de otro origen pueda consumir sus endpoints.
+
+En vez de escribir esa lógica de permisos a mano en cada endpoint, se resuelve con **middlewares**: funciones que se ejecutan entre cada petición y cada respuesta ("in the middle"). Se agregaron dos middlewares de aplicación (se ejecutan en todas las rutas, con `app.use(...)`):
+
+- Un middleware de **CORS**, que otorga los permisos necesarios para que cualquier cliente pueda consumir la API.
+- Un **logger**, que registra por consola cada petición que recibe el servidor (método, ruta, hora) — útil para ir viendo en tiempo real qué está atendiendo el servidor.
+
+Se aclaró que, además de estos middlewares "globales", existen middlewares que se cargan solo en ciertas rutas (por ejemplo, uno para validar que un formulario no llegue con datos vacíos antes de intentar insertarlos en la base de datos).
+
+#### Repaso: qué es un endpoint y qué es una API REST
+
+Se insistió en una idea clave: un **endpoint no es una URL**. Dos endpoints distintos pueden compartir la misma ruta pero responder a verbos HTTP diferentes (`GET`, `POST`, `PUT`, `DELETE`) y hacer cosas completamente distintas. Un endpoint es la combinación de **verbo + ruta + la lógica** que ejecuta: son los "puentes" que el servidor le ofrece al cliente para operar sobre la base de datos (las operaciones CRUD: create, read, update, delete).
+
+Se repasó también que una API REST es **stateless** (sin estado): cada petición que llega al servidor se trata de forma independiente, como si fuera la primera vez, sin recordar peticiones anteriores — por eso, cuando se necesita persistir información entre peticiones (como una sesión de usuario logueado), se recurre a mecanismos como las cookies.
+
+#### CSR vs SSR: dos formas de renderizar contenido
+
+A partir de una pregunta sobre cómo se sirven las vistas del backoffice, se explicó la diferencia entre:
+
+- **CSR (Client-Side Rendering):** el servidor envía un HTML mínimo junto con archivos JS y CSS; el navegador descarga y ejecuta el JavaScript, que hace peticiones a una API (por ejemplo con `fetch`) y arma dinámicamente el contenido final en el cliente. Es lo que se viene haciendo hasta ahora en las vistas del TP.
+  - Ventajas: mayor interactividad (se pueden actualizar partes de la página sin recargarla), menor carga en el servidor, experiencia más fluida, separación clara entre front y back.
+  - Desventajas: carga inicial más lenta, peor SEO (a los buscadores les cuesta indexar contenido generado dinámicamente), mayor complejidad en el frontend.
+- **SSR (Server-Side Rendering):** el servidor genera el HTML completo (ya con los datos insertados) antes de enviarlo al navegador — es lo que se va a hacer más adelante con **EJS**, el motor de plantillas que permite incrustar JavaScript directamente dentro del HTML (de ahí su nombre, *Embedded JavaScript*) para, por ejemplo, recorrer un array de productos y generarlos en el propio servidor.
+  - Ventajas: mejor SEO (el buscador recibe el HTML ya armado), carga inicial más rápida, menor dependencia de JavaScript en el cliente.
+  - Desventajas: más trabajo para el servidor (genera una página completa en cada solicitud, en vez de solo enviar datos en JSON), menor separación entre lógica de backend y de vistas.
+
+Se mencionó de paso el concepto de **SPA** (*Single Page Application*, que frameworks como React o Angular implementan): el servidor entrega el HTML una sola vez, y a partir de ahí todo el contenido se actualiza dinámicamente sin nuevas solicitudes de página completa — algo fundamental para que aplicaciones con mucha interacción (como una red social) no tengan que pedirle al servidor una página nueva por cada clic.
+
+#### Vista para `GET /api/products/:id`
+
+Se armó un formulario simple (un `<input type="number">` para el ID y un botón de envío) que, al enviarse, evita el comportamiento por defecto del formulario, extrae el valor ingresado con `event.target.idProd.value`, arma la URL dinámicamente (`${urlBase}/api/products/${id}`) y hace el `fetch`. La respuesta se parsea con `.json()`, se desestructura la clave `data` (`const [producto] = data`, ya que el endpoint devuelve un array con un solo elemento) y se renderiza insertando el HTML del producto en el contenedor con `innerHTML`.
+
+Esta misma vista de "obtener producto por ID" se reutiliza después como base para las vistas de **modificar** y **eliminar** un producto, ya que ambas operaciones necesitan primero consultar ese producto puntual.
+
+#### Profundizando `express.json()`
+
+Se explicó con más detalle qué pasa realmente cuando un cliente envía datos al servidor: el navegador arma un mensaje de texto plano según la especificación del protocolo HTTP (línea de petición + cabeceras + cuerpo) y lo envía por una conexión TCP/IP. Node, para no saturar la memoria con peticiones de cualquier tamaño, procesa ese cuerpo de forma fragmentada, como un flujo de lectura secuencial (*stream*) dividido en paquetes más chicos (*chunks*).
+
+El middleware `express.json()` automatiza todo ese proceso: revisa si la cabecera `Content-Type` de la petición entrante es `application/json` y, si lo es, se encarga de ir acumulando y parseando esos fragmentos hasta reconstruir el objeto completo, disponible después en `req.body`. Sin este middleware, `req.body` llega `undefined`.
+
+#### Vista y endpoint para crear productos (`POST`)
+
+La vista de alta de productos (`create-product-form` o similar) se armó con un `<select>` de categoría (con opciones `food`/`drink`), y campos de texto para imagen (URL), nombre y precio — sin pedir el ID, que lo genera automáticamente la base de datos (autoincremental).
+
+En el endpoint `POST /api/products`, los datos llegan en `req.body` (no en los parámetros de la URL, a diferencia del `GET /api/products/:id`), y se extraen con desestructuración: `const { category, imagen, name, price } = req.body`. Se armó la consulta de inserción usando **placeholders** (`?`) en vez de concatenar los valores directamente en el string SQL:
+
+```javascript
+const sql = 'INSERT INTO products (name, imagen, category, price) VALUES (?, ?, ?, ?)';
+await connection.query(sql, [name, imagen, category, price]);
+```
+
+Se repasó por qué esto es más seguro que concatenar los valores "a mano": previene ataques de **inyección SQL** (*SQL injection*), en los que un usuario malintencionado introduce código SQL en un campo de entrada para alterar la consulta que efectivamente se ejecuta contra la base de datos. Los placeholders se encargan de tratar esos valores siempre como datos, nunca como código SQL.
+
+Del lado del cliente, para enviar el formulario sin recargar la página se arma la lógica con `FormData`:
+
+```javascript
+formulario.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const formObjeto = Object.fromEntries(formData);
+
+  try {
+    const response = await fetch(`${urlBase}/api/products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formObjeto),
+    });
+
+    const result = await response.json();
+    alert(result.message); // "Producto creado con éxito"
+  } catch (error) {
+    console.error('Error al enviar los datos', error);
+  }
+});
+```
+
+- `FormData` es un objeto nativo del DOM, pensado para representar los valores de un formulario HTML — no es un objeto literal de JavaScript (por eso, por ejemplo, no se puede inspeccionar directamente con `console.log` en algunos navegadores basados en Chromium).
+- `Object.fromEntries(formData)` convierte ese `FormData` en un objeto literal común, para poder después transformarlo a JSON con `JSON.stringify(...)` y enviarlo en el `body` del `fetch`.
+- A diferencia de una petición `GET` (donde no hace falta especificar nada), una petición `POST` requiere indicar el `method`, la cabecera `Content-Type: application/json` (para que el servidor sepa cómo interpretar el cuerpo) y el `body` con los datos ya serializados en JSON.
+- El servidor responde con un código `201 Created` y un JSON con un mensaje de confirmación.
+
+#### Endpoint y vista para eliminar productos (`DELETE`)
+
+El endpoint es una variación mínima del `GET /api/products/:id`: recibe el ID por parámetro de ruta y ejecuta una consulta de borrado con placeholder:
+
+```javascript
+app.delete('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+
+  await connection.query('DELETE FROM products WHERE id = ?', [id]);
+
+  res.status(200).json({ message: `Producto con ID ${id} eliminado correctamente` });
+});
+```
+
+En la vista, se reutiliza la vista de "obtener producto por ID": al producto renderizado se le agrega un botón "Eliminar producto", con un evento `click` que primero pide confirmación (`confirm('¿Querés eliminar este producto?')`) y, si se confirma, llama a una función que hace el `fetch` con `method: 'DELETE'` a `/api/products/:id`. Una vez eliminado, se limpia el contenedor (`innerHTML = ''`) para que el producto borrado deje de mostrarse en pantalla.
+
+#### Endpoint y vista para modificar productos (`PUT`)
+
+El endpoint `PUT /api/products/:id` recibe todos los campos del producto por `req.body` (igual que el `POST`) y arma una consulta `UPDATE` con placeholders para cada campo:
+
+```javascript
+const sql = `
+  UPDATE products
+  SET name = ?, imagen = ?, price = ?, category = ?
+  WHERE id = ?
+`;
+
+await connection.query(sql, [name, imagen, price, category, id]);
+```
+
+La vista de modificación reutiliza el mismo formulario de "crear producto", pero **precargado** con los valores actuales: a cada campo se le agrega el atributo `value` con el dato correspondiente del producto (`value="${producto.name}"`, etc.), y se agrega un campo oculto (`<input type="hidden" name="id">`) con el ID del producto, para no tener que exponerlo editable en la interfaz. Se aclaró que el atributo `required` no es compatible con `type="hidden"` en HTML (el navegador lo ignora), por lo que para ese campo no aplica.
+
+El envío del formulario de actualización sigue la misma lógica que el de creación: `FormData` → `Object.fromEntries` → `JSON.stringify` → `fetch` con `method: 'PUT'`.
+
+#### Sobre la propagación de eventos
+
+Surgió una duda práctica sobre cuándo hace falta usar `event.stopPropagation()` (además de `event.preventDefault()`) al encadenar varios formularios y botones generados dinámicamente (por ejemplo, un clic en "Actualizar producto" que genera un nuevo formulario, que a su vez dispara su propio evento `submit`). La conclusión, revisada en vivo: la propagación de eventos depende de que los elementos estén **anidados** en el DOM (como un botón dentro de un `<div>` con su propio listener) — no del hecho de que el contenido se haya generado dinámicamente. En el caso de las vistas armadas en esta clase, al no haber anidación real entre los formularios/botones involucrados, no hizo falta frenar la propagación; conviene usar `stopPropagation()` solo cuando efectivamente aparece un conflicto entre eventos.
+
+#### Recomendación para avanzar con el TP
+
+Se insistió en que la forma más efectiva de avanzar con el TP Integrador es replicar, paso a paso, el patrón **vista → endpoint → vista → endpoint** sobre la propia base de datos de cada grupo (con su propio tema de productos, no comida/bebida): primero `GET` de todos los productos y su vista, después `GET` por ID, y sobre esa misma lógica, `PUT` y `DELETE`; por último, `POST` y su formulario de alta. Completar ese circuito deja prácticamente armada la base funcional del backend antes de avanzar a la modularización (separar la lógica en carpetas: conexión a la base, gestión de rutas, etc.) y al login.
+
+**Próxima clase:** se va a seguir modularizando el código del backend y avanzando hacia la migración de las vistas con **EJS**.
 
 ### Aplicado en
 
