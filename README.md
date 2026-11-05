@@ -28,9 +28,11 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 14 — 23/10 · Práctica guiada: servidor Express, formularios y comunicación cliente-servidor con Fetch</strong></font>](#clase-14)
 - [<font color="#8250DF"><strong>Clase 15 — 28/10 · TP Integrador: consignas y arranque del backend (Express + mysql2 + CRUD)</strong></font>](#clase-15)
 - [<font color="#8250DF"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font>](#clase-16)
+- [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
+- [<font color="#8250DF"><strong>TP Integrador (segunda nota)</strong></font>](#tp-integrador)
 
 ---
 
@@ -2721,6 +2723,96 @@ Se insistió en que la forma más efectiva de avanzar con el TP Integrador es re
 
 </details>
 
+<details>
+<summary><a id="clase-17"></a><font color="#1A7F37"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font></summary>
+
+> Nota: continuación en vivo del TP Integrador (ver [Clase 15](#clase-15) y [Clase 16](#clase-16)). Se tomaron los endpoints y vistas del CRUD, ya funcionando de forma mínima, y se los fue optimizando uno por uno: manejo de errores, códigos de estado más específicos, un middleware de validación reutilizable y feedback visual para el usuario. Quedó pendiente optimizar `POST` y `PUT` para una próxima clase.
+
+#### Optimización de `GET /api/products`
+
+Partiendo del endpoint mínimo armado en clases anteriores, se lo fue mejorando en varios pasos:
+
+1. **Manejo de errores con `try`/`catch`:** si falla la conexión o la consulta a la base de datos, se captura el error, se loguea por consola (`console.error`) y se responde con un código `500 Internal Server Error` y un mensaje **genérico** (por ejemplo, `"Error interno del servidor al obtener productos"`) — nunca el mensaje de error real de la base de datos. Se explicó por qué: exponerle al cliente el error tal cual (por ejemplo, el nombre exacto de una tabla que no existe) revela información interna del servidor y puede facilitarle a un atacante encontrar vulnerabilidades (como para intentar una inyección SQL). Al cliente se le da "lo justo y necesario", nunca de más.
+2. **No devolver todas las columnas:** se cambió la consulta de `SELECT * FROM products` a `SELECT id, name, imagen, price FROM products`, trayendo solo los campos que realmente se van a mostrar.
+3. **Código `404` si no hay productos:** si el array de filas viene vacío (`rows.length === 0`), se corta la ejecución con `return` y se responde `404` con un mensaje (`"No se encontraron productos"`), en vez de seguir de largo y devolver igual un `200` con un array vacío.
+
+```javascript
+app.get('/api/products', async (req, res) => {
+  try {
+    const [rows] = await connection.query('SELECT id, name, imagen, price FROM products');
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron productos' });
+    }
+
+    res.status(200).json({ data: rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error interno del servidor al obtener productos' });
+  }
+});
+```
+
+Del lado de la vista, se agregó una función `mostrarError(mensaje)` que, en vez de solo loguear por consola, inserta un párrafo visible en el contenedor de productos con una clase CSS (`mensaje error`) estilada como las alertas de Bootstrap (fondo y borde en rojo, texto centrado). Se filtran las respuestas no exitosas con `if (!response.ok)` — `fetch` **no** trata los códigos `400`/`500` como errores de red, así que hay que chequear `response.ok` explícitamente para detectarlos y mostrar el mensaje correspondiente (`data.message`); el `catch` del `try` queda reservado para errores reales de conexión (por ejemplo, el servidor caído), con su propio mensaje genérico (`"Error de conexión con el servidor"`).
+
+> Nota al margen: ante una consulta sobre qué hacer en producción si la base de datos se cae (por ejemplo, alojada en la nube), se comentó que no conviene reintentar la conexión automáticamente de forma indefinida: lo razonable es loguear el incidente (por ejemplo, con archivos de log), avisar al usuario con un mensaje claro ("intentá más tarde" o un canal de contacto si el problema persiste) y notificar al equipo responsable para que revise qué está pasando con el servidor o el hosting de la base de datos.
+
+#### Middleware `validateId` (reutilizable)
+
+Para no repetir la misma validación de ID en cada endpoint que lo recibe por parámetro de ruta (`GET /:id`, `PUT /:id`, `DELETE /:id`), se armó un middleware dedicado:
+
+```javascript
+function validateId(req, res, next) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(404).json({ message: 'El ID debe ser un número entero positivo' });
+  }
+
+  req.id = id;
+  next();
+}
+```
+
+Se aplica pasándolo como segundo argumento de la ruta (por ejemplo, `app.get('/api/products/:id', validateId, async (req, res) => { ... })`), y el endpoint ya recibe el valor validado y convertido a número en `req.id`, sin tener que repetir la lógica de chequeo en cada uno.
+
+#### Optimización de `GET /api/products/:id`
+
+Con el middleware `validateId` ya en uso, el endpoint quedó con: `try`/`catch` + manejo de errores (`500` genérico), la consulta trayendo solo los campos necesarios, y un `404` propio (`"Producto con ID [id] no encontrado"`) cuando la consulta no devuelve filas.
+
+Del lado del cliente se agregó una doble capa de validación — tanto en el HTML (atributos `required` y `min="1"` en el input) como en JavaScript antes de hacer el `fetch` — porque los atributos de un formulario HTML se pueden saltear fácilmente editando el DOM desde las herramientas de desarrollador del navegador (se mostró en vivo cómo, quitando el `required` y el `min` del input por consola, se puede enviar igual un valor inválido). Por eso la validación real y confiable tiene que estar siempre también del lado del servidor — el middleware ya la garantiza ahí —, y la del cliente es solo para dar una mejor experiencia de uso:
+
+```javascript
+const idProd = Number(event.target.idProd.value);
+
+if (!idProd || idProd <= 0 || Number.isNaN(idProd)) {
+  mostrarError('Ingresá un ID válido');
+  return;
+}
+```
+
+#### Optimización de `DELETE /api/products/:id`
+
+Mismo patrón: `validateId` como middleware, `try`/`catch`, mensajes de error específicos (`"Error interno del servidor al eliminar producto"`) y de éxito (`"Producto con ID [id] eliminado correctamente"`).
+
+Surgió la duda de si no era redundante validar el ID tanto en la vista (con el formulario de `GET by ID`, del que se reutiliza la lógica) como en el propio endpoint de `DELETE` a través del middleware. La conclusión: **no es redundante**, porque la vista y el endpoint son dos formas distintas de llegar al mismo recurso — nada impide que alguien consuma la API directamente (por ejemplo, desde Postman) sin pasar por la vista y sin que se ejecute la validación del lado del cliente. El middleware en el propio endpoint es la única validación en la que realmente se puede confiar.
+
+#### Feedback visual unificado: `mostrarMensaje(mensaje, estado)`
+
+Para no duplicar una función `mostrarError` y otra `mostrarExito` casi idénticas, se unificaron en una sola función que recibe el mensaje y un segundo parámetro de **estado** (`'error'` o `'exito'`), y arma el párrafo con la clase CSS correspondiente según ese estado — lo que define si el mensaje se ve en rojo (error) o en verde (éxito), replicando el estilo de las alertas de Bootstrap. Se usó tanto para mostrar los `404`/`500` que devuelve el servidor como para confirmar visualmente una eliminación o actualización exitosa, en reemplazo de los `alert()` nativos del navegador usados hasta el momento.
+
+**Próxima clase:** queda pendiente aplicar este mismo paquete de optimizaciones (manejo de errores, middleware de validación, feedback visual) a los endpoints y vistas de `POST` y `PUT`, antes de avanzar con la modularización del código.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
 ---
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
@@ -3086,6 +3178,38 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 
 - Se compone del **TP integrador**, desarrollado en grupos de dos personas.
 - Se defiende de forma oral el último día de clase, a modo de entrevista técnica: cada integrante del grupo debe poder explicar cualquier parte del código de su propio trabajo (qué hace, por qué se armó así, dónde está cada responsabilidad del proyecto). Esta defensa pesa más en la nota final que el primer parcial en sí.
+
+</details>
+
+---
+
+## <a id="tp-integrador"></a><font color="#8250DF">💻 TP Integrador (segunda nota)</font>
+
+<details>
+<summary><font color="#1A7F37"><strong>Ver información del TP Integrador</strong></font></summary>
+
+### Modalidad y fecha
+
+- Trabajo grupal, en parejas (algún grupo quedó de a tres por una cuestión de números impares en la comisión).
+- **Fechas tentativas, a confirmar por la cátedra:** entrega/defensa del TP el viernes 27/11, en horario de clase, y recuperatorio en la semana del 2 al 4/12.
+- A diferencia del primer parcial, para esta defensa **sí** se exige tener la cámara encendida y compartir pantalla durante la entrevista técnica.
+- Es una defensa oral: cada integrante tiene que poder explicar cualquier parte del código del trabajo (tanto del frontend como del backend), no alcanza con mostrarlo funcionando.
+
+### Consignas
+
+El detalle completo de la consigna (estructura de los dos proyectos — frontend tipo "tótem" y backend con API REST + panel de administración —, pantallas requeridas y la hoja de ruta sugerida) está documentado en la [Clase 15](#clase-15).
+
+### Qué no hace falta (aclarado en clase)
+
+- **No hace falta usar un ORM.** Se aclaró explícitamente que, si bien en algún material pueda mencionarse, no es un requisito de la consigna — se prefiere afianzar bien las sentencias SQL con placeholders antes de sumar una capa de abstracción extra.
+- Son **extras opcionales**, a sumar solo si da el tiempo: subida de archivos con **Multer**, descarga de datos a **Excel**, y **paginación** de resultados.
+
+### Criterios que se van a evaluar
+
+- Que ambos integrantes del grupo puedan explicar con soltura cualquier parte del código, tanto del front como del back (no se evalúa por separado "quién hizo qué").
+- Que el CRUD de productos funcione correctamente (`GET`, `POST`, `PUT`, `DELETE`) contra una base de datos propia, con un tema de producto distinto a comida/bebida.
+- El diseño del frontend: se pide una interfaz propia (sin frameworks de estilos tipo Bootstrap), por lo que también se evalúa cómo se armó y maquetó.
+- Buenas prácticas ya vistas en clase: manejo de errores, códigos de estado HTTP apropiados, placeholders en las consultas SQL (nunca concatenar valores a mano), y organización del código a medida que se modulariza.
 
 </details>
 
