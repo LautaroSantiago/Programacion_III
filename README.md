@@ -2726,7 +2726,7 @@ Se insistió en que la forma más efectiva de avanzar con el TP Integrador es re
 <details>
 <summary><a id="clase-17"></a><font color="#1A7F37"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font></summary>
 
-> Nota: continuación en vivo del TP Integrador (ver [Clase 15](#clase-15) y [Clase 16](#clase-16)). Se tomaron los endpoints y vistas del CRUD, ya funcionando de forma mínima, y se los fue optimizando uno por uno: manejo de errores, códigos de estado más específicos, un middleware de validación reutilizable y feedback visual para el usuario. Quedó pendiente optimizar `POST` y `PUT` para una próxima clase.
+> Nota: continuación en vivo del TP Integrador (ver [Clase 15](#clase-15) y [Clase 16](#clase-16)). Se tomaron los endpoints y vistas del CRUD, ya funcionando de forma mínima, y se los fue optimizando uno por uno: manejo de errores, códigos de estado más específicos, un middleware de validación reutilizable y feedback visual para el usuario. La clase se dio en dos tandas: primero `GET`, `GET by ID` y `DELETE`, y después de un corte `POST` y `PUT`, con un middleware de validación compartido y validación también del lado del cliente.
 
 #### Optimización de `GET /api/products`
 
@@ -2801,7 +2801,124 @@ Surgió la duda de si no era redundante validar el ID tanto en la vista (con el 
 
 Para no duplicar una función `mostrarError` y otra `mostrarExito` casi idénticas, se unificaron en una sola función que recibe el mensaje y un segundo parámetro de **estado** (`'error'` o `'exito'`), y arma el párrafo con la clase CSS correspondiente según ese estado — lo que define si el mensaje se ve en rojo (error) o en verde (éxito), replicando el estilo de las alertas de Bootstrap. Se usó tanto para mostrar los `404`/`500` que devuelve el servidor como para confirmar visualmente una eliminación o actualización exitosa, en reemplazo de los `alert()` nativos del navegador usados hasta el momento.
 
-**Próxima clase:** queda pendiente aplicar este mismo paquete de optimizaciones (manejo de errores, middleware de validación, feedback visual) a los endpoints y vistas de `POST` y `PUT`, antes de avanzar con la modularización del código.
+#### Middleware `validateProduct` (validación compartida de `POST` y `PUT`)
+
+Como crear y modificar un producto reciben los mismos campos en el `body` (`name`, `imagen`, `price`, `category`), la validación se armó **una sola vez** en un middleware y se reutiliza en ambos endpoints. La diferencia con `validateId` es que este **junta todos los errores en un array** en lugar de cortar en el primero, así el cliente recibe de una vez todo lo que tiene que corregir:
+
+```javascript
+function validateProduct(req, res, next) {
+  const { name, imagen, price, category } = req.body;
+  const categoriasValidas = ['food', 'drink'];
+  const errores = [];
+
+  if (!name || !imagen || price === undefined || !category) {
+    errores.push('Todos los campos son obligatorios');
+  }
+
+  if (typeof name !== 'string' || name.trim().length < 2) {
+    errores.push('El nombre debe ser un texto de al menos 2 caracteres');
+  }
+
+  if (typeof price !== 'number' || Number.isNaN(price) || price <= 0) {
+    errores.push('El precio debe ser un número mayor a 0');
+  }
+
+  if (!categoriasValidas.includes(category)) {
+    errores.push('La categoría debe ser "food" o "drink"');
+  }
+
+  // La validación de "imagen" queda para más adelante (cuando se vea Multer)
+
+  if (errores.length > 0) {
+    return res.status(400).json({ message: 'Datos inválidos', errores });
+  }
+
+  next();
+}
+```
+
+Se encadena con `validateId` cuando la ruta lo necesita: `app.put('/api/products/:id', validateId, validateProduct, async (req, res) => { ... })`. Los middlewares se ejecutan en el orden en que se declaran, y cada uno decide si corta con una respuesta o llama a `next()`.
+
+#### Optimización de `POST /api/products`
+
+El endpoint usa `validateProduct` como middleware, `try`/`catch` con `500` genérico, y al insertar aprovecha el resultado de la consulta: `result.insertId` trae el ID autogenerado del producto recién creado, que se incluye en el mensaje de éxito junto con un código `201 Created`.
+
+```javascript
+app.post('/api/products', validateProduct, async (req, res) => {
+  try {
+    const { name, imagen, price, category } = req.body;
+
+    const [result] = await connection.query(
+      'INSERT INTO products (name, imagen, price, category) VALUES (?, ?, ?, ?)',
+      [name, imagen, price, category]
+    );
+
+    res.status(201).json({ message: `Producto creado con ID ${result.insertId}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error interno del servidor al crear producto' });
+  }
+});
+```
+
+**Tipos de datos en el cliente (error muy común).** Los valores de un formulario HTML siempre llegan como *string*. Si se mandan tal cual, el middleware rechaza el precio porque no es de tipo `number` y la respuesta es "Datos inválidos" aunque el usuario haya cargado todo bien. Se mostró en vivo cómo aparecía ese error y cómo se resolvía: convertir y limpiar los datos **antes** del `fetch`:
+
+```javascript
+form.price = Number(form.price);
+form.name = form.name.trim();
+```
+
+**Validación del lado del cliente.** Se agregó `validarFormulario(formObjeto)`, que replica parte de las validaciones del servidor (nombre con largo mínimo, precio numérico mayor a 0, categoría seleccionada) y devuelve un **array de errores**. Como la conversión con `Number()` ya se hizo antes, se eliminó un chequeo `isNaN` redundante que quedaba dentro de la función. Para mostrar varios errores a la vez se armó `mostrarListaErrores(errores)`, que recorre el array, genera un párrafo por error reutilizando el estilo de `mostrarMensaje(mensaje, 'error')` y reemplaza el `innerHTML` del contenedor con el resultado. Como los errores se apilan, se agregó `margin-bottom: 10px` a la clase `.mensaje` para que los bordes no se pisen.
+
+```javascript
+const errores = validarFormulario(form);
+
+if (errores.length > 0) {
+  mostrarListaErrores(errores);
+  return;
+}
+```
+
+> **No olvidarse del `return`.** Es una fuente de bugs muy frecuente: si dentro de `if (!response.ok) { ... }` se llama a `mostrarMensaje(mensaje, 'error')` pero **no** se hace `return`, la ejecución sigue de largo y corre también el código del camino exitoso. El resultado es que en pantalla aparecen a la vez el mensaje de error **y** el de éxito. Se vio como un bug real durante la clase. Siempre que una validación o un error tiene que cortar el flujo, va un `return`.
+
+#### Optimización de `PUT /api/products/:id`
+
+Misma estructura que `POST`, encadenando los dos middlewares (`validateId` y `validateProduct`) y con `try`/`catch`. La diferencia está en cómo se comprueba que la operación realmente hizo algo: en el resultado del `UPDATE` se usa `result.changedRows`, y si es `0` se responde `404` (`"No se actualizó el producto"`) en lugar de informar un éxito falso; si no, `200` con un mensaje que incluye el ID.
+
+```javascript
+app.put('/api/products/:id', validateId, validateProduct, async (req, res) => {
+  try {
+    const { name, imagen, price, category } = req.body;
+
+    const [result] = await connection.query(
+      'UPDATE products SET name = ?, imagen = ?, price = ?, category = ? WHERE id = ?',
+      [name, imagen, price, category, req.id]
+    );
+
+    if (!result.changedRows) {
+      return res.status(404).json({ message: 'No se actualizó el producto' });
+    }
+
+    res.status(200).json({ message: `Producto con ID ${req.id} actualizado correctamente` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error interno del servidor al actualizar producto' });
+  }
+});
+```
+
+La vista de `PUT` es casi una copia de la de `POST`: se reutilizan tal cual `validarFormulario`, `mostrarListaErrores` y `mostrarMensaje`, con la misma conversión de tipos antes del `fetch` y el mismo `return` tras mostrar un error.
+
+#### Modelado de la base: tabla general de productos + tablas específicas
+
+Al revisar esquemas de base de datos para el TP surgió un patrón útil cuando hay distintos tipos de producto con campos propios: una tabla general (por ejemplo `productos`) con lo que todos comparten (nombre, precio, imagen, estado activo) y una tabla específica por tipo, cada una con una clave foránea a la general. Así, las ventas o pedidos referencian siempre a la tabla general y no a un tipo en particular, y agregar un tipo nuevo no obliga a tocar el resto del modelo.
+
+#### Aclaraciones sobre el alcance del TP
+
+- **ORM:** no se exige, y se reiteró que conviene entender primero el SQL directo.
+- **Multer (subida de archivos), exportación a Excel y paginación:** no se van a pedir en la defensa principal (tentativamente 27/11), aunque la exportación a Excel figure en el PDF de la consigna, que se va a corregir. Para quienes vayan a recuperatorio (una semana extra) es posible que sí se pidan Multer y paginación.
+
+**Próxima clase (viernes):** modularización del código siguiendo el patrón MVC, cortando y pegando la lógica actual en carpetas: `middlewares/`, `rutas/` (con `Router` de Express), `controladores/` y `modelos/`. Después se pasa a migrar las vistas a **EJS** y a armar el **login** con `bcrypt` (hash de contraseñas y redirecciones), dejando un par de clases para repaso y preparación de la defensa. Se recomendó aprovechar el feriado del 11/11 para ponerse al día con los endpoints y las vistas, y así poder seguir cómodo la modularización en vivo.
 
 ### Aplicado en
 
@@ -3202,7 +3319,7 @@ El detalle completo de la consigna (estructura de los dos proyectos — frontend
 ### Qué no hace falta (aclarado en clase)
 
 - **No hace falta usar un ORM.** Se aclaró explícitamente que, si bien en algún material pueda mencionarse, no es un requisito de la consigna — se prefiere afianzar bien las sentencias SQL con placeholders antes de sumar una capa de abstracción extra.
-- Son **extras opcionales**, a sumar solo si da el tiempo: subida de archivos con **Multer**, descarga de datos a **Excel**, y **paginación** de resultados.
+- **Multer, Excel y paginación no se piden en la defensa principal** (tentativamente 27/11). Son extras opcionales: subida de archivos (**Multer**), descarga de datos a **Excel** y **paginación** de resultados. La exportación a Excel aparece en el PDF de la consigna, pero se aclaró que se va a corregir. Quienes vayan a **recuperatorio** (una semana extra) podrían tener que incorporar Multer y paginación (ver [Clase 17](#clase-17)).
 
 ### Criterios que se van a evaluar
 
