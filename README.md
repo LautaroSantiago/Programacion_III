@@ -1,6 +1,6 @@
 # <font color="#1F6FEB">Programación III</font>
 
-Apuntes de cursada y práctica de clase de la materia Programación III (Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas del profesor, comentados en base a lo explicado en clase.
+Apuntes de cursada y práctica de clase de la materia Programación III (Tecnicatura Universitaria en Programación, UTN Facultad Regional Avellaneda). El objetivo del repositorio es centralizar el código trabajado en cada clase y dejar registro de los conceptos y consignas de la cátedra, comentados en base a lo explicado en clase.
 
 **Cursada:** 2do. cuatrimestre 2026
 
@@ -846,7 +846,7 @@ Repaso de los distintos tipos de funciones que existen en JavaScript (10 en tota
   5. **Devolviendo un objeto literal:** el objeto debe envolverse entre paréntesis para que no se confunda con el cuerpo de la función — `crearPersona = (nombre, edad) => ({ nombre: nombre, edad: edad })`.
   6. Combinaciones de lo anterior según el caso (por ejemplo, un solo parámetro + cuerpo de una sola línea con retorno implícito, como en el ejemplo de `cuadrado`).
 - **Función de método:** una función definida dentro de un objeto o una clase (por ejemplo, `persona.saludar()`).
-- **Función constructora:** se usa para crear objetos y se invoca con la keyword `new` (`function Usuario(nombre, id) { this.nombre = nombre; this.id = id; } const gonzalo = new Usuario(...)`).
+- **Función constructora:** se usa para crear objetos y se invoca con la keyword `new` (`function Usuario(nombre, id) { this.nombre = nombre; this.id = id; } const usuario1 = new Usuario(...)`).
 - Mencionadas brevemente, sin entrar en detalle todavía (se retoman más adelante en la cursada): **IIFE** (*Immediately Invoked Function Expression*), **función generadora**, y **función de orden superior** (una función que recibe o devuelve otra función como argumento — por ejemplo `numeros.map(num => num * 2)` —, que se va a ver en profundidad junto con los *callbacks* en JavaScript 6/7).
 
 #### Ejercicios sugeridos
@@ -936,7 +936,7 @@ alert("Mensaje de alerta");
 
 console.log(window.location.href); // URL actual
 
-localStorage.setItem("nombre", "Matias");
+localStorage.setItem("nombre", "Juan");
 console.log(localStorage.getItem("nombre")); // queda guardado en el navegador de forma permanente
 ```
 
@@ -1307,8 +1307,8 @@ function despedirse() {
 }
 
 // despedirse es un callback: una función pasada como argumento que se ejecuta en el orden que se quiera
-saludar("Matias", despedirse);
-// Hola Matias!
+saludar("Juan", despedirse);
+// Hola Juan!
 // Chau!
 ```
 
@@ -1458,8 +1458,8 @@ console.log(a); // 1
 console.log(resto); // [2, 3, 4]
 
 // Rest operator con destructuring (objetos)
-const { nombre: nom, ...otros } = { nombre: "Martino", edad: 30, pais: "Argentina" };
-console.log(nom); // Martino
+const { nombre: nom, ...otros } = { nombre: "Juan", edad: 30, pais: "Argentina" };
+console.log(nom); // Juan
 console.log(otros); // { edad: 30, pais: "Argentina" }
 ```
 
@@ -1519,7 +1519,7 @@ function saludar(nombre) {
     return construirMensaje();
 }
 
-console.log(saludar("Gonzalo"));
+console.log(saludar("Ana"));
 ```
 
 Usos comunes:
@@ -2572,11 +2572,14 @@ Se probaron ambos endpoints desde el navegador y desde **Postman**, una herramie
 
 ### Aplicado en
 
--
+Arranque del backend del TP Integrador, en `UTN2026_c2Div132-main/6_tpIntegradorBack/`: servidor Express, variables de entorno con `dotenv` (`config/environments.js`) y pool de conexiones a MySQL con `mysql2` (`database/db.js`).
 
 ### Código
 
--
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
+[![Ver environments.js](https://img.shields.io/badge/💻_Ver_environments.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/config/environments.js)
+[![Ver db.js](https://img.shields.io/badge/💻_Ver_db.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/database/db.js)
+[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/package.json)
 
 </details>
 
@@ -2715,11 +2718,12 @@ Se insistió en que la forma más efectiva de avanzar con el TP Integrador es re
 
 ### Aplicado en
 
--
+Backend del TP (`6_tpIntegradorBack/`) con CORS, logger, `express.json()` y el CRUD de productos, y las vistas que lo consumen con `fetch` (`6_tpIntegradorVistasBack/`: `get.html`, `post.html`, `put.html`, `delete.html`). Apuntes relacionados: [entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/entendiendoReqRes.md), [enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/enviandoDatosForm.md) y [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/renderizadoContenido.md) (CSR vs SSR).
 
 ### Código
 
--
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
+[![Ver vistas](https://img.shields.io/badge/💻_Ver_vistas-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack)
 
 </details>
 
@@ -2733,23 +2737,25 @@ Se insistió en que la forma más efectiva de avanzar con el TP Integrador es re
 Partiendo del endpoint mínimo armado en clases anteriores, se lo fue mejorando en varios pasos:
 
 1. **Manejo de errores con `try`/`catch`:** si falla la conexión o la consulta a la base de datos, se captura el error, se loguea por consola (`console.error`) y se responde con un código `500 Internal Server Error` y un mensaje **genérico** (por ejemplo, `"Error interno del servidor al obtener productos"`) — nunca el mensaje de error real de la base de datos. Se explicó por qué: exponerle al cliente el error tal cual (por ejemplo, el nombre exacto de una tabla que no existe) revela información interna del servidor y puede facilitarle a un atacante encontrar vulnerabilidades (como para intentar una inyección SQL). Al cliente se le da "lo justo y necesario", nunca de más.
-2. **No devolver todas las columnas:** se cambió la consulta de `SELECT * FROM products` a `SELECT id, name, imagen, price FROM products`, trayendo solo los campos que realmente se van a mostrar.
+2. **No devolver todas las columnas:** se cambió la consulta de `SELECT * FROM products` a `SELECT id, name, price, image FROM products`, trayendo solo los campos que realmente se van a mostrar.
 3. **Código `404` si no hay productos:** si el array de filas viene vacío (`rows.length === 0`), se corta la ejecución con `return` y se responde `404` con un mensaje (`"No se encontraron productos"`), en vez de seguir de largo y devolver igual un `200` con un array vacío.
 
 ```javascript
-app.get('/api/products', async (req, res) => {
-  try {
-    const [rows] = await connection.query('SELECT id, name, imagen, price FROM products');
+app.get("/api/products", async (req, res) => {
+	try {
+		const sql = "SELECT id, name, price, image FROM products";
+		const [rows] = await connection.query(sql);
 
-    if (rows.length === 0) {
-      return res.status(404).json({ message: 'No se encontraron productos' });
-    }
+		if (rows.length === 0) {
+			return res.status(404).json({ message: "No se encontraron productos" });
+		}
 
-    res.status(200).json({ data: rows });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error interno del servidor al obtener productos' });
-  }
+		res.status(200).json({ payload: rows });
+
+	} catch (error) {
+		console.log("Error obteniendo productos: ", error);
+		res.status(500).json({ message: "Error interno del servidor al obtener productos" });
+	}
 });
 ```
 
@@ -2759,18 +2765,21 @@ Del lado de la vista, se agregó una función `mostrarError(mensaje)` que, en ve
 
 #### Middleware `validateId` (reutilizable)
 
-Para no repetir la misma validación de ID en cada endpoint que lo recibe por parámetro de ruta (`GET /:id`, `PUT /:id`, `DELETE /:id`), se armó un middleware dedicado:
+Para no repetir la misma validación de ID en cada endpoint que lo recibe por parámetro de ruta (`GET /:id` y `DELETE /:id`), se armó un middleware dedicado:
 
 ```javascript
-function validateId(req, res, next) {
-  const id = Number(req.params.id);
+const validateId = (req, res, next) => {
+	const id = Number(req.params.id); // Pasamos a number el id del parámetro
 
-  if (!Number.isInteger(id) || id <= 0) {
-    return res.status(404).json({ message: 'El ID debe ser un número entero positivo' });
-  }
+	// Si el id no es un número entero o es <= 0
+	if (!Number.isInteger(id) || id <= 0) {
+		return res.status(404).json({
+			message: "El id debe ser un numero entero positivo"
+		})
+	}
 
-  req.id = id;
-  next();
+	req.id = id;
+	next();
 }
 ```
 
@@ -2803,62 +2812,73 @@ Para no duplicar una función `mostrarError` y otra `mostrarExito` casi idéntic
 
 #### Middleware `validateProduct` (validación compartida de `POST` y `PUT`)
 
-Como crear y modificar un producto reciben los mismos campos en el `body` (`name`, `imagen`, `price`, `category`), la validación se armó **una sola vez** en un middleware y se reutiliza en ambos endpoints. La diferencia con `validateId` es que este **junta todos los errores en un array** en lugar de cortar en el primero, así el cliente recibe de una vez todo lo que tiene que corregir:
+Como crear y modificar un producto reciben los mismos campos en el `body` (`name`, `image`, `price`, `category`), la validación se armó **una sola vez** en un middleware y se reutiliza en ambos endpoints. La diferencia con `validateId` es que este **junta todos los errores en un array** en lugar de cortar en el primero, así el cliente recibe de una vez todo lo que tiene que corregir:
 
 ```javascript
-function validateProduct(req, res, next) {
-  const { name, imagen, price, category } = req.body;
-  const categoriasValidas = ['food', 'drink'];
-  const errores = [];
+const validateProduct = (req, res, next) => {
+	const categoriasValidas = ["food", "drink"];
 
-  if (!name || !imagen || price === undefined || !category) {
-    errores.push('Todos los campos son obligatorios');
-  }
+	const { name, image, price, category } = req.body;
+	const errores = []; // Array vacío para ir metiendo los errores
 
-  if (typeof name !== 'string' || name.trim().length < 2) {
-    errores.push('El nombre debe ser un texto de al menos 2 caracteres');
-  }
+	// Verificamos los datos de entrada
+	if (!name || !image || !price || !category) {
+		errores.push("Faltan campos requeridos");
+	}
 
-  if (typeof price !== 'number' || Number.isNaN(price) || price <= 0) {
-    errores.push('El precio debe ser un número mayor a 0');
-  }
+	// Verificamos name
+	if (typeof name !== "string" || name.trim().length < 2) {
+		errores.push("El nombre debe tener al menos 2 caracteres");
+	}
 
-  if (!categoriasValidas.includes(category)) {
-    errores.push('La categoría debe ser "food" o "drink"');
-  }
+	// Verificamos price
+	if (typeof price !== "number" || price <= 0) {
+		errores.push("El precio debe ser un numero mayor a 0");
+	}
 
-  // La validación de "imagen" queda para más adelante (cuando se vea Multer)
+	// Verificamos category
+	if (!categoriasValidas.includes(category)) {
+		errores.push("Categoria invalida");
+	}
 
-  if (errores.length > 0) {
-    return res.status(400).json({ message: 'Datos inválidos', errores });
-  }
+	// Si hay algún error en la lista, lo devolvemos en un 400
+	if (errores.length > 0) {
+		console.log(errores);
+		return res.status(400).json({
+			message: "Datos invalidos",
+			listaErrores: errores
+		});
+	}
 
-  next();
+	next(); // Damos paso al siguiente middleware o a la response
 }
 ```
 
-Se encadena con `validateId` cuando la ruta lo necesita: `app.put('/api/products/:id', validateId, validateProduct, async (req, res) => { ... })`. Los middlewares se ejecutan en el orden en que se declaran, y cada uno decide si corta con una respuesta o llama a `next()`.
+La respuesta de error trae un `message` general y la lista completa en `listaErrores`, que es lo que después recorre la vista para mostrar un mensaje por cada error. Se usa como middleware de la ruta (`app.post("/api/products", validateProduct, async (req, res) => { ... })`); cuando una ruta necesita más de uno se encadenan, y se ejecutan en el orden en que se declaran: cada uno decide si corta con una respuesta o llama a `next()`.
 
 #### Optimización de `POST /api/products`
 
-El endpoint usa `validateProduct` como middleware, `try`/`catch` con `500` genérico, y al insertar aprovecha el resultado de la consulta: `result.insertId` trae el ID autogenerado del producto recién creado, que se incluye en el mensaje de éxito junto con un código `201 Created`.
+El endpoint usa `validateProduct` como middleware, `try`/`catch` con `500` genérico, y al insertar aprovecha el resultado de la consulta: `rows.insertId` trae el ID autogenerado del producto recién creado, que se devuelve en la respuesta como `productId` junto con un código `201 Created`.
 
 ```javascript
-app.post('/api/products', validateProduct, async (req, res) => {
-  try {
-    const { name, imagen, price, category } = req.body;
+app.post("/api/products", validateProduct, async (req, res) => {
+	try {
+		const { category, image, name, price } = req.body;
 
-    const [result] = await connection.query(
-      'INSERT INTO products (name, imagen, price, category) VALUES (?, ?, ?, ?)',
-      [name, imagen, price, category]
-    );
+		const sql = "INSERT INTO products (name, image, category, price) VALUES (?, ?, ?, ?)"
 
-    res.status(201).json({ message: `Producto creado con ID ${result.insertId}` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error interno del servidor al crear producto' });
-  }
-});
+		const [rows] = await connection.query(sql, [name, image, category, price]);
+
+		res.status(201).json({
+			message: "Producto creado con exito",
+			productId: rows.insertId // Devolvemos el id que se acaba de asignar al producto
+		});
+
+	} catch (error) {
+		console.log("Error creando producto: ", error);
+		res.status(500).json({ message: "Error interno del servidor al crear un producto" });
+	}
+})
 ```
 
 **Tipos de datos en el cliente (error muy común).** Los valores de un formulario HTML siempre llegan como *string*. Si se mandan tal cual, el middleware rechaza el precio porque no es de tipo `number` y la respuesta es "Datos inválidos" aunque el usuario haya cargado todo bien. Se mostró en vivo cómo aparecía ese error y cómo se resolvía: convertir y limpiar los datos **antes** del `fetch`:
@@ -2881,30 +2901,31 @@ if (errores.length > 0) {
 
 > **No olvidarse del `return`.** Es una fuente de bugs muy frecuente: si dentro de `if (!response.ok) { ... }` se llama a `mostrarMensaje(mensaje, 'error')` pero **no** se hace `return`, la ejecución sigue de largo y corre también el código del camino exitoso. El resultado es que en pantalla aparecen a la vez el mensaje de error **y** el de éxito. Se vio como un bug real durante la clase. Siempre que una validación o un error tiene que cortar el flujo, va un `return`.
 
-#### Optimización de `PUT /api/products/:id`
+#### Optimización de `PUT /api/products`
 
-Misma estructura que `POST`, encadenando los dos middlewares (`validateId` y `validateProduct`) y con `try`/`catch`. La diferencia está en cómo se comprueba que la operación realmente hizo algo: en el resultado del `UPDATE` se usa `result.changedRows`, y si es `0` se responde `404` (`"No se actualizó el producto"`) en lugar de informar un éxito falso; si no, `200` con un mensaje que incluye el ID.
+Misma estructura que `POST`: `validateProduct` como middleware y `try`/`catch`. El `id` del producto viaja en el `body` (viene del campo oculto del formulario de modificación), por eso esta ruta no lleva `:id` ni `validateId`. La diferencia está en cómo se comprueba que la operación realmente hizo algo: en el resultado del `UPDATE` se usa `result.changedRows`, y si es `0` se responde `404` (`"No se actualizo el producto"`) en lugar de informar un éxito falso; si no, `200` con un mensaje que incluye el ID.
 
 ```javascript
-app.put('/api/products/:id', validateId, validateProduct, async (req, res) => {
-  try {
-    const { name, imagen, price, category } = req.body;
+app.put("/api/products", validateProduct, async (req, res) => {
+	try {
+		const { id, name, image, price, category } = req.body;
 
-    const [result] = await connection.query(
-      'UPDATE products SET name = ?, imagen = ?, price = ?, category = ? WHERE id = ?',
-      [name, imagen, price, category, req.id]
-    );
+		const sql = "UPDATE products SET name = ?, image = ?, price = ?, category = ? WHERE id = ?";
 
-    if (!result.changedRows) {
-      return res.status(404).json({ message: 'No se actualizó el producto' });
-    }
+		const [result] = await connection.query(sql, [name, image, price, category, id]);
 
-    res.status(200).json({ message: `Producto con ID ${req.id} actualizado correctamente` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error interno del servidor al actualizar producto' });
-  }
-});
+		// Verificamos si realmente se actualizó algo
+		if (result.changedRows === 0) {
+			return res.status(404).json({ message: `No se actualizo el producto` });
+		}
+
+		res.status(200).json({ message: `Producto con id ${id} actualizado correctamente` });
+
+	} catch (error) {
+		console.log("Error modificando producto: ", error);
+		res.status(500).json({ message: "Error interno del servidor al modificar un producto" });
+	}
+})
 ```
 
 La vista de `PUT` es casi una copia de la de `POST`: se reutilizan tal cual `validarFormulario`, `mostrarListaErrores` y `mostrarMensaje`, con la misma conversión de tipos antes del `fetch` y el mismo `return` tras mostrar un error.
@@ -2922,11 +2943,13 @@ Al revisar esquemas de base de datos para el TP surgió un patrón útil cuando 
 
 ### Aplicado en
 
--
+Versión optimizada del backend en `6_tpIntegradorBack/index.js` (middlewares `validateId` y `validateProduct`, `try`/`catch` en todos los endpoints) y de las vistas en `6_tpIntegradorVistasBack/`. Apunte relacionado: [consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md) (placeholders `?` y SQL Injection).
 
 ### Código
 
--
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
+[![Ver vistas](https://img.shields.io/badge/💻_Ver_vistas-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack)
+[![Ver consultasSQL.md](https://img.shields.io/badge/📄_Ver_consultasSQL.md-1A7F37?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md)
 
 </details>
 
@@ -2934,7 +2957,7 @@ Al revisar esquemas de base de datos para el TP surgió un patrón útil cuando 
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
 
-La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
+La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
 
 [![Ver repositorio en vivo](https://img.shields.io/badge/🔗_Repositorio_de_la_cátedra-181717?style=for-the-badge&logo=github)](https://github.com/profexabi/UTN2026_c2Div132)
 
@@ -2943,22 +2966,22 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 
 **index.html** — repaso de HTML: lista desordenada y ordenada (ingredientes), párrafos, `<hr>`, etiquetas de formato de texto (`<strong>`, `<em>`, `<mark>`, `<small>`, `<del>`, `<ins>`, `<b>`, `<i>`, `<sub>`, `<sup>`) y un enlace con una imagen adentro.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/index.html)
 
 **README.md** — cronograma de la cátedra: qué se vio en la Clase 1 (HTML hasta elementos en bloque/en línea, con el recordatorio de que toda etiqueta en línea va dentro de una de bloque), la práctica sugerida de armar una receta con las etiquetas vistas, y lo que se dio en "Clase CSS I" (pseudoclases, flex, unidades absolutas y relativas, estilado básico). También incluye una guía rápida de Git (clone, status, pull, add, commit, push).
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/README.md)
 
 **Ejercicio-1/index.html** y **Ejercicio-1/sobremi.html** — ejercicio de práctica con dos páginas enlazadas entre sí (portada + "sobre mí"), estilado con `style.css` propio y una imagen en `assets/img/`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Ejercicio-1/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Ejercicio-1/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Ejercicio-1/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Ejercicio-1/index.html)
 
 **Portfolio/index.html** — otro ejemplo de página de portfolio, con su propio `style.css` y favicon (`img/favicon.ico`).
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Portfolio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Portfolio/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Portfolio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Portfolio/index.html)
 
 </details>
 
@@ -2967,22 +2990,22 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 
 **index.html** — página de ejemplo con fuente de Google Fonts (Montserrat), CSS interno con pseudoclases aplicadas a distintos links (`:hover`, `:active`, `:visited`, y la combinación `:visited:hover`), CSS externo vinculado aparte, y una estructura con `header` + `nav` + `main` con secciones y un video de fondo autoplay en loop.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/index.html)
 
 **portfolio.html** — landing page de portfolio: sección hero a pantalla completa (`height: 100vh`) con tipografía custom vía `@font-face`, imagen de fondo y texto centrado con flexbox, header con navegación por anclas (`#presentacion`, `#experiencias`, `#habilidades`) y secciones de "sobre mí", "experiencia" y "habilidades".
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/portfolio.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/portfolio.html)
 
 **css/styles.css** — hoja de estilos externa usada por `index.html`: estilos de botón con `:hover`, header en flexbox con lista sin viñetas, y la sección de portada en flexbox column con el video ocupando el 100% del ancho.
 
-[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/css/styles.css)
+[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/css/styles.css)
 
 **muestraDivs.html** — demo en vivo de tarjetas (`cards`) estilizadas con `box-shadow`, `border-radius` y variables CSS definidas en `:root` (colores primario/secundario, fondo), con su propio `css/muestraDivs.css`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/muestraDivs.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/muestraDivs.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/muestraDivs.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/muestraDivs.html)
 
 **README.md** — apunte de CSS bastante completo:
 - Unidades **absolutas** (`px`) vs. **relativas** (`em`, `rem`, `%`, `vw`, `vh`), con ejemplos de cada una.
@@ -2991,22 +3014,22 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 - **Combinadores**: descendiente (`div p`) y de hijo directo (`div > p`).
 - Links a bancos de íconos y fuentes web-safe, y una nota aparte sobre la tipografía Montserrat (variable font vs. archivos estáticos por peso) y qué es un archivo `.ttf`.
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/README.md)
 
 **assets/fonts/future-z-font** — la fuente custom `Future Z` usada en el portfolio, con su licencia (`misc/license.txt`): uso personal gratuito, uso comercial requiere un pago único de USD 20.
 
-[📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/assets/fonts/future-z-font/misc/license.txt)
+[📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/assets/fonts/future-z-font/misc/license.txt)
 
 **bootstrap/Inicio/index.html** y **bootstrap/Inicio/seguido.html** — primeros ejemplos maquetando con Bootstrap, con su propio `css/style.css`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Inicio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Inicio/index.html)
 
 **bootstrap/Peliculas/index.html** — ejercicio de Bootstrap tipo catálogo de películas, con capturas de ejemplo (`assets/img/ejemplo-footer.png`, `ejemplo-form.png`), ícono propio y su propio `readme.md`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/readme.md)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Peliculas/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Peliculas/index.html)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Peliculas/readme.md)
 
 </details>
 
@@ -3015,26 +3038,103 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 
 **index.html** — página de práctica que vincula `css/styles.css` y `js/index.js` (script externo), para los primeros ejemplos de JavaScript.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/index.html)
 
 **js/index.js** — script de JavaScript de la práctica.
 
-[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/js/index.js)
+[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/js/index.js)
 
 **apuntesJS.md** — apuntes propios de JavaScript de la cátedra.
 
-[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/apuntesJS.md)
+[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/js/apuntesJS.md)
 
 **README.md**
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/README.md)
 
 </details>
 
-**apuntes.md** — notas sueltas de la cátedra, en la raíz de `UTN2026_c2Div132/` (no dentro de `1_html`, `2_css` ni `3_javascript`).
+<details>
+<summary><font color="#1A7F37"><strong>4_nodejs</strong></font></summary>
 
-[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/apuntes.md)
+Ejemplos de las clases de Node.js (módulos, módulo `http` nativo y npm): `index.js`, `saludos.js`, `servidorNode.js` y `archivos/leeme.txt`, más su `README.md`.
+
+[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/index.js)
+[💻 Ver servidorNode.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/servidorNode.js)
+[💻 Ver saludos.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/saludos.js)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/README.md)
+
+</details>
+
+<details>
+<summary><font color="#1A7F37"><strong>5_express</strong></font></summary>
+
+Primeros ejemplos de servidor con Express (`index.js`, `package.json`), con su `README.md` y una `bitacora/` propia.
+
+[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/5_express/index.js)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/5_express/README.md)
+[📄 Ver bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/5_express/bitacora/README.md)
+
+</details>
+
+<details>
+<summary><font color="#1A7F37"><strong>6_tpIntegradorBack</strong></font></summary>
+
+Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2` y `dotenv`.
+
+**index.js** — servidor completo: importaciones, middlewares (`cors()`, logger de solicitudes con fecha y hora, `express.json()`, `validateId` y `validateProduct`) y los endpoints del CRUD sobre `products` (`GET /api/products`, `GET /api/products/:id`, `POST /api/products`, `PUT /api/products` y `DELETE /api/products/:id`), todos con `try`/`catch`, consultas con placeholders y códigos de estado específicos (`200`, `201`, `400`, `404`, `500`). Al final queda comentado el esqueleto de una vista EJS para la próxima etapa.
+
+[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
+[💻 Ver package.json](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/package.json)
+
+**src/api/config/environments.js** — carga las variables de entorno con `dotenv` (`PORT`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) y las exporta como un objeto de configuración.
+
+[💻 Ver environments.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/config/environments.js)
+
+**src/api/database/db.js** — crea el **pool de conexiones** a MySQL con `mysql2/promise` y lo exporta. Un pool mantiene varias conexiones abiertas y reutilizables, lo que evita crear y destruir conexiones en cada consulta y mejora el rendimiento del servidor.
+
+[💻 Ver db.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/database/db.js)
+
+**bitacora/** — apuntes del TP Integrador:
+- **consultasSQL.md** — por qué los placeholders (`?`) previenen la **inyección SQL**: ejemplo inseguro (`1 OR 1=1`) frente al seguro, ventajas, y la aclaración de que protegen valores pero no nombres de tablas o columnas (`ORDER BY ?`), que se validan con listas de valores permitidos.
+- **entendiendoReqRes.md** — qué puede enviar un `<form>` por defecto (solo `GET` y `POST`; `PUT`, `PATCH` y `DELETE` requieren `fetch`), las propiedades de `req` (`params`, `query`, `body`, `headers`, `method`, `url`), los métodos de `res` (`send`, `json`, `status`, `redirect`, `sendStatus`) y el significado de los códigos de estado más usados.
+- **enviandoDatosForm.md** — cómo viaja el cuerpo de una petición (HTTP sobre TCP, lectura por *streams* y *chunks*) y cómo `express.json()` lo convierte en `req.body`; comparación entre objeto literal y `FormData` y cuándo conviene cada uno (`Object.fromEntries`).
+- **renderizadoContenido.md** — **CSR vs SSR** con Express y EJS: cómo funciona cada uno, ventajas y desventajas, tabla comparativa, cuándo elegir cada uno y cómo combinarlos.
+- **README.md** — todavía vacío.
+
+[📄 consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md)
+[📄 entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/entendiendoReqRes.md)
+[📄 enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/enviandoDatosForm.md)
+[📄 renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/renderizadoContenido.md)
+
+</details>
+
+<details>
+<summary><font color="#1A7F37"><strong>6_tpIntegradorVistasBack</strong></font></summary>
+
+Vistas del frontend del TP, que consumen la API del backend con `fetch` (renderizado del lado del cliente): `index.html`, una página por operación (`get.html`, `post.html`, `put.html`, `delete.html`), `css/styles.css` y `img/` (`burger-logo.png`, `favicon.ico`).
+
+[💻 Ver index.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/index.html)
+[💻 Ver get.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/get.html)
+[💻 Ver post.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/post.html)
+[💻 Ver put.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/put.html)
+[💻 Ver delete.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/delete.html)
+
+</details>
+
+<details>
+<summary><font color="#1A7F37"><strong>README.md y apuntes.md (material del TP Integrador)</strong></font></summary>
+
+**README.md** (raíz) — organiza lo del TP Integrador: fecha de entrega (**hasta el viernes 4/12 a las 08:29**), material para entender el backend (playlist de programación web sobre arquitectura cliente-servidor, protocolo HTTP, JSON y APIs, y un video sobre HTTP y HTML), fechas importantes (primer parcial hasta JavaScript VI, con recuperatorio), pendientes de repaso (rest vs spread operator, closures, JavaScript monohilo, Event Loop) y un cronograma con la guía rápida de Git (`clone`, `status`, `pull`, `add`, `commit`, `push`).
+
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/README.md)
+
+**apuntes.md** (raíz) — apuntes de apoyo para trabajar el TP: cómo escribir caracteres Unicode en VS Code en Linux (`Ctrl + Shift + U`, tabla de códigos útiles y secuencias de escape por lenguaje), los 40 atajos más comunes de VS Code/VSCodium con los 10 que conviene memorizar primero, y la diferencia entre **shell**, **bash**, **zsh** y **terminal**.
+
+[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/apuntes.md)
+
+</details>
 
 ---
 
@@ -3308,7 +3408,7 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 ### Modalidad y fecha
 
 - Trabajo grupal, en parejas (algún grupo quedó de a tres por una cuestión de números impares en la comisión).
-- **Fechas tentativas, a confirmar por la cátedra:** entrega/defensa del TP el viernes 27/11, en horario de clase, y recuperatorio en la semana del 2 al 4/12.
+- **Entrega final: hasta el viernes 4/12 a las 08:29** (según el README de la cátedra). Las fechas de defensa en clase (tentativamente el viernes 27/11) y de recuperatorio (semana del 2 al 4/12) siguen a confirmar por la cátedra.
 - A diferencia del primer parcial, para esta defensa **sí** se exige tener la cámara encendida y compartir pantalla durante la entrevista técnica.
 - Es una defensa oral: cada integrante tiene que poder explicar cualquier parte del código del trabajo (tanto del frontend como del backend), no alcanza con mostrarlo funcionando.
 
@@ -3320,6 +3420,12 @@ El detalle completo de la consigna (estructura de los dos proyectos — frontend
 
 - **No hace falta usar un ORM.** Se aclaró explícitamente que, si bien en algún material pueda mencionarse, no es un requisito de la consigna — se prefiere afianzar bien las sentencias SQL con placeholders antes de sumar una capa de abstracción extra.
 - **Multer, Excel y paginación no se piden en la defensa principal** (tentativamente 27/11). Son extras opcionales: subida de archivos (**Multer**), descarga de datos a **Excel** y **paginación** de resultados. La exportación a Excel aparece en el PDF de la consigna, pero se aclaró que se va a corregir. Quienes vayan a **recuperatorio** (una semana extra) podrían tener que incorporar Multer y paginación (ver [Clase 17](#clase-17)).
+
+### Material de apoyo del TP
+
+- Código: [`6_tpIntegradorBack`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack) (backend) y [`6_tpIntegradorVistasBack`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack) (vistas).
+- Bitácora: [consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md), [entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/entendiendoReqRes.md), [enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/enviandoDatosForm.md) y [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/renderizadoContenido.md).
+- Raíz de la cátedra: [README.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/README.md) y [apuntes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/apuntes.md). Detalle en [Repositorio de la cátedra](#repositorio-catedra).
 
 ### Criterios que se van a evaluar
 
@@ -3411,7 +3517,7 @@ Programación III
 │   ├── 16 - Sintaxis avanzada en Javascript.pdf
 │   └── 17 - Asincronía y Promesas.pdf
 ├── README.md
-└── UTN2026_c2Div132
+└── UTN2026_c2Div132-main
     ├── 1_html
     │   ├── Ejercicio-1
     │   │   ├── assets
@@ -3431,8 +3537,8 @@ Programación III
     │   ├── assets
     │   │   ├── fonts
     │   │   │   └── future-z-font
-    │   │   │       ├── FutureZ-MVEaw.ttf
     │   │   │       ├── FutureZItalic-2OBml.ttf
+    │   │   │       ├── FutureZ-MVEaw.ttf
     │   │   │       ├── info.txt
     │   │   │       └── misc
     │   │   │           └── license.txt
@@ -3469,8 +3575,50 @@ Programación III
     │   │   └── styles.css
     │   ├── index.html
     │   ├── js
+    │   │   ├── apuntesJS.md
     │   │   └── index.js
     │   └── README.md
+    ├── 4_nodejs
+    │   ├── archivos
+    │   │   └── leeme.txt
+    │   ├── index.js
+    │   ├── README.md
+    │   ├── saludos.js
+    │   └── servidorNode.js
+    ├── 5_express
+    │   ├── bitacora
+    │   │   └── README.md
+    │   ├── index.js
+    │   ├── package.json
+    │   ├── package-lock.json
+    │   └── README.md
+    ├── 6_tpIntegradorBack
+    │   ├── bitacora
+    │   │   ├── consultasSQL.md
+    │   │   ├── entendiendoReqRes.md
+    │   │   ├── enviandoDatosForm.md
+    │   │   ├── README.md
+    │   │   └── renderizadoContenido.md
+    │   ├── index.js
+    │   ├── package.json
+    │   ├── package-lock.json
+    │   └── src
+    │       └── api
+    │           ├── config
+    │           │   └── environments.js
+    │           └── database
+    │               └── db.js
+    ├── 6_tpIntegradorVistasBack
+    │   ├── css
+    │   │   └── styles.css
+    │   ├── delete.html
+    │   ├── get.html
+    │   ├── img
+    │   │   ├── burger-logo.png
+    │   │   └── favicon.ico
+    │   ├── index.html
+    │   ├── post.html
+    │   └── put.html
     ├── apuntes.md
     └── README.md
 ```
