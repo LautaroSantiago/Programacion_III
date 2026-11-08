@@ -29,6 +29,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 15 — 28/10 · TP Integrador: consignas y arranque del backend (Express + mysql2 + CRUD)</strong></font>](#clase-15)
 - [<font color="#8250DF"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font>](#clase-16)
 - [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
+- [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización del backend (patrón MVC: middlewares, rutas con Router y controladores)</strong></font>](#clase-18)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -2953,6 +2954,209 @@ Versión optimizada del backend en `6_tpIntegradorBack/index.js` (middlewares `v
 
 </details>
 
+<details>
+<summary><a id="clase-18"></a><font color="#1A7F37"><strong>Clase 18 — 06/11 · TP Integrador: modularización del backend (patrón MVC: middlewares, rutas con Router y controladores)</strong></font></summary>
+
+> Nota: continuación del TP Integrador (ver [Clase 15](#clase-15), [Clase 16](#clase-16) y [Clase 17](#clase-17)). Con el CRUD ya optimizado, se empezó a **refactorizar** el backend: partir el `index.js` de ~300 líneas en módulos, siguiendo el patrón MVC. En esta primera parte de la clase se modularizaron los **middlewares**, las **rutas** y los **controladores**; quedaron pendientes los **modelos**.
+
+#### Repaso: qué son los middlewares
+
+- Son **funciones** que se ejecutan **entre la petición (`request`) y la respuesta (`response`)**. La idea es la misma que la de cualquier función: no repetir código (**DRY**, *Don't Repeat Yourself*).
+- Sin middlewares habría que copiar y pegar la validación del ID en cada endpoint que lo recibe (`GET by id`, `DELETE`), la validación del producto en `POST` y `PUT`, el parseo del `body` en cada uno y las cabeceras de permiso de CORS en todas las respuestas.
+- Se registran con `app.use(callback)`, donde el callback recibe `(req, res, next)`. Ejemplo mostrado en vivo: un middleware que solo hace un `console.log` en cada petición.
+- **`next()` es obligatorio**: sin él no se da paso al siguiente middleware ni a que se procese la respuesta, y la conexión HTTP queda colgada porque la petición nunca termina.
+- Un middleware tiene acceso a la petición y a la respuesta, y puede **responder directamente** (por ejemplo, si el ID no es válido responde y no llega a consultar la base de datos); si todo está bien, llama a `next()`.
+- **Middleware de aplicación:** se ejecuta en todas las peticiones (`app.use(...)`), como el logger, `cors()` o `express.json()`. **Middleware de ruta:** se pasa solo en las rutas donde hace falta, antes del callback (`validateId`, `validateProduct`).
+
+#### Por qué modularizar y qué es el patrón MVC
+
+Tener todo en un único archivo se vuelve difícil de leer y de mantener: un carácter mal puesto en un middleware puede tirar abajo toda la aplicación, y cambiar la consulta de un endpoint obliga a buscar con `Ctrl + F`. Separar la lógica (igual que antes con el CSS y el JavaScript externos) permite leer mejor, mantener mejor y **escalar** la aplicación: se sabe exactamente en qué carpeta y archivo está cada cosa.
+
+El patrón **Modelo-Vista-Controlador** es un patrón de arquitectura de software que separa responsabilidades (lógica de negocio, presentación y control de flujo) para mejorar la escalabilidad, el mantenimiento y la reutilización del código. Se aprende haciéndolo más que viendo explicaciones:
+
+- **Modelo:** se encarga de la gestión de datos; interactúa directamente con la base de datos.
+- **Vista:** la interfaz de usuario. Por ahora las vistas están en un proyecto aparte; cuando se migre a **EJS** se creará una carpeta `views/` al lado de `api/`, dentro de `src/`.
+- **Controlador:** llama al modelo y se encarga de la lógica de las peticiones y las respuestas.
+- **Rutas:** derivan cada URL al controlador que corresponde.
+- **Middlewares:** van en su propia carpeta.
+
+El `index.js` queda como **punto de entrada** para iniciar el servidor: solo debe tener lo justo para arrancar y conectarse con los distintos módulos. Estructura resultante dentro de `src/api/`:
+
+```
+src/api/
+├── config/        → variables de entorno
+├── controllers/   → lógica de peticiones y respuestas
+├── database/      → conexión (pool) a la base de datos
+├── middlewares/   → loggerUrl, validateId, validateProduct
+└── routes/        → product.routes.js + index.js (archivo de barril)
+```
+
+En la defensa se va a preguntar qué hace cada carpeta, qué hace cada archivo y quién llama a quién.
+
+> **Cómo migrar:** de a una cosa por vez y **probando después de cada paso**, sin esperar a migrar todo. El orden de la clase fue: middlewares → rutas → controladores → modelos. La técnica es cortar y pegar la lógica ya existente (no se escribe lógica nueva) y ordenar. A este proceso se lo llama **refactorizar**.
+
+#### Paso 1: modularizar los middlewares
+
+Se creó `src/api/middlewares/middlewares.js` y se movieron ahí las **definiciones** de los tres middlewares (no las llamadas con `app.use`), exportándolos por nombre:
+
+```javascript
+// src/api/middlewares/middlewares.js
+const loggerUrl = (req, res, next) => {
+	let fecha = new Date();
+	console.log(`[${fecha.toLocaleDateString()} ${fecha.toLocaleTimeString()}] ${req.method} ${req.url}`);
+
+	next(); // Pasamos al siguiente middleware o a la respuesta
+}
+
+const validateId = (req, res, next) => { /* ... */ }
+
+const validateProduct = (req, res, next) => { /* ... */ }
+
+export { loggerUrl, validateId, validateProduct };
+```
+
+En el `index.js` se conserva el `app.use`, ahora con la función importada (el logger es de aplicación). `cors()` y `express.json()` no se migran porque ya vienen definidos en sus módulos:
+
+```javascript
+import { loggerUrl } from "./src/api/middlewares/middlewares.js";
+
+app.use(loggerUrl);
+```
+
+Si el nombre de la función aparece en un color distinto al de una variable reconocida, es un indicador de que **no está importado**: al terminar de escribirlo, el editor sugiere e inserta el `import` automáticamente (y conviene revisar a mano que la ruta quede bien). Después de migrar se probó cada endpoint: el logger registra las peticiones, `validateId` rechaza IDs inválidos y `validateProduct` valida el alta de un producto desde la vista.
+
+#### Paso 2: modularizar las rutas con `Router`
+
+Tener en el `index.js` decenas de endpoints repitiendo `/api/products`, más los de las vistas (`/dashboard/...`), el login, el registro, etc., no escala. La solución: que la aplicación **redirija** todo lo que apunte a `/api/products` a un archivo de rutas, y que el `index.js` quede reducido a conectar módulos.
+
+El middleware **`Router`** (viene incluido en Express) funciona como una **mini instancia de Express**: una sección de la aplicación que administra sus propias rutas con `get`, `post`, `put` y `delete`, igual que `app`, pero en un módulo aparte. Mientras `app` es la aplicación principal, `router` es una parte de ella.
+
+Pasos que se siguieron:
+
+1. Crear la carpeta `src/api/routes/` y el archivo `product.routes.js`.
+2. Cortar y pegar ahí los cinco endpoints de productos.
+3. Importar `Router`, inicializarlo (`const router = Router()`) y reemplazar `app.` por `router.` en todos los endpoints (con `Ctrl + H`, *reemplazar todo*).
+4. Importar en este archivo lo que usan los endpoints: `connection`, `validateId` y `validateProduct` (sin esto, la aplicación responde con error de conexión o no levanta).
+5. Exportar el router con `export default router`.
+
+```javascript
+// src/api/routes/product.routes.js
+import { Router } from "express";
+import connection from "../database/db.js";
+import { validateId, validateProduct } from "../middlewares/middlewares.js";
+
+const router = Router();
+
+router.get("/", async (req, res) => { /* ... */ });
+router.get("/:id", validateId, async (req, res) => { /* ... */ });
+router.post("/", validateProduct, async (req, res) => { /* ... */ });
+router.put("/", validateProduct, async (req, res) => { /* ... */ });
+router.delete("/:id", validateId, async (req, res) => { /* ... */ });
+
+export default router;
+```
+
+**Archivo de barril (`routes/index.js`):** centraliza todas las rutas de la aplicación: importa cada archivo de rutas con un nombre y las exporta con ese mismo nombre (se lo llama de barril porque "arrastra" todo lo que importa). A futuro tendrá también las rutas de administración, de autenticación y de vistas.
+
+```javascript
+// src/api/routes/index.js
+import productRoutes from "./product.routes.js";
+
+export { productRoutes };
+```
+
+```javascript
+// index.js (entrada de la aplicación)
+import { productRoutes } from "./src/api/routes/index.js";
+
+// Endpoints -> rutas de la API
+app.use("/api/products", productRoutes);
+```
+
+**Error clásico mostrado a propósito:** si se redirige `/api/products` con `app.use` pero los endpoints dentro del router **siguen escribiendo** `/api/products`, la URL final queda duplicada (`/api/products/api/products`) y responde `404`. Como el prefijo ya lo aporta `app.use`, dentro del router las rutas quedan solo como `"/"` y `"/:id"`.
+
+> Sobre dejar la `"/"`: técnicamente una ruta vacía funcionaría igual, pero por **convención** se deja `"/"` (y `"/:id"` para el recurso). Resulta confuso que justo donde se espera una ruta haya un texto vacío, aunque la barra sea redundante. Una convención no cambia si algo funciona o no: es un acuerdo común para que todos lean e interpreten el código igual y no se generen confusiones.
+
+> Dato de diseño: la tabla de usuarios administradores conviene llamarla `admin` en lugar de `usuario`, para evitar confusiones.
+
+#### Los tres dolores de cabeza del TP
+
+Se insistió en tres errores que, según se anticipó, van a trabar al menos una vez a cada grupo. Ante cualquier falla, **revisar primero estos tres**:
+
+1. **Falta un `return`** al responder (por ejemplo, un `404`): la ejecución sigue y después envía también un `200`.
+2. **Falta `next()` en el middleware:** la petición nunca termina y queda colgada.
+3. **Falta la terminación `.js` en los `import` de módulos locales** (por ejemplo `"../database/db.js"`). Pasa seguido al pegar o borrar un import: conviene dejar que el editor autocomplete y verificar a mano.
+
+#### Paso 3: modularizar los controladores
+
+El **controlador** contiene la lógica de las peticiones y las respuestas: es la función **callback** que antes se escribía dentro del endpoint. (Todavía usa la conexión a la base de datos; eso pasará al modelo.) Los **middlewares de ruta quedan en el archivo de rutas**, porque se ejecutan antes que la lógica del controlador.
+
+Un **callback** es una función que se pasa como argumento a otra función (en JavaScript las funciones son *ciudadanos de primera clase*) para ser invocada de manera **diferida**, una vez que se cumple una condición. Por eso se pasa **solo el nombre, sin paréntesis**: con paréntesis se ejecutaría en el momento. La diferencia entre escribirlo como función flecha o con `async function` es solo de sintaxis. (Ya se había visto en JavaScript con `addEventListener`.)
+
+Se creó `src/api/controllers/` con el archivo de controladores de producto y se movió ahí la lógica de cada endpoint como una función con nombre:
+
+| Endpoint | Controlador |
+| --- | --- |
+| `GET /` | `getAllProducts` |
+| `GET /:id` | `getProductById` |
+| `POST /` | `createProduct` |
+| `PUT /` | `modifyProduct` |
+| `DELETE /:id` | `removeProduct` |
+
+```javascript
+// src/api/controllers/product.controllers.js
+import connection from "../database/db.js";
+
+export const getAllProducts = async (req, res) => {
+	try {
+		const sql = "SELECT id, name, price, image FROM products";
+		const [rows] = await connection.query(sql);
+
+		if (rows.length === 0) {
+			return res.status(404).json({ message: "No se encontraron productos" });
+		}
+
+		res.status(200).json({ payload: rows });
+
+	} catch (error) {
+		console.log("Error obteniendo productos: ", error);
+		res.status(500).json({ message: "Error interno del servidor al obtener productos" });
+	}
+};
+// getProductById, createProduct, modifyProduct y removeProduct siguen el mismo esquema
+```
+
+```javascript
+// src/api/routes/product.routes.js
+import { getAllProducts } from "../controllers/product.controllers.js";
+
+router.get("/", getAllProducts); // se pasa el nombre, sin paréntesis
+```
+
+> **Consejo de nombres (criterio personal, no una norma):** que el nombre del controlador describa lo que hace (`getAllProducts`, `createProduct`) y reservar los nombres parecidos a la sentencia SQL (`select`, `insert`, `update`, `delete`) para los modelos, así cada capa se conecta con la siguiente de forma natural.
+
+**Formas de exportar (ESM):** se vieron `export` por nombre al final del archivo, `export default` y `export` individual agregado delante de cada declaración (`export const ...`). También existe `export * from "./archivo.js"`, que reexporta todas las exportaciones **nombradas** de otro módulo (**no** reexporta la exportación `default`); se puede usar, pero no es lo más recomendable: es más ordenado exportar de forma explícita e importar por nombre.
+
+Cada controlador se fue probando una vez migrado: al llamar a `GET /api/products` ahora responde `getAllProducts`.
+
+#### Recomendaciones para el TP
+
+- Hacer el TP **a mano** y comentando cada línea (qué hace cada parte), en lugar de clonar el repositorio de ejemplo y presentarlo: sin ese proceso no se va a recordar nada, y a cada integrante se lo evalúa por separado con preguntas sobre todo esto. Se pueden hacer consultas en clase, y está bien copiar el esqueleto del backend, siempre que se entienda y se adapte a los productos propios.
+- La parte más propia y creativa es el **front** (interfaz sin Bootstrap ni frameworks de estilos, acorde a los productos de cada grupo).
+- Ir armando **apuntes propios** (bitácora) de cada concepto: `Router`, exportación de módulos, callbacks, etc.
+
+**Próxima clase:** continuar la modularización con los **modelos** (las llamadas a la base de datos pasan de los controladores a los modelos, y los controladores pasan a llamar a los modelos), probar todos los controladores, y luego migrar las vistas a **EJS** y armar el **login** con `bcrypt`.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
 ---
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
@@ -3432,6 +3636,7 @@ El detalle completo de la consigna (estructura de los dos proyectos — frontend
 - Que ambos integrantes del grupo puedan explicar con soltura cualquier parte del código, tanto del front como del back (no se evalúa por separado "quién hizo qué").
 - Que el CRUD de productos funcione correctamente (`GET`, `POST`, `PUT`, `DELETE`) contra una base de datos propia, con un tema de producto distinto a comida/bebida.
 - El diseño del frontend: se pide una interfaz propia (sin frameworks de estilos tipo Bootstrap), por lo que también se evalúa cómo se armó y maquetó.
+- Que cada integrante sepa explicar la estructura modular del backend (qué hace cada carpeta y cada archivo, y quién llama a quién): se evalúa a cada uno por separado.
 - Buenas prácticas ya vistas en clase: manejo de errores, códigos de estado HTTP apropiados, placeholders en las consultas SQL (nunca concatenar valores a mano), y organización del código a medida que se modulariza.
 
 </details>
