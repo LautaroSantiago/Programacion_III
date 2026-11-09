@@ -29,7 +29,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 15 — 28/10 · TP Integrador: consignas y arranque del backend (Express + mysql2 + CRUD)</strong></font>](#clase-15)
 - [<font color="#8250DF"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font>](#clase-16)
 - [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
-- [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización del backend (patrón MVC: middlewares, rutas con Router y controladores)</strong></font>](#clase-18)
+- [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización completa del backend (patrón MVC: middlewares, rutas, controladores y modelos) y campo active</strong></font>](#clase-18)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -2955,9 +2955,9 @@ Versión optimizada del backend en `6_tpIntegradorBack/index.js` (middlewares `v
 </details>
 
 <details>
-<summary><a id="clase-18"></a><font color="#1A7F37"><strong>Clase 18 — 06/11 · TP Integrador: modularización del backend (patrón MVC: middlewares, rutas con Router y controladores)</strong></font></summary>
+<summary><a id="clase-18"></a><font color="#1A7F37"><strong>Clase 18 — 06/11 · TP Integrador: modularización completa del backend (patrón MVC: middlewares, rutas, controladores y modelos) y campo active</strong></font></summary>
 
-> Nota: continuación del TP Integrador (ver [Clase 15](#clase-15), [Clase 16](#clase-16) y [Clase 17](#clase-17)). Con el CRUD ya optimizado, se empezó a **refactorizar** el backend: partir el `index.js` de ~300 líneas en módulos, siguiendo el patrón MVC. En esta primera parte de la clase se modularizaron los **middlewares**, las **rutas** y los **controladores**; quedaron pendientes los **modelos**.
+> Nota: continuación del TP Integrador (ver [Clase 15](#clase-15), [Clase 16](#clase-16) y [Clase 17](#clase-17)). Con el CRUD ya optimizado, se empezó a **refactorizar** el backend: partir el `index.js` de ~300 líneas en módulos, siguiendo el patrón MVC. Se modularizaron los **middlewares**, las **rutas**, los **controladores** y los **modelos**, y al final se agregó el campo `active` para poder habilitar y deshabilitar productos.
 
 #### Repaso: qué son los middlewares
 
@@ -2988,6 +2988,7 @@ src/api/
 ├── controllers/   → lógica de peticiones y respuestas
 ├── database/      → conexión (pool) a la base de datos
 ├── middlewares/   → loggerUrl, validateId, validateProduct
+├── models/        → sentencias SQL y consultas a la base de datos
 └── routes/        → product.routes.js + index.js (archivo de barril)
 ```
 
@@ -3139,13 +3140,148 @@ router.get("/", getAllProducts); // se pasa el nombre, sin paréntesis
 
 Cada controlador se fue probando una vez migrado: al llamar a `GET /api/products` ahora responde `getAllProducts`.
 
+#### Pruebas de rutas y controladores
+
+Antes de seguir se probó el CRUD completo desde las vistas (listar, consultar por ID, crear, modificar y eliminar). Dos observaciones:
+
+- **Mensaje de éxito con el ID:** el `POST` responde `message` y `productId`; en la vista se arma el mensaje completo combinando ambos (por ejemplo, "Producto creado con éxito con ID 108"). Al probarlo apareció un error típico: mostrar solo `data.message` en lugar del mensaje armado.
+- **Modificar sin cambiar nada:** responde "No se actualizó el producto", porque el chequeo de `changedRows` detecta que los valores nuevos son iguales a los que ya había y no se modificó ninguna fila.
+
+#### Paso 4: modularizar los modelos
+
+El **modelo** concentra todo lo que tiene que ver con la base de datos: la **sentencia SQL y la conexión**. El controlador pasa a llamar al modelo y se abstrae por completo de cómo se consulta la base: solo maneja peticiones y respuestas, y le pide al modelo los datos que necesita.
+
+Se creó `src/api/models/` con el archivo de modelos de producto (`product.models.js`). Los nombres más parecidos a la sentencia SQL se reservan para esta capa:
+
+| Controlador | Modelo |
+| --- | --- |
+| `getAllProducts` | `selectAllProducts()` |
+| `getProductById` | `selectProductById(id)` |
+| `createProduct` | `insertNewProduct(name, image, category, price)` |
+| `modifyProduct` | `updateProduct(name, image, price, category, id)` |
+| `removeProduct` | `deleteProduct(id)` |
+
+Pasos para cada método: cortar del controlador la sentencia SQL y la llamada a `connection.query`, pegarlas en una función del modelo que recibe como **parámetros** lo que antes se leía de `req` (por ejemplo, el `id` o los campos del formulario), y retornar el resultado de la consulta. En el controlador queda solo la llamada al modelo con los argumentos correspondientes. El modelo importa `connection` (el controlador ya no lo necesita).
+
+```javascript
+// src/api/models/product.models.js
+import connection from "../database/db.js";
+
+export const selectAllProducts = () => {
+	const sql = "SELECT id, name, price, image FROM products";
+	return connection.query(sql);
+};
+
+export const selectProductById = (id) => {
+	const sql = "SELECT id, name, price, image FROM products WHERE products.id = ?";
+	return connection.query(sql, [id]);
+};
+
+export const insertNewProduct = (name, image, category, price) => {
+	const sql = "INSERT INTO products (name, image, category, price) VALUES (?, ?, ?, ?)";
+	return connection.query(sql, [name, image, category, price]);
+};
+
+export const updateProduct = (name, image, price, category, id) => {
+	const sql = "UPDATE products SET name = ?, image = ?, price = ?, category = ? WHERE id = ?";
+	return connection.query(sql, [name, image, price, category, id]);
+};
+
+export const deleteProduct = (id) => {
+	const sql = "DELETE FROM products WHERE id = ?";
+	return connection.query(sql, [id]);
+};
+```
+
+```javascript
+// src/api/controllers/product.controllers.js
+import * as ProductModels from "../models/product.models.js";
+
+export const getAllProducts = async (req, res) => {
+	try {
+		const [rows] = await ProductModels.selectAllProducts();
+
+		if (rows.length === 0) {
+			return res.status(404).json({ message: "No se encontraron productos" });
+		}
+
+		res.status(200).json({ payload: rows });
+
+	} catch (error) {
+		console.log("Error obteniendo productos: ", error);
+		res.status(500).json({ message: "Error interno del servidor al obtener productos" });
+	}
+};
+
+// En getProductById el id se lo pasa el controlador al modelo:
+// const [rows] = await ProductModels.selectProductById(req.id);
+```
+
+**Dónde va el `await`.** La conexión trabaja en **modo promesas**: una promesa es el resultado todavía no terminado de una operación asíncrona, y puede estar `pending` (en curso), `fulfilled` (resuelta con éxito) o `rejected` (rechazada, la captura el `catch`). Si el modelo devuelve la promesa y el controlador **no** hace `await`, se recibe una promesa pendiente en lugar de los datos (se puede comprobar haciendo `console.log` del resultado). En la clase se vio que poner `async`/`await` en **ambos** lugares es redundante, porque se estaría esperando algo que ya se esperó: el modelo simplemente retorna la consulta y el `await` queda en el controlador.
+
+> Nota de diseño: desestructurar `[rows]` en el controlador lo deja atado a la forma en que `mysql2` devuelve el resultado (si se cambiara de driver o de base, habría que tocar también el controlador). Se dejó así por simplicidad.
+
+**Errores que aparecieron al probar** (volvieron los clásicos): llamar a un método del modelo sin el prefijo del módulo importado (`ProductModels.`), olvidarse del `.js` en un `import`, y olvidar el `await` en el controlador. Los nombres sin uso o sin importar se ven en un color distinto en el editor, lo que ayuda a detectarlos.
+
+Con los modelos queda toda la aplicación modularizada y se volvió a probar cada endpoint, en el mismo orden en que se migró: middlewares, rutas, controladores y modelos.
+
+#### Flujo completo de una petición (pregunta típica de defensa)
+
+1. La vista hace una petición a `/api/products`.
+2. En el `index.js`, `app.use("/api/products", productRoutes)` intercepta cualquier petición a esa ruta y la **deriva** a las rutas de producto (el archivo de barril las centraliza).
+3. Las rutas identifican el método (`GET`, `POST`, `PUT`, `DELETE`) y, si hace falta, llaman primero a un **middleware** (`validateId`, `validateProduct`). Si no lo pasa, el propio middleware responde (por ejemplo, `400`).
+4. Si pasa el middleware, se llama al **controlador**, que maneja `req` y `res` (puede pasarle al modelo el `id` de la petición o los datos del formulario, que llegan ya como objeto gracias a `express.json()`).
+5. El controlador llama al **modelo**, que ejecuta la sentencia SQL contra la base de datos y devuelve el resultado.
+6. El controlador recibe el resultado y envía la **respuesta**.
+
+| Si hay que... | Dónde buscar |
+| --- | --- |
+| Modificar una sentencia SQL | `models/` (por ejemplo, `product.models.js`) |
+| Cambiar la respuesta de un endpoint | `controllers/` (por ejemplo, `product.controllers.js`) |
+| Cambiar qué URL llama a qué función, o qué middleware usa | `routes/` |
+| Cambiar una validación o el logger | `middlewares/` |
+
+Este orden permite orientarse rápido incluso en un proyecto grande que no se conoce: por el nombre de la carpeta y del archivo se deduce dónde está cada cosa.
+
+#### Campo `active`: habilitar y deshabilitar productos
+
+El TP pide poder **desactivar productos**, y hasta ahora el panel mostraba todos sin distinguirlos. Se agregó el campo `active` recorriendo las capas (con todo modularizado lleva más pasos que hacerlo antes de separar el código):
+
+1. **Modelo:** `selectProductById` suma `active` a los campos devueltos, y `updateProduct` suma `active = ?` al `UPDATE` (con su parámetro).
+2. **Controlador:** `modifyProduct` recibe `active` del `body` y se lo manda al modelo.
+3. **Vista de modificar:** nuevo campo `<select>` (con su `label`) con las opciones **Activado** (`value="1"`) y **Desactivado** (`value="0"`), precargado con el valor actual del producto.
+
+En la base, el campo puede ser `TINYINT` o `BOOLEAN` (en MySQL son equivalentes: se guarda `1`/`0`, `true`/`false`).
+
+**Nuevo endpoint para el cliente (tótem):** la vista del cliente solo debe mostrar productos **activos**, mientras que el panel de administración lista todos. Se creó una ruta propia para los activos, con su modelo y su controlador:
+
+```javascript
+// models
+export const selectActiveProducts = () => {
+	const sql = "SELECT id, name, price, image FROM products WHERE products.active = ?";
+	return connection.query(sql, [1]);
+};
+```
+
+El controlador (`getActiveProducts`) sigue el mismo esquema que `getAllProducts` pero llamando a `selectActiveProducts`; si no hay productos activos devuelve un código sin contenido y, si hay, un `200` con el `payload`. (Un `204` no envía cuerpo: si se quiere que llegue un mensaje al cliente, conviene usar un `404` con `message`, como en los demás endpoints.) Error que apareció: escribir el placeholder (`active = ?`) y **no pasarle ningún valor** a la consulta provoca un error de sintaxis SQL; hay que pasar el `1` en el array de valores.
+
+Prueba: se desactivaron productos desde la vista de modificar y dejaron de aparecer en el endpoint de activos, mientras que el panel de administración los sigue listando.
+
+**Ideas para el front (no son requisito, se valora la creatividad):**
+
+- Mostrar los productos inactivos en el panel con una clase distinta (por ejemplo, con `opacity`).
+- Agregar a cada fila del listado los botones de modificar y eliminar, en lugar de tener vistas separadas.
+- En vez de editar `active` junto con el resto de los campos, hacer un endpoint **toggle** que invierta el valor (si está activo lo desactiva y viceversa). Resolverlo del lado del back es una buena forma de mostrar que se entendió el flujo.
+
+> En esta instancia académica se dejaron muchos comentarios y `console.log` para entender mejor el código, algo útil también para la defensa; en una aplicación real conviene no exponer de más y devolver al cliente solo lo que solicitó.
+
 #### Recomendaciones para el TP
 
 - Hacer el TP **a mano** y comentando cada línea (qué hace cada parte), en lugar de clonar el repositorio de ejemplo y presentarlo: sin ese proceso no se va a recordar nada, y a cada integrante se lo evalúa por separado con preguntas sobre todo esto. Se pueden hacer consultas en clase, y está bien copiar el esqueleto del backend, siempre que se entienda y se adapte a los productos propios.
 - La parte más propia y creativa es el **front** (interfaz sin Bootstrap ni frameworks de estilos, acorde a los productos de cada grupo).
 - Ir armando **apuntes propios** (bitácora) de cada concepto: `Router`, exportación de módulos, callbacks, etc.
 
-**Próxima clase:** continuar la modularización con los **modelos** (las llamadas a la base de datos pasan de los controladores a los modelos, y los controladores pasan a llamar a los modelos), probar todos los controladores, y luego migrar las vistas a **EJS** y armar el **login** con `bcrypt`.
+**Próxima clase (el próximo viernes):** migrar las vistas a **EJS** (carpeta `views/` al lado de `api/`) y armar el **login** con `bcrypt`.
 
 ### Aplicado en
 
