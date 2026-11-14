@@ -30,6 +30,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font>](#clase-16)
 - [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
 - [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización completa del backend (patrón MVC: middlewares, rutas, controladores y modelos) y campo active</strong></font>](#clase-18)
+- [<font color="#8250DF"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (renderizado del lado del servidor), estructura final del proyecto y diccionario de conceptos del backend</strong></font>](#clase-19)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -2573,14 +2574,14 @@ Se probaron ambos endpoints desde el navegador y desde **Postman**, una herramie
 
 ### Aplicado en
 
-Arranque del backend del TP Integrador, en `UTN2026_c2Div132-main/6_tpIntegradorBack/`: servidor Express, variables de entorno con `dotenv` (`config/environments.js`) y pool de conexiones a MySQL con `mysql2` (`database/db.js`).
+Arranque del backend del TP Integrador, en `UTN2026_c2Div132/6_tpIntegradorBack/`: servidor Express, variables de entorno con `dotenv` (`config/environments.js`) y pool de conexiones a MySQL con `mysql2` (`database/db.js`).
 
 ### Código
 
-[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
-[![Ver environments.js](https://img.shields.io/badge/💻_Ver_environments.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/config/environments.js)
-[![Ver db.js](https://img.shields.io/badge/💻_Ver_db.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/database/db.js)
-[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/package.json)
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[![Ver environments.js](https://img.shields.io/badge/💻_Ver_environments.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api/config/environments.js)
+[![Ver db.js](https://img.shields.io/badge/💻_Ver_db.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api/database/db.js)
+[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/package.json)
 
 </details>
 
@@ -2719,12 +2720,12 @@ Se insistió en que la forma más efectiva de avanzar con el TP Integrador es re
 
 ### Aplicado en
 
-Backend del TP (`6_tpIntegradorBack/`) con CORS, logger, `express.json()` y el CRUD de productos, y las vistas que lo consumen con `fetch` (`6_tpIntegradorVistasBack/`: `get.html`, `post.html`, `put.html`, `delete.html`). Apuntes relacionados: [entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/entendiendoReqRes.md), [enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/enviandoDatosForm.md) y [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/renderizadoContenido.md) (CSR vs SSR).
+Backend del TP (`6_tpIntegradorBack/`) con CORS, logger, `express.json()` y el CRUD de productos, y las vistas que lo consumen con `fetch` (en ese momento un proyecto aparte, `6_tpIntegradorVistasBack/`; hoy integradas en `6_tpIntegradorBack/src/public/` y `src/views/`). Apuntes relacionados: [entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/entendiendoReqRes.md), [enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/enviandoDatosForm.md) y [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md) (CSR vs SSR).
 
 ### Código
 
-[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
-[![Ver vistas](https://img.shields.io/badge/💻_Ver_vistas-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack)
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[![Ver vistas](https://img.shields.io/badge/💻_Ver_vistas-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src)
 
 </details>
 
@@ -2944,13 +2945,13 @@ Al revisar esquemas de base de datos para el TP surgió un patrón útil cuando 
 
 ### Aplicado en
 
-Versión optimizada del backend en `6_tpIntegradorBack/index.js` (middlewares `validateId` y `validateProduct`, `try`/`catch` en todos los endpoints) y de las vistas en `6_tpIntegradorVistasBack/`. Apunte relacionado: [consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md) (placeholders `?` y SQL Injection).
+Versión optimizada del backend en `6_tpIntegradorBack/index.js` (middlewares `validateId` y `validateProduct`, `try`/`catch` en todos los endpoints) y de las vistas (hoy en `6_tpIntegradorBack/src/public/` y `src/views/`). Apunte relacionado: [consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/consultasSQL.md) (placeholders `?` y SQL Injection).
 
 ### Código
 
-[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
-[![Ver vistas](https://img.shields.io/badge/💻_Ver_vistas-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack)
-[![Ver consultasSQL.md](https://img.shields.io/badge/📄_Ver_consultasSQL.md-1A7F37?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md)
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[![Ver vistas](https://img.shields.io/badge/💻_Ver_vistas-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src)
+[![Ver consultasSQL.md](https://img.shields.io/badge/📄_Ver_consultasSQL.md-1A7F37?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/consultasSQL.md)
 
 </details>
 
@@ -3293,11 +3294,233 @@ Prueba: se desactivaron productos desde la vista de modificar y dejaron de apare
 
 </details>
 
+<details>
+<summary><a id="clase-19"></a><font color="#1A7F37"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (renderizado del lado del servidor), estructura final del proyecto y diccionario de conceptos del backend</strong></font></summary>
+
+> Nota: continuación del TP Integrador (ver [Clase 18](#clase-18)). El backend, ya modularizado en MVC, suma las **vistas del lado del servidor con EJS** dentro del mismo proyecto (carpetas `views/` y `public/`), y la cátedra incorporó a la bitácora un **diccionario de conceptos básicos** (endpoint, APIs REST, middlewares, MVC, refactorización, JSON, `affectedRows` vs `changedRows`) y un apunte de **novedades de Node** (`node --watch` e `import.meta.dirname`).
+
+#### Los 4 grandes dolores de cabeza
+
+Cuando algo no funciona en el backend, casi siempre es una de estas cuatro cosas (las tres primeras ya aparecían en la [Clase 18](#clase-18)):
+
+1. **Falta un `return`:** devuelve un `404` y luego un `200`, o sigue procesando el código de abajo.
+2. **Falta el `next()` en un middleware:** nunca se procesa la respuesta y la petición queda colgada. Una conexión HTTP no termina hasta que se envía la respuesta.
+3. **Falta el `.js` en las importaciones de módulos locales.**
+4. **Un error de escritura o de sintaxis:** si las tres anteriores están bien, casi seguro es algo mal escrito.
+
+#### Estructura final del proyecto
+
+El backend (`6_tpIntegradorBack/`) ahora contiene tanto la API como las vistas. La carpeta `src/` queda dividida en tres partes: `api/` (lógica del servidor), `public/` (archivos estáticos) y `views/` (plantillas EJS):
+
+```
+6_tpIntegradorBack
+├── bitacora/                  (apuntes del TP)
+├── index.js                   (punto de entrada)
+├── package.json
+└── src
+    ├── api
+    │   ├── config/environments.js
+    │   ├── controllers/       product.controllers.js · view.controllers.js
+    │   ├── database/db.js
+    │   ├── middlewares/middlewares.js
+    │   ├── models/product.models.js
+    │   ├── routes/            index.js · product.routes.js · view.routes.js
+    │   └── utils/index.js
+    ├── public
+    │   ├── css/styles.css
+    │   ├── img/               burger-logo.png · favicon.ico
+    │   └── js/                get.js · post.js · put.js · delete.js
+    └── views
+        ├── index.ejs · get.ejs · post.ejs · put.ejs · delete.ejs
+        └── partials/          head.ejs · header.ejs · footer.ejs
+```
+
+| Carpeta / archivo | Qué contiene |
+| --- | --- |
+| `api/routes/product.routes.js` | Endpoints JSON de la API (`/api/products`), igual que en la Clase 18. |
+| `api/routes/view.routes.js` + `api/controllers/view.controllers.js` | Rutas y controladores que **renderizan vistas** EJS (`/dashboard`). |
+| `api/utils/index.js` | Utilidades compartidas: exporta `__dirname` (raíz del proyecto) y `join`. |
+| `public/` | Archivos estáticos que se sirven tal cual: CSS, imágenes y los scripts del cliente (`get.js`, `post.js`, `put.js`, `delete.js`). |
+| `views/` | Plantillas `.ejs`: una por operación del CRUD y una carpeta `partials/` con las partes reutilizables (`head`, `header`, `footer`). |
+
+Como el proyecto ahora tiene **dos tipos de rutas** (endpoints que devuelven JSON y rutas que devuelven HTML), conviene tenerlas separadas en `product.routes.js` y `view.routes.js`. Para elegir entre renderizado del cliente (CSR) y del servidor (SSR), ver [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md).
+
+#### Configurar EJS y archivos estáticos en `index.js`
+
+`index.js` queda ordenado en tres bloques (importaciones, configuración, middlewares y rutas):
+
+```js
+import express from "express";
+import environments from "./src/api/config/environments.js";
+import cors from "cors";
+import { loggerUrl } from "./src/api/middlewares/middlewares.js";
+import { productRoutes, viewRoutes } from "./src/api/routes/index.js";
+import { __dirname, join } from "./src/api/utils/index.js";
+
+const app = express();
+const PORT = environments.port;
+
+app.set("view engine", "ejs");                    // EJS como motor de plantillas
+app.set("views", join(__dirname, "src/views"));   // carpeta donde están las vistas
+
+app.use(cors());
+app.use(loggerUrl);
+app.use(express.json());
+app.use(express.static(join(__dirname, "src/public"))); // archivos estáticos
+
+app.use("/api/products", productRoutes);  // endpoints JSON
+app.use("/dashboard", viewRoutes);        // vistas renderizadas
+
+app.listen(PORT, () => {
+	console.log(`Servidor corriendo en el puerto http://localhost:${PORT}`);
+});
+```
+
+- **`app.set("view engine", "ejs")`:** le indica a Express qué motor de plantillas usar; así `res.render("get")` busca un archivo `get.ejs`. EJS se instala con `npm i ejs` y queda registrado en las dependencias del `package.json` (`cors`, `dotenv`, `ejs`, `express`, `mysql2`).
+- **`app.set("views", ...)`:** indica la carpeta de las vistas. Se arma con `join(__dirname, "src/views")` para que la ruta sea absoluta y funcione sin importar desde dónde se ejecute el servidor.
+- **`express.static(...)`:** es un middleware que sirve los archivos de `src/public` como están. El contenido de `public/` queda disponible desde la raíz de la URL: por ejemplo, `public/css/styles.css` se pide como `/css/styles.css`.
+- **`app.use("/dashboard", viewRoutes)`:** todas las peticiones a `/dashboard` se derivan al router de vistas, igual que `/api/products` se deriva al de productos (mismo mecanismo de `Router` de la Clase 18).
+- **Orden:** primero los middlewares de aplicación (`cors`, logger, `express.json`, estáticos) y después las rutas.
+- **Partials:** `head`, `header` y `footer` se escriben una sola vez y se incluyen en cada vista, aplicando de nuevo el principio **DRY**.
+
+#### Novedades de Node: `node --watch` e `import.meta.dirname`
+
+**`nodemon` y `node --watch`:** ambos hacen lo mismo, un proceso en segundo plano (*daemon*) que vigila los cambios del proyecto y **reinicia el servidor** al guardar, sin tener que bajarlo y levantarlo a mano. Históricamente se usaba `nodemon`; hoy Node lo trae de forma nativa con `node --watch` (es lo que usa el script `npm run dev`).
+
+**Generar `__dirname` en ESM:** en módulos ES no existe `__dirname`, y antes había que armarlo con `fileURLToPath(import.meta.url)` y `dirname`. Desde Node 22 alcanza con `import.meta.dirname`. El archivo `src/api/utils/index.js` queda así:
+
+```js
+import { join } from "node:path";
+
+// Directorio raíz del proyecto (tres niveles arriba de src/api/utils)
+const __dirname = join(import.meta.dirname, "../../../");
+
+export {
+	__dirname,
+	join
+};
+```
+
+| Código anterior | Código nuevo |
+| --- | --- |
+| `fileURLToPath(import.meta.url)` | `import.meta.dirname` |
+| `dirname(__filename)` | Ya no es necesario |
+| `import { dirname, join } from "path"` | `import { join } from "node:path"` |
+
+- **Versión mínima:** `import.meta.dirname` existe desde Node 20.11 y dejó de ser experimental en Node 22.16. Con Node 22.16 o superior (o Node 24) se puede usar sin problemas; con versiones anteriores hay que usar la forma clásica.
+- **Variante con `resolve()`:** se puede usar `resolve` en lugar de `join` para expresar que se construye una ruta absoluta, y nombrar la constante `ROOT_DIR`, que comunica mejor qué representa:
+
+```js
+import { resolve, join } from "node:path";
+
+const ROOT_DIR = resolve(import.meta.dirname, "../../../");
+
+export { ROOT_DIR, join };
+```
+
+- Los tres `../` dependen de la ubicación real del archivo: desde `src/api/utils/` suben hasta la raíz del proyecto.
+- Prefijo `node:` en `node:path`: es el esquema moderno para importar módulos nativos.
+
+#### Diccionario de conceptos básicos del backend
+
+**¿Qué es un endpoint?** Es la combinación de tres cosas: **una ruta**, **un verbo HTTP** (`GET`, `POST`, `PUT`, `DELETE`) y **una lógica** que se ejecuta al detectar esa petición en esa ruta.
+
+| Verbo | Ruta | Lógica |
+| --- | --- | --- |
+| `GET` | `/posts` | obtener posts |
+| `GET` | `/posts/1` | obtener el post con id 1 |
+| `PUT` | `/posts` | modificar un posteo |
+
+**¿Qué son las APIs?** Funciones y herramientas con las que se puede interactuar con algo; es un concepto muy amplio y abstracto, por eso cuesta definirlo.
+
+- **APIs Web:** funciones y herramientas que el navegador entrega para interactuar con él.
+- **APIs de sistema operativo:** por ejemplo, en Android, para usar la vibración, el GPS, las notificaciones o el portapapeles se accede a través de las APIs de Android.
+- **APIs REST (Restful API):** un puente entre una página web y una base de datos. La aplicación servidor crea ese puente mediante **endpoints**, que pueden ser puntos de **entrada** de datos (`POST`, `PUT`, etc.) o de **salida** (`GET`).
+
+**Características de REST:** usa el protocolo **HTTP**, usa **JSON** y es **stateless** (sin estado): no tiene memoria entre peticiones, por eso hacen falta las cookies.
+
+**Cómo se comunican dos computadoras en internet:**
+
+- La arquitectura **cliente-servidor** consiste en un cliente que hace peticiones a un servidor (que puede ser un proceso o una computadora física).
+- La comunicación se apoya en tres protocolos: **IP, TCP y HTTP**.
+- **HTTP** define el formato de las peticiones del cliente (*HTTP Request*) y de las respuestas del servidor (*HTTP Response*).
+
+**¿Qué son los middlewares?** Funciones que se ejecutan **entre la petición y la respuesta**: después de que la aplicación recibe la petición y antes de que procese la respuesta. Por eso `next()` es tan importante: da paso al siguiente middleware o a que se procese la respuesta, y la conexión HTTP no termina hasta que se responde.
+
+**MVC (Modelo-Vista-Controlador):** patrón de arquitectura que organiza el código y separa las responsabilidades de la lógica pesada de la app, para mejorar la escalabilidad, el mantenimiento y la reutilización, evitando tener todo en un solo archivo. Es básicamente una estructura u orden para el código (ver [Clase 18](#clase-18)).
+
+**¿Qué es refactorizar?** Es reestructurar el código fuente **sin modificar su comportamiento externo**, para mejorar su legibilidad, mantenibilidad y claridad, sin agregar funcionalidades ni corregir errores puntuales. Se hace con cambios pequeños y disciplinados:
+
+- Renombrar variables o métodos para mayor claridad.
+- Eliminar código duplicado o sin uso.
+- Dividir funciones largas en bloques más pequeños.
+- Simplificar estructuras de control complejas.
+
+Ayuda a reducir la **deuda técnica** y a que el software sea escalable y robusto a largo plazo. La modularización de la Clase 18 fue, justamente, una refactorización.
+
+**¿Qué tipos de datos soporta JSON?** Exactamente seis:
+
+| Tipo | Detalle |
+| --- | --- |
+| **String** | Texto entre comillas dobles, con caracteres de escape. |
+| **Number** | Enteros o decimales, con o sin signo; **sin comillas**. |
+| **Boolean** | `true` o `false`. |
+| **Null** | Valor vacío o nulo explícito. |
+| **Array** | Lista ordenada de valores entre corchetes `[]`. |
+| **Object** | Pares clave-valor entre llaves `{}`; las claves son strings únicos. |
+
+JSON **no** soporta fechas, funciones ni binarios nativos (se representan como strings), ni valores como `undefined`, `NaN` o `Infinity`.
+
+#### `affectedRows` vs `changedRows` en un `UPDATE`
+
+Ambas propiedades del resultado de `mysql2` cuentan filas de forma distinta:
+
+- **`affectedRows`:** filas que **coincidieron** con el `WHERE` y fueron procesadas por la operación (el producto existe).
+- **`changedRows`:** filas cuyo contenido **realmente cambió**. Si el nuevo valor es igual al que ya estaba, esa fila no cuenta.
+
+Ejemplo: para un producto `{ id: 1, name: "Teclado", price: 100, category: "Perifericos" }`:
+
+| `UPDATE` | `affectedRows` | `changedRows` |
+| --- | --- | --- |
+| Se envían los mismos datos que ya tenía (`name = 'Teclado', price = 100, category = 'Perifericos'`) | 1 | 0 |
+| Se cambia el precio (`SET price = 150`) | 1 | 1 |
+
+Si el `PUT` valida con `changedRows === 0` y responde `404`, se mezclan dos situaciones distintas: que el producto **no exista** y que exista pero el usuario haya enviado **exactamente los mismos datos**. Para comprobar la existencia es más apropiado `affectedRows`:
+
+```js
+if (result.affectedRows === 0) {
+	return res.status(404).json({
+		message: "Producto no encontrado"
+	});
+}
+```
+
+- `affectedRows === 0`: no existe ningún producto con ese id → `404`.
+- `affectedRows === 1`: el producto existe, hayan cambiado o no sus datos → se puede responder `200 OK`.
+- Si se quiere saber si hubo **cambios reales**, se usa `changedRows`.
+
+**Próxima clase:** continuar con el **login** con `bcrypt`, anunciado en la [Clase 18](#clase-18).
+
+### Aplicado en
+
+Backend del TP (`6_tpIntegradorBack/`) con `index.js` configurado para EJS y archivos estáticos, rutas y controladores de vistas, `src/views/` (plantillas y partials), `src/public/` (CSS, imágenes y scripts del cliente) y `src/api/utils/index.js` (`__dirname`). Apuntes: [novedades.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md) (`node --watch` e `import.meta.dirname`), [README.md de la bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/README.md) (diccionario de conceptos), [exportandoModulos.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/exportandoModulos.md) y [router.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/router.md).
+
+### Código
+
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/package.json)
+[![Ver views](https://img.shields.io/badge/💻_Ver_views-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/views)
+[![Ver public](https://img.shields.io/badge/💻_Ver_public-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/public)
+[![Ver utils](https://img.shields.io/badge/💻_Ver_utils-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api/utils/index.js)
+[![Ver novedades.md](https://img.shields.io/badge/📄_Ver_novedades.md-1A7F37?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md)
+
+</details>
+
 ---
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
 
-La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
+La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
 
 [![Ver repositorio en vivo](https://img.shields.io/badge/🔗_Repositorio_de_la_cátedra-181717?style=for-the-badge&logo=github)](https://github.com/profexabi/UTN2026_c2Div132)
 
@@ -3306,22 +3529,22 @@ La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la c
 
 **index.html** — repaso de HTML: lista desordenada y ordenada (ingredientes), párrafos, `<hr>`, etiquetas de formato de texto (`<strong>`, `<em>`, `<mark>`, `<small>`, `<del>`, `<ins>`, `<b>`, `<i>`, `<sub>`, `<sup>`) y un enlace con una imagen adentro.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/index.html)
 
 **README.md** — cronograma de la cátedra: qué se vio en la Clase 1 (HTML hasta elementos en bloque/en línea, con el recordatorio de que toda etiqueta en línea va dentro de una de bloque), la práctica sugerida de armar una receta con las etiquetas vistas, y lo que se dio en "Clase CSS I" (pseudoclases, flex, unidades absolutas y relativas, estilado básico). También incluye una guía rápida de Git (clone, status, pull, add, commit, push).
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/README.md)
 
 **Ejercicio-1/index.html** y **Ejercicio-1/sobremi.html** — ejercicio de práctica con dos páginas enlazadas entre sí (portada + "sobre mí"), estilado con `style.css` propio y una imagen en `assets/img/`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Ejercicio-1/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Ejercicio-1/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Ejercicio-1/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Ejercicio-1/index.html)
 
 **Portfolio/index.html** — otro ejemplo de página de portfolio, con su propio `style.css` y favicon (`img/favicon.ico`).
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Portfolio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/1_html/Portfolio/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Portfolio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/1_html/Portfolio/index.html)
 
 </details>
 
@@ -3330,22 +3553,22 @@ La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la c
 
 **index.html** — página de ejemplo con fuente de Google Fonts (Montserrat), CSS interno con pseudoclases aplicadas a distintos links (`:hover`, `:active`, `:visited`, y la combinación `:visited:hover`), CSS externo vinculado aparte, y una estructura con `header` + `nav` + `main` con secciones y un video de fondo autoplay en loop.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/index.html)
 
 **portfolio.html** — landing page de portfolio: sección hero a pantalla completa (`height: 100vh`) con tipografía custom vía `@font-face`, imagen de fondo y texto centrado con flexbox, header con navegación por anclas (`#presentacion`, `#experiencias`, `#habilidades`) y secciones de "sobre mí", "experiencia" y "habilidades".
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/portfolio.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/portfolio.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/portfolio.html)
 
 **css/styles.css** — hoja de estilos externa usada por `index.html`: estilos de botón con `:hover`, header en flexbox con lista sin viñetas, y la sección de portada en flexbox column con el video ocupando el 100% del ancho.
 
-[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/css/styles.css)
+[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/css/styles.css)
 
 **muestraDivs.html** — demo en vivo de tarjetas (`cards`) estilizadas con `box-shadow`, `border-radius` y variables CSS definidas en `:root` (colores primario/secundario, fondo), con su propio `css/muestraDivs.css`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/muestraDivs.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/muestraDivs.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/muestraDivs.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/muestraDivs.html)
 
 **README.md** — apunte de CSS bastante completo:
 - Unidades **absolutas** (`px`) vs. **relativas** (`em`, `rem`, `%`, `vw`, `vh`), con ejemplos de cada una.
@@ -3354,22 +3577,22 @@ La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la c
 - **Combinadores**: descendiente (`div p`) y de hijo directo (`div > p`).
 - Links a bancos de íconos y fuentes web-safe, y una nota aparte sobre la tipografía Montserrat (variable font vs. archivos estáticos por peso) y qué es un archivo `.ttf`.
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/README.md)
 
 **assets/fonts/future-z-font** — la fuente custom `Future Z` usada en el portfolio, con su licencia (`misc/license.txt`): uso personal gratuito, uso comercial requiere un pago único de USD 20.
 
-[📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/assets/fonts/future-z-font/misc/license.txt)
+[📄 Ver licencia](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/assets/fonts/future-z-font/misc/license.txt)
 
 **bootstrap/Inicio/index.html** y **bootstrap/Inicio/seguido.html** — primeros ejemplos maquetando con Bootstrap, con su propio `css/style.css`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Inicio/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Inicio/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
 
 **bootstrap/Peliculas/index.html** — ejercicio de Bootstrap tipo catálogo de películas, con capturas de ejemplo (`assets/img/ejemplo-footer.png`, `ejemplo-form.png`), ícono propio y su propio `readme.md`.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Peliculas/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Peliculas/index.html)
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/2_css/bootstrap/Peliculas/readme.md)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/readme.md)
 
 </details>
 
@@ -3378,20 +3601,20 @@ La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la c
 
 **index.html** — página de práctica que vincula `css/styles.css` y `js/index.js` (script externo), para los primeros ejemplos de JavaScript.
 
-[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/index.html)
-[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/index.html)
+[![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
+[![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
 
 **js/index.js** — script de JavaScript de la práctica.
 
-[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/js/index.js)
+[💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/js/index.js)
 
 **apuntesJS.md** — apuntes propios de JavaScript de la cátedra.
 
-[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/js/apuntesJS.md)
+[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/js/apuntesJS.md)
 
 **README.md**
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/3_javascript/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/README.md)
 
 </details>
 
@@ -3400,10 +3623,10 @@ La carpeta `UTN2026_c2Div132-main/` es un espejo del repositorio oficial de la c
 
 Ejemplos de las clases de Node.js (módulos, módulo `http` nativo y npm): `index.js`, `saludos.js`, `servidorNode.js` y `archivos/leeme.txt`, más su `README.md`.
 
-[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/index.js)
-[💻 Ver servidorNode.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/servidorNode.js)
-[💻 Ver saludos.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/saludos.js)
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/4_nodejs/README.md)
+[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/index.js)
+[💻 Ver servidorNode.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/servidorNode.js)
+[💻 Ver saludos.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/saludos.js)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/README.md)
 
 </details>
 
@@ -3412,67 +3635,79 @@ Ejemplos de las clases de Node.js (módulos, módulo `http` nativo y npm): `inde
 
 Primeros ejemplos de servidor con Express (`index.js`, `package.json`), con su `README.md` y una `bitacora/` propia.
 
-[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/5_express/index.js)
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/5_express/README.md)
-[📄 Ver bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/5_express/bitacora/README.md)
+[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/5_express/index.js)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/5_express/README.md)
+[📄 Ver bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/5_express/bitacora/README.md)
 
 </details>
 
 <details>
 <summary><font color="#1A7F37"><strong>6_tpIntegradorBack</strong></font></summary>
 
-Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2` y `dotenv`.
+Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2`, `dotenv` y `ejs`. Hoy incluye también las vistas del TP (renderizadas con EJS) dentro de `src/`.
 
-**index.js** — servidor completo: importaciones, middlewares (`cors()`, logger de solicitudes con fecha y hora, `express.json()`, `validateId` y `validateProduct`) y los endpoints del CRUD sobre `products` (`GET /api/products`, `GET /api/products/:id`, `POST /api/products`, `PUT /api/products` y `DELETE /api/products/:id`), todos con `try`/`catch`, consultas con placeholders y códigos de estado específicos (`200`, `201`, `400`, `404`, `500`). Al final queda comentado el esqueleto de una vista EJS para la próxima etapa.
+**index.js** — punto de entrada ya modularizado: importa la configuración, el logger y los routers; configura EJS (`view engine` y carpeta `views`); registra los middlewares de aplicación (`cors()`, logger, `express.json()` y `express.static` sobre `src/public`) y monta las rutas: `/api/products` (endpoints JSON del CRUD) y `/dashboard` (vistas renderizadas).
 
-[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/index.js)
-[💻 Ver package.json](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/package.json)
+[💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[💻 Ver package.json](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/package.json)
+
+**src/api/** — la lógica del servidor separada según el patrón MVC: `middlewares/middlewares.js`, `routes/` (`index.js`, `product.routes.js`, `view.routes.js`), `controllers/` (`product.controllers.js`, `view.controllers.js`), `models/product.models.js` y `utils/index.js` (exporta `__dirname` y `join`).
+
+[💻 Ver src/api](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api)
+
+**src/views/** — plantillas EJS: `index.ejs`, una vista por operación (`get.ejs`, `post.ejs`, `put.ejs`, `delete.ejs`) y `partials/` (`head.ejs`, `header.ejs`, `footer.ejs`). **src/public/** — estáticos: `css/styles.css`, `img/` (`burger-logo.png`, `favicon.ico`) y `js/` (`get.js`, `post.js`, `put.js`, `delete.js`).
+
+[💻 Ver src/views](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/views)
+[💻 Ver src/public](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/public)
 
 **src/api/config/environments.js** — carga las variables de entorno con `dotenv` (`PORT`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) y las exporta como un objeto de configuración.
 
-[💻 Ver environments.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/config/environments.js)
+[💻 Ver environments.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api/config/environments.js)
 
 **src/api/database/db.js** — crea el **pool de conexiones** a MySQL con `mysql2/promise` y lo exporta. Un pool mantiene varias conexiones abiertas y reutilizables, lo que evita crear y destruir conexiones en cada consulta y mejora el rendimiento del servidor.
 
-[💻 Ver db.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/src/api/database/db.js)
+[💻 Ver db.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api/database/db.js)
 
 **bitacora/** — apuntes del TP Integrador:
 - **consultasSQL.md** — por qué los placeholders (`?`) previenen la **inyección SQL**: ejemplo inseguro (`1 OR 1=1`) frente al seguro, ventajas, y la aclaración de que protegen valores pero no nombres de tablas o columnas (`ORDER BY ?`), que se validan con listas de valores permitidos.
 - **entendiendoReqRes.md** — qué puede enviar un `<form>` por defecto (solo `GET` y `POST`; `PUT`, `PATCH` y `DELETE` requieren `fetch`), las propiedades de `req` (`params`, `query`, `body`, `headers`, `method`, `url`), los métodos de `res` (`send`, `json`, `status`, `redirect`, `sendStatus`) y el significado de los códigos de estado más usados.
 - **enviandoDatosForm.md** — cómo viaja el cuerpo de una petición (HTTP sobre TCP, lectura por *streams* y *chunks*) y cómo `express.json()` lo convierte en `req.body`; comparación entre objeto literal y `FormData` y cuándo conviene cada uno (`Object.fromEntries`).
 - **renderizadoContenido.md** — **CSR vs SSR** con Express y EJS: cómo funciona cada uno, ventajas y desventajas, tabla comparativa, cuándo elegir cada uno y cómo combinarlos.
-- **README.md** — todavía vacío.
+- **README.md** — diccionario de conceptos básicos del backend: los 4 grandes dolores de cabeza, endpoint, APIs y REST, comunicación cliente-servidor, middlewares, MVC, refactorización, tipos de datos de JSON y `affectedRows` vs `changedRows` (ver [Clase 19](#clase-19)).
+- **novedades.md** — `nodemon` vs `node --watch` y cómo generar `__dirname` en ESM con `import.meta.dirname`.
+- **exportandoModulos.md** y **router.md** — apuntes sobre exportación de módulos y sobre `Router` (ver [Clase 18](#clase-18)).
 
-[📄 consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md)
-[📄 entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/entendiendoReqRes.md)
-[📄 enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/enviandoDatosForm.md)
-[📄 renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/renderizadoContenido.md)
+[📄 consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/consultasSQL.md)
+[📄 entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/entendiendoReqRes.md)
+[📄 enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/enviandoDatosForm.md)
+[📄 renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md)
+[📄 novedades.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md)
+[📄 exportandoModulos.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/exportandoModulos.md)
+[📄 router.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/router.md)
+[📄 README.md de la bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/README.md)
 
 </details>
 
 <details>
-<summary><font color="#1A7F37"><strong>6_tpIntegradorVistasBack</strong></font></summary>
+<summary><font color="#1A7F37"><strong>Vistas del TP (6_tpIntegradorBack/src/views y src/public)</strong></font></summary>
 
-Vistas del frontend del TP, que consumen la API del backend con `fetch` (renderizado del lado del cliente): `index.html`, una página por operación (`get.html`, `post.html`, `put.html`, `delete.html`), `css/styles.css` y `img/` (`burger-logo.png`, `favicon.ico`).
+Las vistas del frontend dejaron de ser un proyecto aparte (`6_tpIntegradorVistasBack`, páginas HTML que consumían la API con `fetch`) y pasaron a estar dentro del backend: plantillas **EJS** en `src/views/` (`index`, `get`, `post`, `put`, `delete` y `partials/`) y archivos estáticos en `src/public/` (`css/`, `img/` y los scripts del cliente en `js/`).
 
-[💻 Ver index.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/index.html)
-[💻 Ver get.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/get.html)
-[💻 Ver post.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/post.html)
-[💻 Ver put.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/put.html)
-[💻 Ver delete.html](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack/delete.html)
+[💻 Ver views](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/views)
+[💻 Ver public](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/public)
 
 </details>
 
 <details>
 <summary><font color="#1A7F37"><strong>README.md y apuntes.md (material del TP Integrador)</strong></font></summary>
 
-**README.md** (raíz) — organiza lo del TP Integrador: fecha de entrega (**hasta el viernes 4/12 a las 08:29**), material para entender el backend (playlist de programación web sobre arquitectura cliente-servidor, protocolo HTTP, JSON y APIs, y un video sobre HTTP y HTML), fechas importantes (primer parcial hasta JavaScript VI, con recuperatorio), pendientes de repaso (rest vs spread operator, closures, JavaScript monohilo, Event Loop) y un cronograma con la guía rápida de Git (`clone`, `status`, `pull`, `add`, `commit`, `push`).
+**README.md** (raíz) — organiza lo del TP Integrador: fechas del TP (**entrega hasta el viernes 27/11 a las 08:29** y **recuperatorio hasta el viernes 4/12 a las 08:29**), material para entender el backend (playlist de programación web sobre arquitectura cliente-servidor, protocolo HTTP, JSON y APIs, y un video sobre HTTP y HTML), fechas importantes (primer parcial hasta JavaScript VI, con recuperatorio), pendientes de repaso (rest vs spread operator, closures, JavaScript monohilo, Event Loop) y un cronograma con la guía rápida de Git (`clone`, `status`, `pull`, `add`, `commit`, `push`).
 
-[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/README.md)
+[📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/README.md)
 
 **apuntes.md** (raíz) — apuntes de apoyo para trabajar el TP: cómo escribir caracteres Unicode en VS Code en Linux (`Ctrl + Shift + U`, tabla de códigos útiles y secuencias de escape por lenguaje), los 40 atajos más comunes de VS Code/VSCodium con los 10 que conviene memorizar primero, y la diferencia entre **shell**, **bash**, **zsh** y **terminal**.
 
-[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/apuntes.md)
+[📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/apuntes.md)
 
 </details>
 
@@ -3748,7 +3983,8 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 ### Modalidad y fecha
 
 - Trabajo grupal, en parejas (algún grupo quedó de a tres por una cuestión de números impares en la comisión).
-- **Entrega final: hasta el viernes 4/12 a las 08:29** (según el README de la cátedra). Las fechas de defensa en clase (tentativamente el viernes 27/11) y de recuperatorio (semana del 2 al 4/12) siguen a confirmar por la cátedra.
+- **Entrega del TP: hasta el viernes 27/11 a las 08:29.**
+- **Recuperatorio: hasta el viernes 4/12 a las 08:29** (según el README de la cátedra).
 - A diferencia del primer parcial, para esta defensa **sí** se exige tener la cámara encendida y compartir pantalla durante la entrevista técnica.
 - Es una defensa oral: cada integrante tiene que poder explicar cualquier parte del código del trabajo (tanto del frontend como del backend), no alcanza con mostrarlo funcionando.
 
@@ -3759,13 +3995,13 @@ El detalle completo de la consigna (estructura de los dos proyectos — frontend
 ### Qué no hace falta (aclarado en clase)
 
 - **No hace falta usar un ORM.** Se aclaró explícitamente que, si bien en algún material pueda mencionarse, no es un requisito de la consigna — se prefiere afianzar bien las sentencias SQL con placeholders antes de sumar una capa de abstracción extra.
-- **Multer, Excel y paginación no se piden en la defensa principal** (tentativamente 27/11). Son extras opcionales: subida de archivos (**Multer**), descarga de datos a **Excel** y **paginación** de resultados. La exportación a Excel aparece en el PDF de la consigna, pero se aclaró que se va a corregir. Quienes vayan a **recuperatorio** (una semana extra) podrían tener que incorporar Multer y paginación (ver [Clase 17](#clase-17)).
+- **Multer, Excel y paginación no se piden en la defensa principal** (27/11). Son extras opcionales: subida de archivos (**Multer**), descarga de datos a **Excel** y **paginación** de resultados. La exportación a Excel aparece en el PDF de la consigna, pero se aclaró que se va a corregir. Quienes vayan a **recuperatorio** (una semana extra) podrían tener que incorporar Multer y paginación (ver [Clase 17](#clase-17)).
 
 ### Material de apoyo del TP
 
-- Código: [`6_tpIntegradorBack`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack) (backend) y [`6_tpIntegradorVistasBack`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorVistasBack) (vistas).
-- Bitácora: [consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/consultasSQL.md), [entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/entendiendoReqRes.md), [enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/enviandoDatosForm.md) y [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/6_tpIntegradorBack/bitacora/renderizadoContenido.md).
-- Raíz de la cátedra: [README.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/README.md) y [apuntes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132-main/apuntes.md). Detalle en [Repositorio de la cátedra](#repositorio-catedra).
+- Código: [`6_tpIntegradorBack`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack) (backend), con las vistas EJS en [`src/views`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/views) y los estáticos en [`src/public`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/public).
+- Bitácora: [consultasSQL.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/consultasSQL.md), [entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/entendiendoReqRes.md), [enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/enviandoDatosForm.md), [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md), [novedades.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md) y el [diccionario de conceptos](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/README.md) (ver [Clase 19](#clase-19)).
+- Raíz de la cátedra: [README.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/README.md) y [apuntes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/apuntes.md). Detalle en [Repositorio de la cátedra](#repositorio-catedra).
 
 ### Criterios que se van a evaluar
 
@@ -3858,7 +4094,7 @@ Programación III
 │   ├── 16 - Sintaxis avanzada en Javascript.pdf
 │   └── 17 - Asincronía y Promesas.pdf
 ├── README.md
-└── UTN2026_c2Div132-main
+└── UTN2026_c2Div132
     ├── 1_html
     │   ├── Ejercicio-1
     │   │   ├── assets
@@ -3938,28 +4174,54 @@ Programación III
     │   │   ├── consultasSQL.md
     │   │   ├── entendiendoReqRes.md
     │   │   ├── enviandoDatosForm.md
+    │   │   ├── exportandoModulos.md
+    │   │   ├── novedades.md
     │   │   ├── README.md
-    │   │   └── renderizadoContenido.md
+    │   │   ├── renderizadoContenido.md
+    │   │   └── router.md
     │   ├── index.js
     │   ├── package.json
     │   ├── package-lock.json
     │   └── src
-    │       └── api
-    │           ├── config
-    │           │   └── environments.js
-    │           └── database
-    │               └── db.js
-    ├── 6_tpIntegradorVistasBack
-    │   ├── css
-    │   │   └── styles.css
-    │   ├── delete.html
-    │   ├── get.html
-    │   ├── img
-    │   │   ├── burger-logo.png
-    │   │   └── favicon.ico
-    │   ├── index.html
-    │   ├── post.html
-    │   └── put.html
+    │       ├── api
+    │       │   ├── config
+    │       │   │   └── environments.js
+    │       │   ├── controllers
+    │       │   │   ├── product.controllers.js
+    │       │   │   └── view.controllers.js
+    │       │   ├── database
+    │       │   │   └── db.js
+    │       │   ├── middlewares
+    │       │   │   └── middlewares.js
+    │       │   ├── models
+    │       │   │   └── product.models.js
+    │       │   ├── routes
+    │       │   │   ├── index.js
+    │       │   │   ├── product.routes.js
+    │       │   │   └── view.routes.js
+    │       │   └── utils
+    │       │       └── index.js
+    │       ├── public
+    │       │   ├── css
+    │       │   │   └── styles.css
+    │       │   ├── img
+    │       │   │   ├── burger-logo.png
+    │       │   │   └── favicon.ico
+    │       │   └── js
+    │       │       ├── delete.js
+    │       │       ├── get.js
+    │       │       ├── post.js
+    │       │       └── put.js
+    │       └── views
+    │           ├── delete.ejs
+    │           ├── get.ejs
+    │           ├── index.ejs
+    │           ├── partials
+    │           │   ├── footer.ejs
+    │           │   ├── head.ejs
+    │           │   └── header.ejs
+    │           ├── post.ejs
+    │           └── put.ejs
     ├── apuntes.md
     └── README.md
 ```
