@@ -30,7 +30,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 16 — 30/10 · TP Integrador: CORS, middlewares, CSR vs SSR y CRUD completo (POST, PUT, DELETE)</strong></font>](#clase-16)
 - [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
 - [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización completa del backend (patrón MVC: middlewares, rutas, controladores y modelos) y campo active</strong></font>](#clase-18)
-- [<font color="#8250DF"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (renderizado del lado del servidor), estructura final del proyecto y diccionario de conceptos del backend</strong></font>](#clase-19)
+- [<font color="#8250DF"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (archivos estáticos, partials y JavaScript incrustado), módulos de vistas y repaso del flujo MVC</strong></font>](#clase-19)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -3295,9 +3295,35 @@ Prueba: se desactivaron productos desde la vista de modificar y dejaron de apare
 </details>
 
 <details>
-<summary><a id="clase-19"></a><font color="#1A7F37"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (renderizado del lado del servidor), estructura final del proyecto y diccionario de conceptos del backend</strong></font></summary>
+<summary><a id="clase-19"></a><font color="#1A7F37"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (archivos estáticos, partials y JavaScript incrustado), módulos de vistas y repaso del flujo MVC</strong></font></summary>
 
-> Nota: continuación del TP Integrador (ver [Clase 18](#clase-18)). El backend, ya modularizado en MVC, suma las **vistas del lado del servidor con EJS** dentro del mismo proyecto (carpetas `views/` y `public/`), y la cátedra incorporó a la bitácora un **diccionario de conceptos básicos** (endpoint, APIs REST, middlewares, MVC, refactorización, JSON, `affectedRows` vs `changedRows`) y un apunte de **novedades de Node** (`node --watch` e `import.meta.dirname`).
+> Nota: continuación del TP Integrador (ver [Clase 18](#clase-18)). Con el backend ya modularizado en MVC, se completó la **V**: se migraron las vistas del proyecto de vistas (páginas HTML que consumían la API con `fetch`) al propio backend como plantillas **EJS**, y se configuró el servidor para entregar **archivos estáticos**. Antes se hizo un repaso general con las preguntas típicas de la defensa. La cátedra además sumó a la bitácora un **diccionario de conceptos básicos** y un apunte de **novedades de Node**.
+
+#### Repaso: preguntas típicas de la defensa
+
+En la defensa se pide mostrar el proyecto y explicar **qué hace cada carpeta y cada archivo**. Conviene responder con palabras propias y de forma sencilla, no con la definición de libro:
+
+| Pregunta | Respuesta |
+| --- | --- |
+| ¿Qué es `src`? | *Source*, el código fuente. Contiene `api/` y ahora también `views/` y `public/`. |
+| ¿Qué hay en `config/`? | `environments.js` carga las variables de entorno del `.env` y las exporta. El `.env` está en el `.gitignore` y no se sube a Git: se pueden conocer los nombres de las variables, no sus valores. Casi todas son datos de la base. |
+| ¿Qué hay en `database/`? | El **pool** de conexiones a MySQL (un conjunto de conexiones abiertas) con `mysql2`, que se exporta para poder hacer consultas desde los modelos. |
+| ¿Qué es un middleware? | Una **función** que se ejecuta entre la petición y la respuesta. Hay dos clases: de **aplicación** (se ejecutan en todas las peticiones, como el logger o `cors()`) y de **ruta** (solo en ciertas rutas, como `validateId` y `validateProduct`). |
+| ¿Quién llama al middleware de ruta y al controlador? | El **router** (la ruta). |
+| ¿Quién redirige al router? | El archivo principal (`index.js`), con `app.use("/api/products", productRoutes)`. |
+| ¿Qué hace el controlador? | Gestiona la lógica de la petición y la respuesta: recibe información de `req` (URL, parámetros, body), llama al **modelo** y arma la respuesta con `res`. |
+| ¿Qué hace el modelo? | Hace la consulta a la base de datos. |
+| ¿Qué protocolos permiten la comunicación en internet? | **IP** (direcciones de origen y destino, como en el correo postal), **TCP** (verifica que lleguen los paquetes) y, sobre esos dos, **HTTP**, que define el **formato** de las peticiones y de las respuestas (estado, cuerpo, etc.). |
+
+- **Un middleware no es "una validación":** validar es uno de sus usos más comunes, pero es una función y puede hacer cualquier cosa (por ejemplo, registrar en un archivo log todas las peticiones del día). No hay que definirlo por uno de sus usos.
+- Si un middleware de ruta no aprueba la petición, **responde él mismo** y no se llega al controlador. Si todo está bien, llama a `next()`.
+- **Flujo completo:** `index.js` detecta `/api/products` → deriva al router de productos → el router llama al middleware de ruta (si lo hay) → controlador → modelo → base de datos. Una conexión HTTP no termina hasta que se entrega una respuesta, por eso un `next()` olvidado deja la petición colgada.
+
+#### ¿Dónde se hacen las validaciones?
+
+En **todas las capas**: en el **HTML** (atributos como `required`), en **JavaScript** del cliente y en el **backend**. Cuantos más filtros de limpieza y seguridad, mejor, porque las dos primeras capas se pueden saltear: alguien puede borrar los atributos del HTML desde las herramientas de desarrollo, evitar el JavaScript y enviar una petición directamente desde Postman, y si el backend no valida, puede llegar una **inyección SQL** y exponer información sensible de la base de datos.
+
+En esta instancia académica las validaciones se hacen **a mano** (arreglo de errores, que existan los campos, que cada campo tenga el valor correcto, expresiones regulares) en lugar de usar una librería: así se entienden los middlewares y se puede explicar en una entrevista cómo se valida. Conviene probarlas intentando romperlas: escribir mal el formulario, saltearse la seguridad del formulario y mandar datos inválidos desde Postman. Lo mismo vale para el ORM: no hace falta, y es otra capa de abstracción antes de dominar las consultas SQL.
 
 #### Los 4 grandes dolores de cabeza
 
@@ -3343,56 +3369,27 @@ El backend (`6_tpIntegradorBack/`) ahora contiene tanto la API como las vistas. 
 | `public/` | Archivos estáticos que se sirven tal cual: CSS, imágenes y los scripts del cliente (`get.js`, `post.js`, `put.js`, `delete.js`). |
 | `views/` | Plantillas `.ejs`: una por operación del CRUD y una carpeta `partials/` con las partes reutilizables (`head`, `header`, `footer`). |
 
-Como el proyecto ahora tiene **dos tipos de rutas** (endpoints que devuelven JSON y rutas que devuelven HTML), conviene tenerlas separadas en `product.routes.js` y `view.routes.js`. Para elegir entre renderizado del cliente (CSR) y del servidor (SSR), ver [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md).
+Como el proyecto ahora tiene **dos tipos de rutas** (endpoints que devuelven JSON y rutas que devuelven HTML), se mantienen separadas en `product.routes.js` y `view.routes.js`. Para elegir entre renderizado del cliente (CSR) y del servidor (SSR), ver [renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md).
 
-#### Configurar EJS y archivos estáticos en `index.js`
+#### Preparar el servidor: Node actualizado y `utils/index.js`
 
-`index.js` queda ordenado en tres bloques (importaciones, configuración, middlewares y rutas):
+**`nodemon` y `node --watch`:** ambos hacen lo mismo, un proceso en segundo plano (*daemon*) que vigila los cambios del proyecto y **reinicia el servidor** al guardar, sin tener que bajarlo y levantarlo a mano. Históricamente se usaba `nodemon` (si aparece en un proyecto, es exactamente esto); hoy Node lo trae de forma nativa con `node --watch`, que es lo que usa el script `npm run dev`. Conviene conocer ambos.
 
-```js
-import express from "express";
-import environments from "./src/api/config/environments.js";
-import cors from "cors";
-import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { productRoutes, viewRoutes } from "./src/api/routes/index.js";
-import { __dirname, join } from "./src/api/utils/index.js";
+**`__dirname` en módulos ES:** el proyecto usa **ESM** (`"type": "module"` en el `package.json`), no la sintaxis clásica CommonJS, y en ESM no existe `__dirname`. Antes había que armarlo a mano con `fileURLToPath(import.meta.url)` y `dirname`. Desde Node 22 alcanza con `import.meta.dirname`.
 
-const app = express();
-const PORT = environments.port;
+Para usarlo hace falta una versión reciente de Node. Se puede actualizar a la última **LTS** (*Long Term Support*, soporte de largo plazo) con `nvm`:
 
-app.set("view engine", "ejs");                    // EJS como motor de plantillas
-app.set("views", join(__dirname, "src/views"));   // carpeta donde están las vistas
-
-app.use(cors());
-app.use(loggerUrl);
-app.use(express.json());
-app.use(express.static(join(__dirname, "src/public"))); // archivos estáticos
-
-app.use("/api/products", productRoutes);  // endpoints JSON
-app.use("/dashboard", viewRoutes);        // vistas renderizadas
-
-app.listen(PORT, () => {
-	console.log(`Servidor corriendo en el puerto http://localhost:${PORT}`);
-});
+```bash
+nvm install --lts
+node -v
 ```
 
-- **`app.set("view engine", "ejs")`:** le indica a Express qué motor de plantillas usar; así `res.render("get")` busca un archivo `get.ejs`. EJS se instala con `npm i ejs` y queda registrado en las dependencias del `package.json` (`cors`, `dotenv`, `ejs`, `express`, `mysql2`).
-- **`app.set("views", ...)`:** indica la carpeta de las vistas. Se arma con `join(__dirname, "src/views")` para que la ruta sea absoluta y funcione sin importar desde dónde se ejecute el servidor.
-- **`express.static(...)`:** es un middleware que sirve los archivos de `src/public` como están. El contenido de `public/` queda disponible desde la raíz de la URL: por ejemplo, `public/css/styles.css` se pide como `/css/styles.css`.
-- **`app.use("/dashboard", viewRoutes)`:** todas las peticiones a `/dashboard` se derivan al router de vistas, igual que `/api/products` se deriva al de productos (mismo mecanismo de `Router` de la Clase 18).
-- **Orden:** primero los middlewares de aplicación (`cors`, logger, `express.json`, estáticos) y después las rutas.
-- **Partials:** `head`, `header` y `footer` se escriben una sola vez y se incluyen en cada vista, aplicando de nuevo el principio **DRY**.
-
-#### Novedades de Node: `node --watch` e `import.meta.dirname`
-
-**`nodemon` y `node --watch`:** ambos hacen lo mismo, un proceso en segundo plano (*daemon*) que vigila los cambios del proyecto y **reinicia el servidor** al guardar, sin tener que bajarlo y levantarlo a mano. Históricamente se usaba `nodemon`; hoy Node lo trae de forma nativa con `node --watch` (es lo que usa el script `npm run dev`).
-
-**Generar `__dirname` en ESM:** en módulos ES no existe `__dirname`, y antes había que armarlo con `fileURLToPath(import.meta.url)` y `dirname`. Desde Node 22 alcanza con `import.meta.dirname`. El archivo `src/api/utils/index.js` queda así:
+Se crea `src/api/utils/index.js`, que agrupa la lógica para trabajar con rutas del proyecto:
 
 ```js
 import { join } from "node:path";
 
-// Directorio raíz del proyecto (tres niveles arriba de src/api/utils)
+// Directorio raíz del proyecto: se retrocede tres niveles desde src/api/utils
 const __dirname = join(import.meta.dirname, "../../../");
 
 export {
@@ -3401,13 +3398,18 @@ export {
 };
 ```
 
+- `join` (del módulo `path` de Node, visto en la Clase 13) **une segmentos de ruta**.
+- Desde `utils/` hay que salir de `utils`, de `api` y de `src` para llegar a la raíz del servidor: por eso son **tres** `../`.
+- `__dirname` apunta a la raíz y `join` permite construir desde ahí las rutas a `src/public` y `src/views`.
+- Es una línea de importación y una de exportación; **no se pide para la defensa**, alcanza con saber por arriba qué hace.
+
 | Código anterior | Código nuevo |
 | --- | --- |
 | `fileURLToPath(import.meta.url)` | `import.meta.dirname` |
 | `dirname(__filename)` | Ya no es necesario |
 | `import { dirname, join } from "path"` | `import { join } from "node:path"` |
 
-- **Versión mínima:** `import.meta.dirname` existe desde Node 20.11 y dejó de ser experimental en Node 22.16. Con Node 22.16 o superior (o Node 24) se puede usar sin problemas; con versiones anteriores hay que usar la forma clásica.
+- **Versión mínima:** `import.meta.dirname` existe desde Node 20.11 y dejó de ser experimental en Node 22.16. Con versiones anteriores hay que usar la forma clásica (ver [exportandoModulos.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/exportandoModulos.md)).
 - **Variante con `resolve()`:** se puede usar `resolve` en lugar de `join` para expresar que se construye una ruta absoluta, y nombrar la constante `ROOT_DIR`, que comunica mejor qué representa:
 
 ```js
@@ -3418,8 +3420,209 @@ const ROOT_DIR = resolve(import.meta.dirname, "../../../");
 export { ROOT_DIR, join };
 ```
 
-- Los tres `../` dependen de la ubicación real del archivo: desde `src/api/utils/` suben hasta la raíz del proyecto.
-- Prefijo `node:` en `node:path`: es el esquema moderno para importar módulos nativos.
+#### Configurar EJS y los archivos estáticos en `index.js`
+
+Para completar el MVC faltaban las vistas. Se crean dos carpetas dentro de `src/`: **`views/`** (plantillas EJS, el motor de plantillas) y **`public/`** (archivos estáticos que consumen las vistas: CSS, imágenes y JavaScript del cliente). El CSS y las imágenes se mueven a `public/`, y los HTML a `views/`.
+
+Se instala EJS y queda registrado en las dependencias del `package.json`:
+
+```bash
+npm i ejs
+```
+
+Cambios en `index.js`:
+
+```js
+import { __dirname, join } from "./src/api/utils/index.js";
+
+// Motor de plantillas y carpeta de vistas
+app.set("view engine", "ejs");
+app.set("views", join(__dirname, "src/views"));
+
+// Middleware para servir archivos estáticos
+app.use(express.static(join(__dirname, "src/public")));
+
+app.use("/api/products", productRoutes);  // endpoints JSON
+app.use("/dashboard", viewRoutes);        // vistas renderizadas
+```
+
+- **`app.set("view engine", "ejs")`:** indica el motor de plantillas, así `res.render("index")` busca `index.ejs` (no hace falta escribir la extensión).
+- **`app.set("views", ...)`:** indica en qué carpeta están las vistas, con una ruta absoluta construida desde la raíz (`__dirname` + `src/views`).
+- **`express.static(...)`:** middleware que sirve los archivos de `src/public` tal cual. Su contenido queda disponible desde la raíz de la URL: `public/css/styles.css` se pide como `/css/styles.css`, y `public/img/burger-logo.png` como `/img/burger-logo.png`. Si se comenta esta línea, esos archivos dejan de servirse.
+- **Prefijo opcional:** se puede hacer `app.use("/static", express.static(...))`, y entonces las URLs pasan a ser `/static/css/styles.css`. Sirve para dejar claro que el recurso es estático, pero es opcional.
+- Sin esta configuración, la aplicación no tiene forma de saber dónde están las plantillas ni qué carpeta servir cuando una vista pide un CSS o una imagen.
+
+#### Primera vista con EJS
+
+1. Se renombra `index.html` a `index.ejs`.
+2. Se agrega una ruta que renderiza la vista (primero directamente en `index.js`, luego se modulariza):
+
+```js
+app.get("/dashboard/principal", (req, res) => {
+	res.render("index");
+});
+```
+
+3. Se prueba en `http://localhost:3000/dashboard/principal`. La vista se sirve, pero todavía sin estilos, porque el CSS apuntaba a la ruta vieja.
+
+EJS es un "super HTML": **HTML con JavaScript incrustado** (*Embedded JavaScript*). Conviene instalar la extensión **EJS Language Support** en VS Code para tener resaltado de sintaxis y autocompletado.
+
+#### Partials: dividir la plantilla en fragmentos
+
+Todas las vistas repiten la misma cabecera, el mismo menú y el mismo cierre. En lugar de copiar y pegar, se crea la carpeta `views/partials/` con fragmentos reutilizables:
+
+- **`head.ejs`:** abre el documento (doctype, `<head>` con el `<title>`, el CSS y el favicon, y el `<body>`).
+- **`header.ejs`:** el menú de navegación.
+- **`footer.ejs`:** el cierre del `body` y del `html`.
+
+Las rutas del CSS y las imágenes dentro de los partials son **relativas a `public/`**, sin `localhost`: `/css/styles.css` o `/img/favicon.ico`. Los enlaces del menú pasan a ser `/dashboard/principal`, `/dashboard/consultar`, `/dashboard/crear`, `/dashboard/modificar` y `/dashboard/eliminar`.
+
+Como el título cambia en cada página, el `head.ejs` usa una **variable de EJS** (`<%= title %>`) que se le pasa al renderizar. Cada vista incluye los fragmentos con `include`:
+
+```ejs
+<%- include("partials/head") %>
+<%- include("partials/header") %>
+
+<main>
+	<!-- contenido propio de la vista -->
+</main>
+
+<script src="/js/get.js"></script>
+<%- include("partials/footer") %>
+```
+
+Así la plantilla de cada vista queda mucho más breve y solo contiene lo que le es propio.
+
+- **Error típico:** si el `head` usa `title` y al renderizar no se le pasa ese valor, EJS lanza `title is not defined`. Hay que pasarlo en cada `res.render`, por ejemplo `res.render("get", { title: "Consultar producto" })`.
+- **El JavaScript del cliente** que estaba dentro de cada HTML se mueve a archivos en `public/js/` (`get.js`, `post.js`, `put.js` y `delete.js`) y se vincula con `<script src="/js/get.js"></script>`. La ruta parte de `public/` porque `express.static` ya apunta ahí.
+
+#### Modularizar las vistas: rutas y controladores
+
+Se repite el proceso de la [Clase 18](#clase-18):
+
+**`routes/view.routes.js`:** crea un `Router`, define las rutas de las vistas (como ya se atiende `/dashboard` desde `index.js`, acá alcanza con `/principal`, `/consultar`, etc.) y lo exporta con `export default router`.
+
+```js
+import { Router } from "express";
+import { vistaProductos, vistaConsultar, vistaCrear, vistaModificar, vistaEliminar } from "../controllers/view.controllers.js";
+
+const router = Router();
+
+router.get("/principal", vistaProductos);
+router.get("/consultar", vistaConsultar);
+router.get("/crear", vistaCrear);
+router.get("/modificar", vistaModificar);
+router.get("/eliminar", vistaEliminar);
+
+export default router;
+```
+
+**`routes/index.js` (archivo de barril):** importa `viewRoutes` desde `view.routes.js` y lo exporta junto con `productRoutes`. Si da error el import, revisar que `Router` se importe con **R mayúscula** y que no haya otro `router` en minúscula.
+
+**`controllers/view.controllers.js`:** cada controlador renderiza una vista y le pasa el `title`:
+
+```js
+import * as ProductModels from "../models/product.models.js";
+
+export const vistaProductos = async (req, res) => {
+	const [rows] = await ProductModels.selectAllProducts();
+	res.render("index", { title: "Dashboard principal", products: rows });
+};
+
+export const vistaConsultar = (req, res) => {
+	res.render("get", { title: "Consultar producto" });
+};
+
+export const vistaCrear = (req, res) => {
+	res.render("post", { title: "Crear producto" });
+};
+
+export const vistaModificar = (req, res) => {
+	res.render("put", { title: "Modificar producto" });
+};
+
+export const vistaEliminar = (req, res) => {
+	res.render("delete", { title: "Eliminar producto" });
+};
+```
+
+| Ruta | Vista renderizada |
+| --- | --- |
+| `GET /dashboard/principal` | `index.ejs` (listado de productos) |
+| `GET /dashboard/consultar` | `get.ejs` |
+| `GET /dashboard/crear` | `post.ejs` |
+| `GET /dashboard/modificar` | `put.ejs` |
+| `GET /dashboard/eliminar` | `delete.ejs` |
+
+- **No hacen falta middlewares en las rutas de vistas:** los de producto validan el ID y el formulario, y acá solo se está **obteniendo una vista**. `GET` sirve para obtener un recurso, sea JSON o HTML.
+- **Se pueden pasar más variables** a la plantilla además de `title` (por ejemplo, una descripción), siempre que la vista las use.
+- Conviene **probar manualmente después de cada cambio grande** en lugar de acumular cambios y buscar después dónde falló.
+
+#### JavaScript incrustado: listar productos sin `fetch`
+
+Con EJS, la vista del listado ya no necesita pedir los productos con `fetch`: el controlador consulta al modelo y **le pasa el arreglo** a la plantilla (`products: rows`), que lo recorre directamente en el HTML. Se elimina el script de esa vista y el HTML que se armaba como *string* para luego asignarlo con `innerHTML`:
+
+```ejs
+<div class="container-products">
+<% products.forEach(producto => { %>
+	<div class="card">
+		<img src="<%= producto.image %>" alt="<%= producto.name %>">
+		<h3><%= producto.name %></h3>
+		<p>ID: <%= producto.id %></p>
+		<p>$<%= producto.price %></p>
+	</div>
+<% }) %>
+</div>
+```
+
+| Etiqueta | Para qué sirve |
+| --- | --- |
+| `<% ... %>` | Ejecuta JavaScript sin imprimir nada (`forEach`, `if`, etc.). |
+| `<%= ... %>` | Imprime el valor de una expresión (reemplaza al `${...}` de las plantillas de texto). |
+| `<%- ... %>` | Imprime sin escapar el HTML; se usa en los `include`. |
+
+- La plantilla pasó de decenas de líneas a unas veinte, sin JavaScript aparte.
+- Solo esta vista se resuelve así: las otras (consultar, crear, modificar y eliminar) siguen necesitando JavaScript del cliente, porque hay que **capturar eventos** (`submit`, `click`) y mandar datos al servidor, por ejemplo el ID que se escribe en el formulario.
+- Otro motor de plantillas conocido es **Handlebars**; la idea es la misma: una plantilla con huecos que se rellenan con datos.
+- **Vista de todos los productos:** el panel de administración debe ver **todos** los productos (activos e inactivos), así que el controlador usa `selectAllProducts`. El endpoint de productos **activos** (`/api/products/active`) es el que consume el cliente final.
+
+**Ideas para el front del panel (no son requisito):** mostrar los productos inactivos con otra clase (por ejemplo, `opacity: 0.3` si `active` es `0`), y poner en cada tarjeta un ícono de modificar y otro de eliminar, para ahorrarse las vistas separadas. Se agradece que no sea tan lineal como lo hecho en clase, que es gradual y repetitivo para facilitar el aprendizaje.
+
+#### Probar todo el CRUD
+
+Después de migrar las cinco vistas se probó el ciclo completo con un producto de prueba:
+
+1. **Crear** el producto desde `/dashboard/crear`: responde con el ID asignado.
+2. **Consultar** por ID en `/dashboard/consultar` y comprobar que figura en el listado.
+3. **Modificar** el precio y **deshabilitar** el producto (`active = 0`) en `/dashboard/modificar`.
+4. Verificar que ya **no aparece** en `GET /api/products/active`.
+5. **Eliminar** el producto desde `/dashboard/eliminar`.
+
+Cuando se agrega una ruta nueva hay que **reiniciar el servidor** (con `node --watch` se reinicia solo al guardar).
+
+#### Los dos proyectos del TP: front (tótem) y back
+
+El TP pide **dos proyectos distintos**, idealmente en dos repositorios (front y back), aunque si se entrega todo en una carpeta tampoco es un problema:
+
+- **Proyecto front (tótem):** es la interfaz del cliente final. Una pantalla de bienvenida pide el nombre y lo guarda en `sessionStorage`; sin nombre no deja avanzar. La vista de productos hace un `fetch` al endpoint de **productos activos** y arma las tarjetas con el resultado. Al confirmar, genera el ticket con **jsPDF**, hace un `POST` al endpoint de **ventas** (`/api/sales`) para registrar la venta y vuelve a la pantalla inicial. La venta guarda un ID incremental, la fecha, el precio total y el usuario. Es un front básico que cada grupo puede resolver por su cuenta; en clase se muestra jsPDF.
+- **Proyecto back:** provee la **API REST** (datos y alta, modificación y baja de registros) y además las **vistas del panel de administración** (migradas a EJS), que estarán **protegidas con un login**.
+
+La confusión habitual viene de que, hasta ahora, las vistas del panel se pensaban como "el cliente". No hay que confundir la pantalla de administración de productos con el proyecto front del cliente.
+
+#### Probar la API con Postman o Insomnia
+
+Con un enfoque *API first* se arma primero la API y se prueba con **Postman** o **Insomnia** antes de hacer las vistas: se elige el verbo, se escribe la URL y se manda el contenido en el `body` (por ejemplo, un `POST` para crear). Es una herramienta de testeo y se aprende rápido; en esta cursada se priorizó vincular la API con las vistas (formularios, `FormData`, `fetch`), que es lo más difícil. Si falla una ruta nueva, probar primero reiniciando el servidor.
+
+#### Cierre de la migración y versión 1.1
+
+Con las cinco vistas en EJS, la carpeta del proyecto de vistas (`6_tpIntegradorVistasBack`) ya no hace falta y se elimina (`rm -rf`). El proyecto se etiqueta como **versión 1.1** con un *tag* de Git:
+
+```bash
+git tag -a v1.1 -m "Vistas migradas a EJS, proyecto modularizado"
+git push origin v1.1
+```
+
+Un *tag* marca una versión específica del proyecto (en este caso, la primera versión modularizada y con EJS).
 
 #### Diccionario de conceptos básicos del backend
 
@@ -3499,11 +3702,18 @@ if (result.affectedRows === 0) {
 - `affectedRows === 1`: el producto existe, hayan cambiado o no sus datos → se puede responder `200 OK`.
 - Si se quiere saber si hubo **cambios reales**, se usa `changedRows`.
 
-**Próxima clase:** continuar con el **login** con `bcrypt`, anunciado en la [Clase 18](#clase-18).
+#### Qué sigue y fechas
+
+- **Miércoles 18/11 — login y contraseñas:** una pantalla de login (se puede crear un usuario administrador directamente desde la base de datos, en la tabla de administradores, sin hacer registro), un endpoint `POST` que verifica el usuario y la contraseña, y la **protección de rutas y redirección**: un middleware (por ejemplo `requireLogin`) que, antes de servir una vista del panel, comprueba que exista una **sesión** (`express-session`); si no hay sesión, no sirve la vista y redirige al login. Además, el **hasheo de contraseñas** con `bcrypt`: la contraseña no se guarda tal cual, sino como una cadena de unos 60 caracteres. Para validar, se genera de nuevo el hash con lo que escribe el usuario y se compara con el guardado. Técnicamente no es cifrado, y sirve para que, si se filtra la base de datos, no se conozcan las contraseñas reales. El formulario de login se enviará directamente desde HTML, para ver esa forma de envío de datos. Lo ideal es llegar al día con el TP.
+- **Clases del 20/11 y 25/11:** repaso o contenido extra según lo que decida el grupo (por ejemplo, **Multer**, **ExcelJS** para descargar datos en Excel y paginación). Son extras: no se piden en la defensa principal, aunque podrían pedirse en el recuperatorio. Se prioriza que los fundamentos estén bien entendidos (un CRUD con login) antes de sumar herramientas externas; Multer y ExcelJS se aprenden copiando de `npm`, mientras que lo importante es poder explicar el proyecto con las propias palabras.
+- **Defensa:** viernes **27/11**, por videollamada. Los grupos se reparten entre dos docentes y se llama en orden a quienes levanten la mano. Cada integrante defiende por separado y se pueden hacer consultas hasta último momento. **Recuperatorio:** hasta el viernes **4/12 a las 08:29**.
+- **Recomendaciones:** hacer el código a mano y **romperlo a propósito** para entender qué pasa (cambiar algo y ver qué sucede). La IA es muy buena para hacer preguntas y entender conceptos, pero resolver el código con ella perjudica en la defensa porque cuesta explicar lo que no se escribió. Todos repasan antes de una prueba, nadie lo sabe de memoria, y lo importante es poder explicarlo con las propias palabras. Cada grupo puede pedir una instancia aparte para presentar avances y consultar dudas.
+
+**Próxima clase:** login con sesiones y hasheo de contraseñas con `bcrypt` (miércoles 18/11).
 
 ### Aplicado en
 
-Backend del TP (`6_tpIntegradorBack/`) con `index.js` configurado para EJS y archivos estáticos, rutas y controladores de vistas, `src/views/` (plantillas y partials), `src/public/` (CSS, imágenes y scripts del cliente) y `src/api/utils/index.js` (`__dirname`). Apuntes: [novedades.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md) (`node --watch` e `import.meta.dirname`), [README.md de la bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/README.md) (diccionario de conceptos), [exportandoModulos.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/exportandoModulos.md) y [router.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/router.md).
+Backend del TP (`6_tpIntegradorBack/`) con `index.js` configurado para EJS y archivos estáticos, rutas y controladores de vistas (`view.routes.js` y `view.controllers.js`), `src/views/` (plantillas y partials), `src/public/` (CSS, imágenes y scripts del cliente) y `src/api/utils/index.js` (`__dirname`). Apuntes: [novedades.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md) (`node --watch` e `import.meta.dirname`), [README.md de la bitácora](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/README.md) (diccionario de conceptos), [exportandoModulos.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/exportandoModulos.md) y [router.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/router.md).
 
 ### Código
 
@@ -3644,7 +3854,7 @@ Primeros ejemplos de servidor con Express (`index.js`, `package.json`), con su `
 <details>
 <summary><font color="#1A7F37"><strong>6_tpIntegradorBack</strong></font></summary>
 
-Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2`, `dotenv` y `ejs`. Hoy incluye también las vistas del TP (renderizadas con EJS) dentro de `src/`.
+Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2`, `dotenv` y `ejs`. Hoy incluye también las vistas del TP (renderizadas con EJS) dentro de `src/`. La primera versión modularizada y con EJS está etiquetada como `v1.1`.
 
 **index.js** — punto de entrada ya modularizado: importa la configuración, el logger y los routers; configura EJS (`view engine` y carpeta `views`); registra los middlewares de aplicación (`cors()`, logger, `express.json()` y `express.static` sobre `src/public`) y monta las rutas: `/api/products` (endpoints JSON del CRUD) y `/dashboard` (vistas renderizadas).
 
@@ -3985,6 +4195,8 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 - Trabajo grupal, en parejas (algún grupo quedó de a tres por una cuestión de números impares en la comisión).
 - **Entrega del TP: hasta el viernes 27/11 a las 08:29.**
 - **Recuperatorio: hasta el viernes 4/12 a las 08:29** (según el README de la cátedra).
+- **Defensa:** viernes 27/11, por videollamada. Los grupos se reparten entre dos docentes y se llama en orden a quienes levanten la mano; cada integrante defiende por separado. Se pueden hacer consultas hasta el último momento.
+- **Entrega:** el TP consta de dos proyectos, front (tótem) y back (API + panel con login), idealmente en dos repositorios; entregarlos en una sola carpeta también es aceptable.
 - A diferencia del primer parcial, para esta defensa **sí** se exige tener la cámara encendida y compartir pantalla durante la entrevista técnica.
 - Es una defensa oral: cada integrante tiene que poder explicar cualquier parte del código del trabajo (tanto del frontend como del backend), no alcanza con mostrarlo funcionando.
 
