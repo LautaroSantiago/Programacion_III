@@ -51,6 +51,7 @@ header, #logo, .lista-nav {
 
 header {
     justify-content: space-between;
+    height: 90px;
 }
 
 ul {
@@ -121,6 +122,7 @@ header nav {
 
 #contenedor-productos {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -129,6 +131,13 @@ header nav {
 /*====================
     Lista producto
 =====================*/
+
+#post-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
 .getIdProduct-container {
     width: 40%;
 }
@@ -161,4 +170,9 @@ header nav {
 .login-container {
     width: 30%;
     margin-top: 80px;
+}
+
+#mensajes {
+    width: 90%;
+    margin: 0 auto;
 }
