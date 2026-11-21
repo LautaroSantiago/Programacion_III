@@ -31,6 +31,7 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
 - [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización completa del backend (patrón MVC: middlewares, rutas, controladores y modelos) y campo active</strong></font>](#clase-18)
 - [<font color="#8250DF"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (archivos estáticos, partials y JavaScript incrustado), módulos de vistas y repaso del flujo MVC</strong></font>](#clase-19)
+- [<font color="#8250DF"><strong>Clase 20 — 18/11 · TP Integrador: login del panel de administración (formulario nativo, sesiones con express-session y protección de rutas)</strong></font>](#clase-20)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -3726,6 +3727,253 @@ Backend del TP (`6_tpIntegradorBack/`) con `index.js` configurado para EJS y arc
 
 </details>
 
+<details>
+<summary><a id="clase-20"></a><font color="#1A7F37"><strong>Clase 20 — 18/11 · TP Integrador: login del panel de administración (formulario nativo, sesiones con express-session y protección de rutas)</strong></font></summary>
+
+> Nota: continuación del TP Integrador (ver [Clase 19](#clase-19)). Con las vistas ya migradas a EJS, se empezó a **proteger el panel de administración con un login**: una vista con formulario, un endpoint que recibe los datos, una **sesión** que recuerda al usuario entre peticiones y un **middleware de ruta** que redirige al login si no hay sesión.
+
+#### Por qué importa entender la lógica
+
+En la defensa se pregunta qué hace cualquier carpeta o línea de código (qué hace `routes`, quién llama al controlador, qué hace el modelo, qué tipos de middleware hay), por eso no se trata de copiar el código que se escribe en clase sino de **entender el flujo**. Conviene comentar el propio código explicando qué hace cada cosa y poder explicarlo de forma sencilla.
+
+- **Frontend:** se evalúa también la interfaz. Lo ideal es hacerla a mano; si se usa IA, hay que poder defender y explicar cómo se maquetó y se estiló cada parte, y no entregar una interfaz que no se entienda.
+- **Más allá del código:** conviene conocer todo el ciclo de vida del desarrollo de software (testing, despliegue), algo que se pide mucho en las entrevistas. Al terminar el TP se puede **desplegar** por separado el front y el back para tenerlos en un portfolio.
+
+#### Los dos proyectos: tótem y panel de administración
+
+- El **proyecto front (tótem)** no tiene login: su pantalla de bienvenida solo pide un nombre y lo guarda en la sesión del navegador (`sessionStorage`); sin nombre no deja entrar a los productos. Consume el endpoint de **productos activos** y el de **crear venta**, y al terminar genera el ticket y vuelve a la bienvenida.
+- **No debe tener ningún vínculo con el panel de administración**: un botón de "administración" en el tótem sería un problema de seguridad (cualquier cliente probaría loguearse) y además son dos aplicaciones conceptualmente distintas, idealmente en repositorios separados, con distinto mantenimiento. Ambas se comunican a través de la **API REST**.
+- El **administrador entra directamente por la URL** del backend. Hasta ahora podía abrir `/dashboard/principal` sin ninguna protección; eso es lo que se corrige con el login.
+
+#### Partes de un login
+
+1. Una **vista** (EJS) con el formulario de login.
+2. Un **endpoint** `POST` que recibe el email y la contraseña y los verifica contra la base de datos.
+3. Una **sesión**, que se crea cuando el login es exitoso, para que Express recuerde quién es el usuario en cada petición.
+4. Un **middleware de ruta** que, antes de servir cada vista del panel, comprueba si hay sesión y, si no, redirige al login.
+5. Un **logout** que destruye la sesión y redirige al login.
+
+**HTTP es un protocolo sin estado (*stateless*):** el servidor trata cada petición como si fuera la primera y no recuerda quién es el cliente entre una ruta y otra. Por eso hace falta la sesión, y es una pregunta frecuente en entrevistas.
+
+#### Envío nativo del formulario HTML
+
+Hasta ahora los datos se enviaban con **JavaScript** (`fetch`, `FormData` convertido a objeto y `JSON.stringify`, con el JSON en el cuerpo de la petición y `express.json()` para parsearlo). El login usa el **envío nativo** del formulario HTML, sin JavaScript:
+
+- Los formularios HTML envían los datos con el tipo de contenido **`application/x-www-form-urlencoded`**, no JSON: los datos viajan como texto, los espacios se reemplazan por `+` y los caracteres especiales se escapan.
+- Hace falta otro middleware de aplicación que parsee ese formato para recibirlo como un objeto en `req.body`. Igual que `express.json()` actúa cuando el tipo de contenido es JSON, este actúa cuando es `urlencoded`.
+- Esto permite entender los atributos del `<form>` que se ven en W3Schools: **`action`** (a qué ruta se envían los datos) y **`method`** (con qué método HTTP: `get` o `post`; un formulario HTML solo permite esos dos).
+
+```js
+app.use(express.json());                          // cuerpo en formato JSON
+app.use(express.urlencoded({ extended: true }));  // cuerpo de un formulario HTML
+```
+
+- **`extended: true`:** usa el parser `qs`, que permite interpretar estructuras más complejas (objetos y arrays anidados); con `false` se usa el parser simple `querystring`. Lo habitual es dejarlo en `true`. Es independiente de `express.json()`.
+- **Prueba para entenderlo:** si se comenta `express.urlencoded(...)`, `req.body` llega sin parsear y al desestructurar `email` y `password` falla con un error. Al volver a activarlo, los datos llegan como objeto.
+
+#### La vista del login: `login.ejs`
+
+Reutiliza los partials `head` y `footer` para mantener la misma hoja de estilos y temática, y muestra un mensaje solo si se le pasa una variable `error`:
+
+```ejs
+<%- include("partials/head") %>
+
+<main class="login-container">
+	<h3 class="centered"><%= about %></h3>
+
+	<% if (typeof error !== "undefined") { %>
+		<p class="message error centered"><%= error %></p>
+	<% } %>
+
+	<form id="login-form" action="/login" method="post">
+		<label for="email-user">Email</label>
+		<input type="email" name="email" id="email-user" required>
+
+		<label for="password-user">Contraseña</label>
+		<input type="password" name="password" id="password-user" required>
+
+		<input type="submit" value="Login">
+	</form>
+</main>
+
+<%- include("partials/footer") %>
+```
+
+- Los atributos `name` (`email` y `password`) son los que llegan como claves de `req.body`.
+- La vista usa `typeof error !== "undefined"` porque, si el controlador no envía `error`, esa variable no existe y usarla directamente lanzaría `error is not defined`.
+- Con EJS el mensaje de error ya no requiere `fetch`, esperar la respuesta, comprobar el código de estado y armar un mensaje en JavaScript: alcanza con pasar `error` al renderizar.
+- Se agregan algunas clases de estilo (por ejemplo, un contenedor que ocupe cerca del 40 % del ancho y una clase que centre el texto).
+
+#### Rutas de autenticación: `auth.routes.js`
+
+Un nuevo router agrupa las rutas de autenticación (`/login` y, más adelante, `/logout`). El mismo `/login` atiende dos verbos: `GET` (la vista) y `POST` (el envío del formulario). Se registra como las demás: se exporta, se agrega al archivo de barril `routes/index.js` como `authRoutes` y en `index.js` se monta en la raíz, para que capture todo lo que no empiece con `/api/products` ni `/dashboard`:
+
+```js
+import { Router } from "express";
+
+const router = Router();
+
+// La ruta raíz redirige al login
+router.get("/", (req, res) => {
+	res.redirect("/login");
+});
+
+// Vista del login
+router.get("/login", (req, res) => {
+	res.render("login", { title: "Login admin", about: "Credenciales" });
+});
+
+export default router;
+```
+
+```js
+// index.js
+app.use("/api/products", productRoutes);
+app.use("/dashboard", viewRoutes);
+app.use("/", authRoutes);
+```
+
+Como siempre, primero se arma todo en las rutas y después se **modulariza** (el `POST` se mueve a un controlador y la consulta a un modelo).
+
+#### Middleware de ruta: `requireLogin`
+
+Si cada controlador de vista tuviera que comprobar la sesión, el mismo `if` se repetiría una y otra vez. Para no repetir código se lo lleva a un middleware de ruta en `middlewares.js`:
+
+```js
+export const requireLogin = (req, res, next) => {
+	if (!req.session.user) {
+		return res.redirect("/login");
+	}
+	next();
+};
+```
+
+Se agrega en las rutas de vistas, **antes del controlador**:
+
+```js
+router.get("/principal", requireLogin, vistaProductos);
+router.get("/consultar", requireLogin, vistaConsultar);
+router.get("/crear", requireLogin, vistaCrear);
+router.get("/modificar", requireLogin, vistaModificar);
+router.get("/eliminar", requireLogin, vistaEliminar);
+```
+
+- Si no hay un usuario en la sesión, redirige al login y **nunca llega al controlador**, así que la vista no se renderiza.
+- **`return` y `next()`** otra vez: sin `return` se seguiría ejecutando el código de abajo, y sin `next()` la petición queda colgada.
+- Hay que agregarlo en **todas** las vistas del panel: si se deja una sin proteger, se puede entrar directamente a ella.
+- Cualquier vista a la que se intente acceder sin sesión lleva al login, y por eso el navegador "arranca" siempre ahí.
+- Este middleware protege las **vistas** del panel (por ahora los endpoints de `/api/products` siguen abiertos).
+- Mientras no exista la sesión, la protección no funciona: todas las rutas redirigen al login aunque el usuario sea válido.
+
+#### Sesiones con `express-session`
+
+**Express Session** es un middleware que permite que Express **recuerde datos entre peticiones** (guarda un valor en `req.session`). Cuando el login es exitoso, se crea la sesión del usuario y, en cualquier petición posterior, el middleware de ruta pregunta si existe; si no existe, redirige. Es parecido a lo que hace el tótem con el nombre guardado en `sessionStorage`.
+
+```bash
+npm i express-session
+```
+
+**La sesión necesita una clave secreta** que firma la cookie de sesión. Sin ella, se podrían falsificar o robar sesiones y hacerse pasar por el administrador. Se genera una cadena aleatoria con cualquier generador de contraseñas y se guarda en el `.env` (que no se sube a Git):
+
+```
+SESSION_KEY=una_clave_larga_y_aleatoria
+```
+
+Se lee y se exporta desde `config/environments.js`, como las demás variables de entorno (por ejemplo `sessionKey: process.env.SESSION_KEY`), y en `index.js` se configura el middleware:
+
+```js
+import session from "express-session";
+
+const { port, sessionKey } = environments;  // destructuring (opcional)
+
+app.use(session({
+	secret: sessionKey,        // firma la cookie de sesión para evitar manipulaciones
+	resave: false,             // no vuelve a guardar la sesión si no hubo cambios
+	saveUninitialized: false   // no crea sesiones vacías
+}));
+```
+
+- **Alternativas:** el servidor también puede saber si hay un usuario logueado con *tokens* (**JWT**, que se ve en Programación IV) o con cookies firmadas. Acá se usa `express-session`.
+- La sesión se configura **antes de las rutas**.
+
+#### El endpoint `POST /login`
+
+Recibe el email y la contraseña del formulario, los verifica contra la tabla de administradores y, si existen, crea la sesión:
+
+```js
+import connection from "../database/db.js";
+
+router.post("/login", async (req, res) => {
+	try {
+		const { email, password } = req.body;
+		console.table(req.body);
+
+		// Mini validación para evitar una consulta innecesaria a la base de datos
+		if (!email || !password) {
+			return res.render("login", {
+				title: "Login admin",
+				about: "Credenciales",
+				error: "Todos los campos son obligatorios"
+			});
+		}
+
+		const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+		const [rows] = await connection.query(sql, [email, password]);
+
+		// Si el array está vacío, no existe ese usuario
+		if (rows.length === 0) {
+			return res.render("login", {
+				title: "Login admin",
+				about: "Credenciales",
+				error: "No existe usuario admin"
+			});
+		}
+
+		// La consulta devuelve un array con un solo objeto
+		const user = rows[0];
+
+		// Se guarda la sesión con los datos del usuario
+		req.session.user = {
+			id: user.id,
+			name: user.name,
+			email: user.email
+		};
+
+		res.redirect("/dashboard/principal");
+	} catch (error) {
+		console.error("Error en el login:", error);
+		res.status(500).json({ message: "Error interno del servidor" });
+	}
+});
+```
+
+- Mientras no haya un `res.send`, `res.render` o `res.redirect`, la petición HTTP no termina y queda colgada; con `console.table(req.body)` se puede ver qué llegó.
+- La **validación mínima** también se hace en el servidor: si alguien le saca el atributo `required` al formulario desde las herramientas de desarrollo y lo envía vacío, el backend igual responde con el error.
+- La consulta usa **placeholders `?`** (nunca concatenar valores a mano) y `rows[0]` es el usuario encontrado.
+- **Tipos de error que aparecieron:** escribir mal `length` (`lenght`) hace que `rows.length === 0` nunca se cumpla y falle al leer `id` de `undefined`; y un catch con un mensaje de otro endpoint ("error obteniendo productos") despista al depurar. Se resuelve consultando con `console.log(rows)`.
+- La tabla de administradores se llama `users` en el ejemplo, aunque sería más claro `admins`, para no confundirla con el usuario (nombre) del tótem.
+- Por ahora la contraseña se compara tal cual está guardada; el siguiente paso es guardarla como hash.
+
+**Resultado:** sin sesión, cualquier vista del panel redirige al login; con un email y una contraseña válidos se crea la sesión y se redirige a `/dashboard/principal`; con campos vacíos o un usuario inexistente se vuelve a mostrar el login con el mensaje de error. Queda pendiente desacoplar el `POST` en controlador y modelo y agregar el logout.
+
+#### Fechas y organización de lo que queda
+
+- **Defensa y entrega:** viernes **27/11** (fecha límite para entregar). Si en las cuatro horas de la defensa no alcanza a corregirse a todos los grupos, quienes falten se corrigen el **2/12**, con los avances que tuvieran hasta el 27/11 (no se evalúan avances posteriores). **Recuperatorio:** **4/12**.
+- Para lo que resta de cursada: login con **bcrypt** (hasheo de contraseñas) y, si da el tiempo, **jsPDF** para el ticket del tótem. Si se llega a cubrir todo, las clases restantes se usan para repasar y consultar dudas.
+- Trabajar en **ramas** con Git es de lo más complejo de Git; el resto es práctica.
+
+**Próxima clase:** completar el login (controlador y modelo, logout) y hasheo de contraseñas con `bcrypt`.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
 ---
 
 ## <a id="repositorio-catedra"></a><font color="#8250DF">🏫 Repositorio de la cátedra</font>
@@ -4195,7 +4443,7 @@ Cierra con herramientas de **interacción y depuración**: `console.log()` para 
 - Trabajo grupal, en parejas (algún grupo quedó de a tres por una cuestión de números impares en la comisión).
 - **Entrega del TP: hasta el viernes 27/11 a las 08:29.**
 - **Recuperatorio: hasta el viernes 4/12 a las 08:29** (según el README de la cátedra).
-- **Defensa:** viernes 27/11, por videollamada. Los grupos se reparten entre dos docentes y se llama en orden a quienes levanten la mano; cada integrante defiende por separado. Se pueden hacer consultas hasta el último momento.
+- **Defensa:** viernes 27/11, por videollamada. Los grupos se reparten entre dos docentes y se llama en orden a quienes levanten la mano; cada integrante defiende por separado. Se pueden hacer consultas hasta el último momento. Si no alcanza el tiempo para corregir a todos los grupos ese día (unas 4 horas), quienes faltaron se corrigen el miércoles 2/12 con los avances que tuvieran hasta el 27/11.
 - **Entrega:** el TP consta de dos proyectos, front (tótem) y back (API + panel con login), idealmente en dos repositorios; entregarlos en una sola carpeta también es aceptable.
 - A diferencia del primer parcial, para esta defensa **sí** se exige tener la cámara encendida y compartir pantalla durante la entrevista técnica.
 - Es una defensa oral: cada integrante tiene que poder explicar cualquier parte del código del trabajo (tanto del frontend como del backend), no alcanza con mostrarlo funcionando.
