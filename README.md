@@ -31,7 +31,8 @@ Apuntes de cursada y práctica de clase de la materia Programación III (Tecnica
 - [<font color="#8250DF"><strong>Clase 17 — 04/11 · TP Integrador: optimización de endpoints y vistas (middleware de validación, manejo de errores, feedback visual)</strong></font>](#clase-17)
 - [<font color="#8250DF"><strong>Clase 18 — 06/11 · TP Integrador: modularización completa del backend (patrón MVC: middlewares, rutas, controladores y modelos) y campo active</strong></font>](#clase-18)
 - [<font color="#8250DF"><strong>Clase 19 — 13/11 · TP Integrador: vistas con EJS (archivos estáticos, partials y JavaScript incrustado), módulos de vistas y repaso del flujo MVC</strong></font>](#clase-19)
-- [<font color="#8250DF"><strong>Clase 20 — 18/11 · TP Integrador: login del panel de administración (formulario nativo, sesiones con express-session y protección de rutas)</strong></font>](#clase-20)
+- [<font color="#8250DF"><strong>Clase 20 — 18/11 · TP Integrador: login, logout, creación de usuarios admin y hasheo de contraseñas con bcrypt</strong></font>](#clase-20)
+- [<font color="#8250DF"><strong>Clase 21 — 20/11 · Repaso del flujo del backend, vista de productos con EJS, ticket con jsPDF, registro de ventas y exportación a Excel con ExcelJS</strong></font>](#clase-21)
 - [<font color="#8250DF"><strong>Repositorio de la cátedra</strong></font>](#repositorio-catedra)
 - [<font color="#8250DF"><strong>Recursos adicionales</strong></font>](#recursos-adicionales)
 - [<font color="#8250DF"><strong>Primer parcial</strong></font>](#parcial)
@@ -3728,9 +3729,9 @@ Backend del TP (`6_tpIntegradorBack/`) con `index.js` configurado para EJS y arc
 </details>
 
 <details>
-<summary><a id="clase-20"></a><font color="#1A7F37"><strong>Clase 20 — 18/11 · TP Integrador: login del panel de administración (formulario nativo, sesiones con express-session y protección de rutas)</strong></font></summary>
+<summary><a id="clase-20"></a><font color="#1A7F37"><strong>Clase 20 — 18/11 · TP Integrador: login, logout, creación de usuarios admin y hasheo de contraseñas con bcrypt</strong></font></summary>
 
-> Nota: continuación del TP Integrador (ver [Clase 19](#clase-19)). Con las vistas ya migradas a EJS, se empezó a **proteger el panel de administración con un login**: una vista con formulario, un endpoint que recibe los datos, una **sesión** que recuerda al usuario entre peticiones y un **middleware de ruta** que redirige al login si no hay sesión.
+> Nota: continuación del TP Integrador (ver [Clase 19](#clase-19)). Con las vistas ya migradas a EJS, se empezó a **proteger el panel de administración con un login**: una vista con formulario, un endpoint que recibe los datos, una **sesión** que recuerda al usuario entre peticiones y un **middleware de ruta** que redirige al login si no hay sesión. Después se agregó el **logout**, la **creación de usuarios administradores**, la modularización en controladores y modelos y el **hasheo de contraseñas con `bcrypt`**.
 
 #### Por qué importa entender la lógica
 
@@ -3954,15 +3955,563 @@ router.post("/login", async (req, res) => {
 - La tabla de administradores se llama `users` en el ejemplo, aunque sería más claro `admins`, para no confundirla con el usuario (nombre) del tótem.
 - Por ahora la contraseña se compara tal cual está guardada; el siguiente paso es guardarla como hash.
 
-**Resultado:** sin sesión, cualquier vista del panel redirige al login; con un email y una contraseña válidos se crea la sesión y se redirige a `/dashboard/principal`; con campos vacíos o un usuario inexistente se vuelve a mostrar el login con el mensaje de error. Queda pendiente desacoplar el `POST` en controlador y modelo y agregar el logout.
+**Resultado:** sin sesión, cualquier vista del panel redirige al login; con un email y una contraseña válidos se crea la sesión y se redirige a `/dashboard/principal`; con campos vacíos o un usuario inexistente se vuelve a mostrar el login con el mensaje de error. Más abajo se desacopla el `POST` en controlador y modelo, se agrega el logout y se reemplaza la comparación directa por `bcrypt`.
+
+#### Logout
+
+Destruye la sesión y redirige al login. Se hace con un **`POST`** desde un formulario con un botón (no con un enlace), porque cambia el estado del servidor. Primero se escribe en `auth.routes.js` y luego se migra a un controlador:
+
+```js
+router.post("/logout", (req, res) => {
+	req.session.destroy((err) => {
+		if (err) {
+			console.log(err);
+			return res.render("login", {
+				title: "Login admin",
+				about: "Credenciales",
+				error: "Error al destruir la sesión"
+			});
+		}
+		res.redirect("/login");
+	});
+});
+```
+
+```ejs
+<!-- partials/header.ejs -->
+<form id="logout-form" action="/logout" method="post">
+	<input type="submit" value="Logout">
+</form>
+```
+
+- `req.session.destroy(callback)` elimina la sesión; si falla, el callback recibe un error y se vuelve a mostrar el login con un mensaje.
+- Como el botón está en el **header** (partial compartido), aparece en todas las vistas del panel.
+- Al cerrar sesión, cualquier intento de entrar a una vista protegida vuelve a redirigir al login gracias a `requireLogin`.
+- **Diseño de la interfaz:** al ubicar botones (por ejemplo el de logout o el de cada fila de una tabla) conviene decidir su alineación y cuántos caben por fila, y reutilizar estilos existentes en lugar de crear clases nuevas para cada caso.
+
+#### Creación de usuarios administradores
+
+Un administrador logueado puede crear otros administradores. Se reutiliza la vista `post.ejs` (la misma de crear producto) con campos **nombre, email y contraseña** y se construye el endpoint que recibe esos datos.
+
+**1. Router de usuarios.** Se crea `routes/user.routes.js` con la misma estructura que los demás (importar `Router`, inicializarlo, `export default router`), se exporta desde el archivo de barril como `userRoutes` y en `index.js` se monta en `/api/users`:
+
+```js
+// routes/user.routes.js
+import { Router } from "express";
+import { createUserAdmin } from "../controllers/user.controllers.js";
+
+const router = Router();
+
+router.post("/", createUserAdmin);
+
+export default router;
+```
+
+```js
+// index.js
+app.use("/api/users", userRoutes);
+```
+
+Como `index.js` ya redirige todo lo que empieza con `/api/users`, el router solo atiende `POST /`.
+
+**2. Mostrar errores y éxitos en `post.ejs`.** La vista recibe dos variables opcionales, cada una dentro de un párrafo condicional, y ambas se envuelven en un `div` contenedor de mensajes (para que no se rompa el diseño, ya que el `main` usa `display: flex`):
+
+```ejs
+<div class="container-messages">
+	<% if (typeof error !== "undefined") { %>
+		<p class="message error"><%= error %></p>
+	<% } %>
+
+	<% if (typeof exito !== "undefined") { %>
+		<p class="message success"><%= exito %></p>
+	<% } %>
+</div>
+```
+
+- Se decidió quitar el `about` de esta vista y dejar solo `title`, porque tenerlo en un caso y en otro no generaba confusión al reutilizarla.
+- Si el controlador no manda `error` ni `exito`, el condicional evita que se muestre algo.
+
+**3. Controlador.** Valida los campos, hashea la contraseña (ver más abajo), llama al modelo y renderiza la vista con el resultado:
+
+```js
+// controllers/user.controllers.js
+import bcrypt from "bcrypt";
+import * as UserModels from "../models/user.models.js";
+
+const saltRounds = 10;
+
+export const createUserAdmin = async (req, res) => {
+	try {
+		const { name, email, password } = req.body;
+
+		if (!name || !email || !password) {
+			return res.render("post", {
+				title: "Crear admin",
+				error: "Todos los campos son obligatorios"
+			});
+		}
+
+		const hashedPassword = await bcrypt.hash(password, saltRounds);
+		await UserModels.createAdminUser(name, email, hashedPassword);
+
+		res.render("post", {
+			title: "Crear admin",
+			exito: "Usuario creado exitosamente"
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Error interno del servidor" });
+	}
+};
+```
+
+**4. Modelo.** Solo habla con la base de datos; el controlador ya no recibe ni la conexión ni la consulta:
+
+```js
+// models/user.models.js
+import connection from "../database/db.js";
+
+export const createAdminUser = (name, email, password) => {
+	const sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+	return connection.query(sql, [name, email, password]);
+};
+
+export const selectUserByEmail = (email) => {
+	const sql = "SELECT * FROM users WHERE email = ?";
+	return connection.query(sql, [email]);
+};
+```
+
+- La tabla de usuarios solo necesita nombre, email y contraseña; el `id` es autoincremental.
+- Primero se arma la lógica directamente en la ruta para ver que funciona y después se **migra al controlador y al modelo**, como en el resto del proyecto. El controlador llama al modelo y el modelo llama a la base de datos.
+- Conviene nombrar los archivos y funciones con criterio (por ejemplo `admin user` en lugar de nombres genéricos) porque con tantas carpetas y archivos es fácil perderse.
+
+**Errores típicos al probar** (sirven para repasar la depuración):
+
+- **El nombre del input no coincide con lo que lee el backend:** el formulario enviaba `name="mail"` y el controlador desestructuraba `email`, entonces `email` llegaba `undefined` y devolvía "Todos los campos son obligatorios". Lo que llega en `req.body` son los valores de los atributos **`name`** de cada input.
+- **Pasar la variable equivocada al renderizar:** en el caso de éxito se mandaba `error` en lugar de `exito`, y la vista mostraba el mensaje de error o `error is not defined`.
+- **No reiniciar el servidor** o no haber agregado el párrafo del mensaje en la vista: el cambio no se ve.
+- **Importaciones faltantes:** si no se importa el módulo, el editor no autocompleta sus métodos (por ejemplo `query`).
+- **Estilos:** el contenedor del mensaje debe ocupar el mismo ancho que el `main`, por eso se agrega un `div` con una clase propia.
+
+#### Hasheo de contraseñas con `bcrypt`
+
+Guardar contraseñas en texto plano es un riesgo: si se filtra la base de datos, quedan expuestas. **`bcrypt`** guarda un **hash** de la contraseña, que no se puede revertir. Es una capa más de seguridad (y un requisito del TP): quien acceda a la base de datos no puede saber cuál era la contraseña original, y quien elige una contraseña débil no la deja expuesta tal cual.
+
+```bash
+npm i bcrypt
+```
+
+- **Hash:** resultado de aplicar un algoritmo de cifrado de un solo sentido; no hay forma de "descifrarlo", solo de volver a hashear algo y comparar.
+- **Salt:** texto aleatorio que se agrega a la contraseña antes de hashearla. **`saltRounds`** (rondas de sal) indica cuántas veces se aplica el algoritmo internamente: cuantas más rondas, más seguro pero más lento. Se usa `10` como valor habitual.
+- **Qué hay que entender para la defensa:** para qué sirve y dónde se usa (al crear el usuario y al hacer login), no los detalles internos del algoritmo.
+
+**Al crear el usuario** se hashea la contraseña recibida y se guarda el hash (ya visto en `createUserAdmin`):
+
+```js
+const saltRounds = 10;
+const hashedPassword = await bcrypt.hash(password, saltRounds);
+await UserModels.createAdminUser(name, email, hashedPassword);
+```
+
+En la base de datos se ve una cadena larga e ilegible en lugar de la contraseña.
+
+**Al hacer login** ya no se puede comparar con `WHERE password = ?`, porque lo guardado es un hash. Se busca el usuario **solo por email** y se compara con `bcrypt.compare`, que hashea la contraseña recibida y verifica si coincide con el hash guardado (devuelve `true` o `false`; no hace falta otra consulta):
+
+```js
+// controllers/auth.controllers.js
+import bcrypt from "bcrypt";
+import * as UserModels from "../models/user.models.js";
+
+export const login = async (req, res) => {
+	try {
+		const { email, password } = req.body;
+
+		if (!email || !password) {
+			return res.render("login", {
+				title: "Login admin",
+				about: "Credenciales",
+				error: "Todos los campos son obligatorios"
+			});
+		}
+
+		const [rows] = await UserModels.selectUserByEmail(email);
+
+		if (rows.length === 0) {
+			return res.render("login", {
+				title: "Login admin",
+				about: "Credenciales",
+				error: "No existe usuario admin"
+			});
+		}
+
+		const user = rows[0];
+		const match = await bcrypt.compare(password, user.password);
+
+		if (match) {
+			req.session.user = { id: user.id, name: user.name, email: user.email };
+			return res.redirect("/dashboard/principal");
+		}
+
+		return res.render("login", {
+			title: "Login admin",
+			about: "Credenciales",
+			error: "Contraseña inválida"
+		});
+	} catch (error) {
+		console.error("Error en el login:", error);
+		res.status(500).json({ message: "Error interno del servidor" });
+	}
+};
+```
+
+- **Prueba realizada:** se creó un admin de prueba con una contraseña y se verificó que en la base de datos se guarda el hash; el login funciona al escribir la contraseña original y devuelve "Contraseña inválida" con cualquier otra.
+- **Usuarios viejos:** los usuarios creados antes de aplicar `bcrypt` tienen la contraseña en texto plano, así que ya no pueden loguearse (se compara un hash con un texto). Hay que **eliminarlos** de la base de datos y crearlos de nuevo.
+- Aunque la contraseña sea débil, el hash evita que quede visible en la base; aun así no reemplaza elegir buenas contraseñas.
+- Es una capa más de seguridad, como siempre en seguridad informática: nada es 100 % seguro, pero cada capa suma.
+
+#### Versiones (tags) del proyecto
+
+Al terminar cada bloque se hace un commit y un tag, y se sube a GitHub:
+
+```bash
+git add .
+git commit -m "Creación de usuarios admin"
+git tag -a v1.3 -m "Creación de usuarios admin"
+git push
+git push origin v1.3
+```
+
+- **v1.1:** proyecto modularizado con EJS.
+- **v1.2:** login funcional con logout (`express-session`).
+- **v1.3:** creación de usuarios admin con contraseñas hasheadas (`bcrypt`).
 
 #### Fechas y organización de lo que queda
 
 - **Defensa y entrega:** viernes **27/11** (fecha límite para entregar). Si en las cuatro horas de la defensa no alcanza a corregirse a todos los grupos, quienes falten se corrigen el **2/12**, con los avances que tuvieran hasta el 27/11 (no se evalúan avances posteriores). **Recuperatorio:** **4/12**.
-- Para lo que resta de cursada: login con **bcrypt** (hasheo de contraseñas) y, si da el tiempo, **jsPDF** para el ticket del tótem. Si se llega a cubrir todo, las clases restantes se usan para repasar y consultar dudas.
+- Con login, logout, creación de admins y `bcrypt` quedan cubiertos los requisitos centrales del TP. Lo que sigue son los **extras** (carga de Excel, `jsPDF` para el ticket, `Multer`, paginación), que no son obligatorios en la defensa: la prioridad es **entender y poder explicar** todo lo hecho. Si no hay dudas, se avanza con ellos.
 - Trabajar en **ramas** con Git es de lo más complejo de Git; el resto es práctica.
 
-**Próxima clase:** completar el login (controlador y modelo, logout) y hasheo de contraseñas con `bcrypt`.
+**Próxima clase (viernes 20/11):** repaso y dudas sobre lo visto; si todo está claro, extras como carga de Excel y `jsPDF`. Hay que tener el repositorio actualizado (`git pull`) con los tags v1.2 y v1.3.
+
+### Aplicado en
+
+-
+
+### Código
+
+-
+
+</details>
+
+<details>
+<summary><a id="clase-21"></a><font color="#1A7F37"><strong>Clase 21 — 20/11 · Repaso del flujo del backend, vista de productos con EJS, ticket con jsPDF, registro de ventas y exportación a Excel con ExcelJS</strong></font></summary>
+
+> Nota: última clase de contenido nuevo antes de la defensa (ver [Clase 20](#clase-20)). Se repasó el recorrido completo de una petición (index → router → controlador → modelo → base de datos), se pasó la vista de productos a EJS, se agregó al tótem el **ticket en PDF con `jsPDF`**, el **registro de ventas** (endpoint, controlador y modelos) y la **exportación de productos a Excel con `ExcelJS`**.
+
+#### Repaso: quién llama a qué
+
+Tomando como ejemplo "el cliente quiere ver solo los productos activos", se recorrió el flujo completo, que es lo que se pregunta en la defensa:
+
+1. **`index.js`** (archivo de arranque): `app.use("/api/products", productRoutes)` es un **middleware de aplicación** que intercepta todo lo que empieza con esa ruta y lo deriva al router de productos.
+2. **`product.routes.js`**: crea un `Router()` (igual que se hacía al principio con `express()`, pero para agrupar rutas) y asocia cada verbo y ruta (`/`, `/active`, `/:id`…) con un controlador. Así no se repite el prefijo `/api/products` en cada ruta.
+3. **Controlador:** maneja la **petición y la respuesta**; no sabe cómo se obtienen los datos, solo llama al modelo.
+4. **Modelo:** arma la consulta SQL y se la manda a la base de datos con la conexión.
+
+- **Por qué se separa en archivos:** cuando la aplicación crece (vistas, autenticación, usuarios, ventas) un solo archivo se vuelve inmanejable. Con una estructura convencional cualquiera sabe en qué carpeta y archivo buscar, incluso en un proyecto que no conoce, siempre que los nombres sean buenos.
+- **Convención de nombres:** `index` es el nombre habitual de un archivo "índice": el de arranque del servidor (a veces `app` o `server`), el barril de rutas y la vista `index.ejs`. Son tres archivos distintos con el mismo nombre; es normal, pero hay que distinguirlos.
+- **Para la defensa y las pruebas técnicas:** conviene saber de memoria qué es un callback, qué es una promesa, qué es MVC y quién llama a quién, y poder explicar cómo se hizo todo el desarrollo.
+
+#### Promesas y manejo de errores
+
+El modelo es `async` y se usa con `await` porque `mysql2` se usa en modo promesas. Una **promesa** es un objeto que representa un **resultado futuro** que puede salir bien o mal. Mientras se espera está en estado **`pending`** y luego pasa a:
+
+- **`fulfilled`:** se resolvió con éxito.
+- **`rejected`:** falló, y en ese caso el `await` lanza el error que atrapa el `catch`.
+
+**Ejemplo de depuración:** se escribió mal el nombre de una tabla en el modelo (`productss`). La promesa se rechazó, el controlador respondió con un error 500 y por consola apareció el mensaje de MySQL con el código (`ER_NO_SUCH_TABLE`) y la consulta que falló.
+
+- Es imprescindible **capturar los errores e imprimirlos por consola** (`console.error("mensaje:", error)`), con el error como argumento dentro del `console`, no afuera.
+- Al **cliente** se le devuelve un error genérico (500, "error interno del servidor") sin más detalle; el detalle es para quien desarrolla, en la consola.
+- Leer bien los errores de consola es una habilidad clave: indican la tabla, el código y la consulta.
+- Si el `catch` devuelve una respuesta, el programa no se detiene: simplemente esa petición terminó.
+
+#### Vista de productos con EJS
+
+Hasta ahora la vista cargaba un HTML vacío y después hacía un `fetch` para traer los productos. Con EJS el servidor puede **traer los datos y entregar la plantilla ya completa**, evitando esa doble operación redundante.
+
+1. En el router de vistas, el controlador de la vista de productos llama al modelo (se **reutiliza** el que selecciona los productos) y le pasa el arreglo a la plantilla (`res.render("index", { title, products })`).
+2. En la plantilla se **recorre el arreglo con JavaScript incrustado** y se escribe el HTML de cada tarjeta:
+
+```ejs
+<% products.forEach((prod) => { %>
+	<div class="card-producto">
+		<img class="card-img" src="<%= prod.image %>" alt="<%= prod.name %>">
+		<h4><%= prod.name %></h4>
+		<p>ID: <%= prod.id %></p>
+		<p>$<%= prod.price %></p>
+	</div>
+<% }) %>
+```
+
+- **`<% ... %>` es una sentencia** (control de flujo: `forEach`, `if`; no imprime nada) y **`<%= ... %>` es una expresión** cuyo valor se escribe en el HTML.
+- El `forEach` abre y cierra en dos etiquetas `<% %>` distintas, y hay que cerrar la llave y el paréntesis a mano.
+- `prod` es cada objeto del arreglo, por eso se accede a sus atributos con `prod.id`, `prod.name`, etc.
+- Si las tarjetas salen sin estilo, faltan las **clases CSS** que ya existían en la hoja de estilos (por ejemplo, la de la tarjeta y la de la imagen).
+- **No se reemplaza todo el JavaScript anterior:** esta vista solo lista datos, así que se delega a EJS. En las vistas que capturan eventos (clics, formularios con `fetch`) sigue haciendo falta el script del lado del cliente.
+- **Dos formas de enviar datos al servidor:** el formulario del panel de productos usa `fetch` con JSON (un archivo JS aparte) y el de crear usuario usa el **envío nativo** del formulario HTML. Conviene decidir una sola para no mezclar dos mundos en la misma página, pero la cursada deja ambas conocidas, y eso es clave.
+- Como las contraseñas ahora se hashean, **los usuarios creados antes de `bcrypt` ya no pueden loguearse**; hay que crear un admin nuevo desde la base o la vista de creación.
+- La base de datos del TP debe ser **propia** (la temática no puede ser la misma que la del ejemplo de la cátedra).
+
+#### Tótem: repaso del proyecto front
+
+El front (tótem) es un proyecto aparte con HTML, CSS y JavaScript. Lo que se repasó:
+
+- Una **pantalla de bienvenida** con un formulario de un solo campo (nombre). Se captura el evento `submit`, se evita el envío por defecto y, si el nombre cumple un largo mínimo (por ejemplo, **más de dos caracteres**), se guarda con `sessionStorage.setItem("nombreUsuario", nombre)` y se redirige a `productos.html`.
+- La vista de productos **comprueba al cargar** si existe ese ítem en `sessionStorage`; si no existe, redirige a la bienvenida. Por eso no se puede entrar a los productos sin pasar por el nombre.
+- **Redirección desde el cliente:** `window.location.href = "productos.html"`. La **redirección desde el servidor** es `res.redirect(...)`.
+- Detalles de prolijidad que se piden: **favicon**, fuentes (por ejemplo, de Google Fonts) y separar la hoja de estilos externa.
+- Se define una **URL base** (`http://localhost:3000/api/products`) y se arman las demás a partir de ella (`${URL_BASE}/active`) para no repetirla.
+- Estructura de la vista: productos activos, un carrito (un arreglo vacío) con su contador y un botón **"Imprimir ticket"** que dispara un evento `click` (también podría hacerse con `onclick` en el HTML).
+
+#### Ticket de compra con `jsPDF`
+
+**`jsPDF`** genera PDFs desde JavaScript. Es una **herramienta**: para la defensa alcanza con poder incorporarla y usarla; la documentación se consulta (o se le pide a una IA una guía de integración) y no hace falta memorizarla.
+
+**1. Incorporarla con CDN.** Se agrega el script en el `<head>` del HTML donde se use. Al cargarse, el objeto `jspdf` queda disponible en `window`:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+```
+
+**2. Armar el ticket.** Se trabaja con **coordenadas X e Y** (igual que en gráficos de juegos): `y` es la posición vertical, que se va incrementando para no superponer los textos.
+
+```js
+const imprimirTicket = () => {
+	const { jsPDF } = window.jspdf;
+	const doc = new jsPDF();
+
+	let y = 20;                          // margen superior
+	doc.setFontSize(20);
+	doc.text("Ticket de compra", 20, y); // texto, x, y
+	y += 20;                             // espacio después del título
+
+	doc.setFontSize(14);
+	const idProductos = [];              // ids para registrar la venta
+
+	carrito.forEach((producto) => {
+		idProductos.push(producto.id);
+		doc.text(producto.name, 20, y);
+		doc.text(`$${producto.price}`, 120, y);
+		y += 10;                         // siguiente renglón
+	});
+
+	const precioTotal = carrito.reduce(
+		(acum, producto) => acum + parseFloat(producto.price), 0
+	);
+	y += 10;
+	doc.text(`Total: $${precioTotal}`, 20, y);
+
+	const nombreTicket = `${sessionStorage.getItem("nombreUsuario")}_${new Date().toISOString()}.pdf`;
+	doc.save(nombreTicket);
+
+	registrarVenta(precioTotal, idProductos);
+};
+```
+
+- **`reduce`** con **valor inicial `0`** (sin él, el primer acumulador sería el primer elemento) y `parseFloat` porque el precio puede llegar como texto.
+- **Nombre del archivo:** con un nombre fijo se repetirían los tickets; se arma con el nombre del usuario y la fecha. **`toISOString()`** devuelve todo en un solo formato legible (`2026-11-20T15:12:45.123Z`) y evita concatenar `toLocaleDateString()` con `toLocaleTimeString()`. Hay que acordarse de la extensión **`.pdf`**.
+- Se guardan los **ids de los productos** del carrito porque hacen falta para la tabla intermedia al registrar la venta.
+- **Mejora visual (opcional):** se puede pedir a una IA o consultar la documentación para agregar color de encabezado (`setFillColor`, `rect`, `setTextColor`), separadores, logo, etc. No es necesario para la defensa; los tickets reales de supermercados son un buen modelo (comercio, fecha, detalle por producto, total).
+- **Uso de la IA:** sirve para entender documentación pesada o compensar una explicación que no quedó clara, pero hay que usarla para comprender y no para copiar; de lo contrario se desaprende lo aprendido.
+
+#### Registrar la venta desde el cliente
+
+Después de generar el ticket se llama a una función asíncrona que envía la venta al backend con `fetch` (petición `POST` con JSON), con `try/catch` como siempre:
+
+```js
+const registrarVenta = async (precioTotal, idProductos) => {
+	try {
+		const data = {
+			date: fechaFormateada,                          // ver más abajo
+			totalPrice: precioTotal,
+			username: sessionStorage.getItem("nombreUsuario"),
+			products: idProductos
+		};
+
+		const response = await fetch(`${URL_BASE}/sales`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(data)
+		});
+
+		const result = await response.json();   // ¡con await! si no, queda en pending
+
+		if (!response.ok) { return alert(result.message); }
+
+		alert(result.message);
+		sessionStorage.removeItem("nombreUsuario");
+		window.location.href = "index.html";    // vuelve a la bienvenida
+	} catch (error) {
+		console.error(error);
+		alert("Error al enviar los datos");
+	}
+};
+```
+
+- La tabla de ventas necesita **fecha, precio total y nombre de usuario**; los productos vendidos van a una **tabla intermedia** (`product_sales`), así que también se envían los ids.
+- Al terminar se **elimina el nombre de `sessionStorage`** y se vuelve a la bienvenida, para que el siguiente cliente empiece de cero.
+- Un error típico: olvidar el `await` en `response.json()`, y entonces el mensaje muestra una promesa pendiente en lugar del texto.
+
+**Formato de fecha para MySQL:** `MySQL` no acepta el formato ISO con milisegundos y `Z`. Se puede recortar con `.toISOString().slice(0, 19).replace("T", " ")`. Pero `toISOString()` devuelve la hora **UTC**, no la de Argentina, y en la base queda desfasada. Para obtener la hora local se usa el objeto nativo **`Intl.DateTimeFormat`** (internacionalización de fechas) indicando la zona horaria:
+
+```js
+const partes = new Intl.DateTimeFormat("sv-SE", {
+	timeZone: "America/Argentina/Buenos_Aires",
+	year: "numeric", month: "2-digit", day: "2-digit",
+	hour: "2-digit", minute: "2-digit", second: "2-digit",
+	hour12: false
+}).format(new Date());
+// "2026-11-20 12:13:45" → ya es un formato que acepta MySQL
+```
+
+- Otra mejora, más simple: dejar que **la base genere la fecha** con una columna `DATETIME DEFAULT CURRENT_TIMESTAMP`, igual que el campo `active` que se crea con un valor por defecto, y no enviar la fecha desde el cliente.
+- Estos formatos de fecha (`toISOString`, `toLocaleString`, `Intl`) se anotaron en la bitácora para consultarlos.
+
+#### Backend de ventas: ruta, controlador y modelos
+
+Mismo patrón de siempre (router → controlador → modelo), ahora para `/api/sales`:
+
+```js
+// index.js
+app.use("/api/sales", salesRoutes);
+```
+
+```js
+// routes/sale.routes.js (se exporta desde el archivo de barril)
+import { Router } from "express";
+import { createSale } from "../controllers/sale.controllers.js";
+
+const router = Router();
+router.post("/", createSale);
+export default router;
+```
+
+```js
+// controllers/sale.controllers.js
+import * as SaleModels from "../models/sale.models.js";
+
+export const createSale = async (req, res) => {
+	try {
+		const { date, totalPrice, username, products } = req.body;
+
+		// Validación mínima
+		if (!date || !totalPrice || !username || !Array.isArray(products) || products.length === 0) {
+			return res.status(400).json({
+				message: "Datos inválidos: debes enviar date, totalPrice, username y products"
+			});
+		}
+
+		// 1. Insertar la venta en la tabla sales
+		const [saleResult] = await SaleModels.insertNewSale(date, totalPrice, username);
+
+		// 2. Obtener el id autoincremental de la venta recién creada
+		const saleId = saleResult.insertId;
+
+		// 3. Insertar una fila en product_sales por cada producto vendido
+		for (const productId of products) {
+			await SaleModels.insertIntoProductSales(productId, saleId);
+		}
+
+		res.status(201).json({ message: "Venta registrada con éxito" });
+	} catch (error) {
+		console.error("Error al crear la venta:", error);
+		res.status(500).json({ message: "Error interno del servidor" });
+	}
+};
+```
+
+```js
+// models/sale.models.js
+import connection from "../database/db.js";
+
+export const insertNewSale = (date, totalPrice, username) => {
+	const sql = "INSERT INTO sales (date, total_price, username) VALUES (?, ?, ?)";
+	return connection.query(sql, [date, totalPrice, username]);
+};
+
+export const insertIntoProductSales = (productId, saleId) => {
+	const sql = "INSERT INTO product_sales (product_id, sale_id) VALUES (?, ?)";
+	return connection.query(sql, [productId, saleId]);
+};
+```
+
+- **¿Quién convierte el JSON en objeto?** El middleware de aplicación **`express.json()`** de `index.js`: detecta el `Content-Type: application/json` y deja el cuerpo parseado en `req.body`. El que parsea los formularios nativos es **`express.urlencoded()`**. Es una pregunta frecuente de defensa.
+- **`return` con el 400:** sin él el controlador seguiría ejecutando el código siguiente y devolvería otra respuesta.
+- **`insertId`:** al insertar en una tabla con clave autoincremental, el resultado trae el id generado; se usa para asociar cada producto con la venta en la tabla intermedia.
+- Se necesita **una fila por producto vendido**; si un producto se repite, se inserta repetido.
+- **Mejoras posibles** (no obligatorias): agregar un campo de **cantidad** en `product_sales`, manejar **stock**, renombrar la tabla `users` a `admins` (el nombre de usuario del tótem no es un usuario admin), paginación. Se evitó sumar complejidad (por ejemplo ORM o carga de imágenes con `Multer`) para que lo central se pueda explicar bien.
+- Resultado: se imprime el ticket, se guarda la venta (con la hora correcta) y el tótem vuelve a la bienvenida.
+
+#### Exportar a Excel con `ExcelJS`
+
+También es una herramienta: se instala y trae sus métodos; alcanza con **implementarla** y consultar la documentación.
+
+```bash
+npm i exceljs
+```
+
+1. **Ruta:** en `index.js` se atiende todo lo que empiece con `/api/export` con un router propio (`export.routes.js`, exportado por el barril) que define `GET /products`.
+2. **Controlador** (`export.controllers.js`), que **reutiliza el modelo** de seleccionar todos los productos (para eso sirven los modelos: no repetir la consulta):
+
+```js
+import ExcelJS from "exceljs";
+import * as ProductModels from "../models/product.models.js";
+
+export const excelProducts = async (req, res) => {
+	try {
+		const [rows] = await ProductModels.selectAllProducts();
+
+		const workbook = new ExcelJS.Workbook();           // el libro, en memoria
+		const worksheet = workbook.addWorksheet("Productos"); // una hoja
+
+		worksheet.columns = [
+			{ header: "ID",     key: "id",    width: 10 },
+			{ header: "Nombre", key: "name",  width: 40 },
+			{ header: "Precio", key: "price", width: 20 }
+		];
+
+		rows.forEach((row) => worksheet.addRow(row));      // una fila por registro
+
+		res.setHeader(
+			"Content-Type",
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+		);
+		res.setHeader("Content-Disposition", "attachment; filename=productos.xlsx");
+
+		await workbook.xlsx.write(res);                    // escribe el archivo en la respuesta
+		res.end();                                         // cierra la conexión HTTP
+	} catch (error) {
+		console.error("Error descargando Excel de productos:", error);
+		res.status(500).json({ message: "Error interno del servidor" });
+	}
+};
+```
+
+- **`header`** es el texto del título de la columna; **`key`** vincula la columna con la propiedad del objeto (`id`, `name`, `price`); **`width`** es el ancho en caracteres.
+- El **tipo MIME** `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` es el oficial para archivos `.xlsx` y le indica al navegador que la respuesta es un Excel.
+- La conexión HTTP no termina hasta que se envía una respuesta (igual que cuando falta `next()` en un middleware), por eso se espera a que termine la escritura y se cierra con `res.end()`.
+- Se puede probar entrando a `/api/export/products` desde el navegador: descarga el archivo. Después se asocia a un **botón de descarga** en la vista (un `GET` a esa ruta).
+- También se puede hacer al revés: **subir un Excel y extraer los datos** con alguna librería, algo frecuente en sistemas que cargan información masiva.
+
+#### Qué se pide en la defensa y fechas
+
+- **Lo central** (lo que hay que tener claro a la perfección): el **CRUD con login**, el protocolo **HTTP** (formato de peticiones y respuestas, códigos de estado), cómo se comunican las vistas con el backend, la **modularización**, servir **archivos estáticos**, login y `bcrypt`. `jsPDF`, `ExcelJS`, `Multer` y paginación son **herramientas**: se piden solo hasta lo visto en clase, no se evalúa su funcionamiento interno.
+- **Programación IV** retoma esta misma base de JavaScript, agregando TypeScript y frameworks de front, por eso conviene entender qué ocurre en el back.
+- **Herramientas de cliente para la API:** próximamente se ve **Postman** (u otra equivalente como Insomnia o la extensión del editor) con el enfoque **API First**: se arma la API y se prueba con estas aplicaciones antes de armar la interfaz.
+- **Fechas:** **25/11** repaso, **27/11** defensa, **2/12** clase extra y **4/12** recuperatorio.
+
+**Próxima clase (25/11):** repaso. Se recomienda llegar con el TP lo más completo posible y con todas las dudas; la idea es resolverlas y, para consolidar, armar **de cero una aplicación mínima y modularizada con un par de endpoints probados desde Postman o equivalente**. También se agrega la **exportación de ventas a Excel** y los **botones de descarga** en las vistas; paginación y `Multer` quedan para la clase extra, solo si hay tiempo.
 
 ### Aplicado en
 
