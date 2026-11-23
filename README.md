@@ -3880,17 +3880,17 @@ npm i express-session
 SESSION_KEY=una_clave_larga_y_aleatoria
 ```
 
-Se lee y se exporta desde `config/environments.js`, como las demás variables de entorno (por ejemplo `sessionKey: process.env.SESSION_KEY`), y en `index.js` se configura el middleware:
+Se lee y se exporta desde `config/environments.js`, como las demás variables de entorno (por ejemplo `session_key: process.env.SESSION_KEY`), y en `index.js` se configura el middleware:
 
 ```js
 import session from "express-session";
 
-const { port, sessionKey } = environments;  // destructuring (opcional)
+const { port, session_key } = environments;  // destructuring (opcional)
 
 app.use(session({
-	secret: sessionKey,        // firma la cookie de sesión para evitar manipulaciones
+	secret: session_key,        // firma la cookie de sesión para evitar manipulaciones
 	resave: false,             // no vuelve a guardar la sesión si no hubo cambios
-	saveUninitialized: false   // no crea sesiones vacías
+	saveUninitialized: true    // guarda la sesión aunque todavía esté vacía
 }));
 ```
 
@@ -4196,11 +4196,13 @@ git push origin v1.3
 
 ### Aplicado en
 
--
+Backend del TP (`6_tpIntegradorBack/`) con `express.urlencoded()`, `express-session` y las rutas de autenticación (`/login`, `/logout`), de usuarios (`/api/users`) y de vistas protegidas. Apunte: [login.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/login.md) de la bitácora (envío nativo del formulario, `express-session`, clave de sesión, `urlencoded`, middleware `requireLogin`, vista `login.ejs`, logout y `bcrypt`).
 
 ### Código
 
--
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/package.json)
+[![Ver login.md](https://img.shields.io/badge/📄_Ver_login.md-1A7F37?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/login.md)
 
 </details>
 
@@ -4281,7 +4283,7 @@ El front (tótem) es un proyecto aparte con HTML, CSS y JavaScript. Lo que se re
 **1. Incorporarla con CDN.** Se agrega el script en el `<head>` del HTML donde se use. Al cargarse, el objeto `jspdf` queda disponible en `window`:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 ```
 
 **2. Armar el ticket.** Se trabaja con **coordenadas X e Y** (igual que en gráficos de juegos): `y` es la posición vertical, que se va incrementando para no superponer los textos.
@@ -4293,7 +4295,7 @@ const imprimirTicket = () => {
 
 	let y = 20;                          // margen superior
 	doc.setFontSize(20);
-	doc.text("Ticket de compra", 20, y); // texto, x, y
+	doc.text("Llama-ticket de compra:", 20, y); // texto, x, y
 	y += 20;                             // espacio después del título
 
 	doc.setFontSize(14);
@@ -4301,25 +4303,24 @@ const imprimirTicket = () => {
 
 	carrito.forEach((producto) => {
 		idProductos.push(producto.id);
-		doc.text(producto.name, 20, y);
-		doc.text(`$${producto.price}`, 120, y);
+		doc.text(`${producto.name} - ${producto.price}`, 20, y);
 		y += 10;                         // siguiente renglón
 	});
 
 	const precioTotal = carrito.reduce(
-		(acum, producto) => acum + parseFloat(producto.price), 0
+		(acum, producto) => acum + parseInt(producto.price), 0
 	);
 	y += 10;
-	doc.text(`Total: $${precioTotal}`, 20, y);
+	doc.text(`TOTAL: $${precioTotal}`, 20, y);
 
-	const nombreTicket = `${sessionStorage.getItem("nombreUsuario")}_${new Date().toISOString()}.pdf`;
-	doc.save(nombreTicket);
+	const nombreTicket = `${nombreUsuario}_${new Date().toISOString()}`;
+	doc.save(`ticket-${nombreTicket}.pdf`);
 
 	registrarVenta(precioTotal, idProductos);
 };
 ```
 
-- **`reduce`** con **valor inicial `0`** (sin él, el primer acumulador sería el primer elemento) y `parseFloat` porque el precio puede llegar como texto.
+- **`reduce`** con **valor inicial `0`** (sin él, el primer acumulador sería el primer elemento) y `parseInt` porque el precio puede llegar como texto.
 - **Nombre del archivo:** con un nombre fijo se repetirían los tickets; se arma con el nombre del usuario y la fecha. **`toISOString()`** devuelve todo en un solo formato legible (`2026-11-20T15:12:45.123Z`) y evita concatenar `toLocaleDateString()` con `toLocaleTimeString()`. Hay que acordarse de la extensión **`.pdf`**.
 - Se guardan los **ids de los productos** del carrito porque hacen falta para la tabla intermedia al registrar la venta.
 - **Mejora visual (opcional):** se puede pedir a una IA o consultar la documentación para agregar color de encabezado (`setFillColor`, `rect`, `setTextColor`), separadores, logo, etc. No es necesario para la defensa; los tickets reales de supermercados son un buen modelo (comercio, fecha, detalle por producto, total).
@@ -4333,13 +4334,13 @@ Después de generar el ticket se llama a una función asíncrona que envía la v
 const registrarVenta = async (precioTotal, idProductos) => {
 	try {
 		const data = {
-			date: fechaFormateada,                          // ver más abajo
-			totalPrice: precioTotal,
-			username: sessionStorage.getItem("nombreUsuario"),
-			products: idProductos
+			date: fechaFormato,                             // ver más abajo
+			total_price: precioTotal,
+			user_name: nombreUsuario,
+			products: idProductos                           // arreglo de ids
 		};
 
-		const response = await fetch(`${URL_BASE}/sales`, {
+		const response = await fetch(`${urlBase}/api/sales`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data)
@@ -4347,11 +4348,14 @@ const registrarVenta = async (precioTotal, idProductos) => {
 
 		const result = await response.json();   // ¡con await! si no, queda en pending
 
-		if (!response.ok) { return alert(result.message); }
-
-		alert(result.message);
-		sessionStorage.removeItem("nombreUsuario");
-		window.location.href = "index.html";    // vuelve a la bienvenida
+		if (response.ok) {                       // código dentro del rango 2xx
+			alert(`Venta registrada: ${result.message}`);
+			sessionStorage.removeItem("nombreUsuario");
+			window.location.href = "index.html"; // vuelve a la bienvenida
+		} else {
+			console.error(result);
+			alert(`Error en la venta: ${result.message}`);
+		}
 	} catch (error) {
 		console.error(error);
 		alert("Error al enviar los datos");
@@ -4366,17 +4370,20 @@ const registrarVenta = async (precioTotal, idProductos) => {
 **Formato de fecha para MySQL:** `MySQL` no acepta el formato ISO con milisegundos y `Z`. Se puede recortar con `.toISOString().slice(0, 19).replace("T", " ")`. Pero `toISOString()` devuelve la hora **UTC**, no la de Argentina, y en la base queda desfasada. Para obtener la hora local se usa el objeto nativo **`Intl.DateTimeFormat`** (internacionalización de fechas) indicando la zona horaria:
 
 ```js
-const partes = new Intl.DateTimeFormat("sv-SE", {
+const fechaArgentinaISO = new Intl.DateTimeFormat("sv-SE", {
 	timeZone: "America/Argentina/Buenos_Aires",
 	year: "numeric", month: "2-digit", day: "2-digit",
 	hour: "2-digit", minute: "2-digit", second: "2-digit",
-	hour12: false
+	hourCycle: "h23"
 }).format(new Date());
-// "2026-11-20 12:13:45" → ya es un formato que acepta MySQL
+// "2026-11-20 12:13:45" → el locale "sv-SE" usa una estructura casi ISO
+
+const fechaFormato = fechaArgentinaISO.slice(0, 19); // formato que acepta MySQL
 ```
 
 - Otra mejora, más simple: dejar que **la base genere la fecha** con una columna `DATETIME DEFAULT CURRENT_TIMESTAMP`, igual que el campo `active` que se crea con un valor por defecto, y no enviar la fecha desde el cliente.
-- Estos formatos de fecha (`toISOString`, `toLocaleString`, `Intl`) se anotaron en la bitácora para consultarlos.
+- **Buena práctica:** guardar fechas en formato universal (`toISOString()`) y mostrarlas según la región con `Intl.DateTimeFormat("es-AR", { timeZone, dateStyle, timeStyle })`; `Intl` no modifica el `Date`, solo cambia cómo se representa.
+- Estos formatos de fecha (`toISOString`, `toLocaleString`, `Intl`) están en el apunte [objetoDate.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/objetoDate.md) de la bitácora.
 
 #### Backend de ventas: ruta, controlador y modelos
 
@@ -4384,7 +4391,7 @@ Mismo patrón de siempre (router → controlador → modelo), ahora para `/api/s
 
 ```js
 // index.js
-app.use("/api/sales", salesRoutes);
+app.use("/api/sales", saleRoutes);
 ```
 
 ```js
@@ -4403,17 +4410,17 @@ import * as SaleModels from "../models/sale.models.js";
 
 export const createSale = async (req, res) => {
 	try {
-		const { date, totalPrice, username, products } = req.body;
+		const { date, total_price, user_name, products } = req.body;
 
 		// Validación mínima
-		if (!date || !totalPrice || !username || !Array.isArray(products) || products.length === 0) {
+		if (!date || !total_price || !user_name || !Array.isArray(products) || products.length === 0) {
 			return res.status(400).json({
-				message: "Datos inválidos: debes enviar date, totalPrice, username y products"
+				message: "Datos inválidos: debes enviar date, total_price, user_name y products"
 			});
 		}
 
 		// 1. Insertar la venta en la tabla sales
-		const [saleResult] = await SaleModels.insertNewSale(date, totalPrice, username);
+		const [saleResult] = await SaleModels.insertNewSale(date, total_price, user_name);
 
 		// 2. Obtener el id autoincremental de la venta recién creada
 		const saleId = saleResult.insertId;
@@ -4435,9 +4442,9 @@ export const createSale = async (req, res) => {
 // models/sale.models.js
 import connection from "../database/db.js";
 
-export const insertNewSale = (date, totalPrice, username) => {
-	const sql = "INSERT INTO sales (date, total_price, username) VALUES (?, ?, ?)";
-	return connection.query(sql, [date, totalPrice, username]);
+export const insertNewSale = (date, total_price, user_name) => {
+	const sql = "INSERT INTO sales (date, total_price, user_name) VALUES (?, ?, ?)";
+	return connection.query(sql, [date, total_price, user_name]);
 };
 
 export const insertIntoProductSales = (productId, saleId) => {
@@ -4461,7 +4468,7 @@ También es una herramienta: se instala y trae sus métodos; alcanza con **imple
 npm i exceljs
 ```
 
-1. **Ruta:** en `index.js` se atiende todo lo que empiece con `/api/export` con un router propio (`export.routes.js`, exportado por el barril) que define `GET /products`.
+1. **Ruta:** en `index.js` se atiende todo lo que empiece con `/export` con un router propio (`export.routes.js`, exportado por el barril como `exportRoutes`) que define `GET /products`.
 2. **Controlador** (`export.controllers.js`), que **reutiliza el modelo** de seleccionar todos los productos (para eso sirven los modelos: no repetir la consulta):
 
 ```js
@@ -4501,7 +4508,7 @@ export const excelProducts = async (req, res) => {
 - **`header`** es el texto del título de la columna; **`key`** vincula la columna con la propiedad del objeto (`id`, `name`, `price`); **`width`** es el ancho en caracteres.
 - El **tipo MIME** `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` es el oficial para archivos `.xlsx` y le indica al navegador que la respuesta es un Excel.
 - La conexión HTTP no termina hasta que se envía una respuesta (igual que cuando falta `next()` en un middleware), por eso se espera a que termine la escritura y se cierra con `res.end()`.
-- Se puede probar entrando a `/api/export/products` desde el navegador: descarga el archivo. Después se asocia a un **botón de descarga** en la vista (un `GET` a esa ruta).
+- Se puede probar entrando a `/export/products` desde el navegador: descarga el archivo. Después se asocia a un **botón de descarga** en la vista (un `GET` a esa ruta).
 - También se puede hacer al revés: **subir un Excel y extraer los datos** con alguna librería, algo frecuente en sistemas que cargan información masiva.
 
 #### Qué se pide en la defensa y fechas
@@ -4515,11 +4522,13 @@ export const excelProducts = async (req, res) => {
 
 ### Aplicado en
 
--
+Backend del TP (`6_tpIntegradorBack/`) con las rutas de ventas (`/api/sales`), de exportación a Excel (`/export`) y `exceljs` en las dependencias, y el proyecto front (tótem) con el ticket en PDF (`jsPDF`) y el registro de la venta. Apuntes: [objetoDate.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/objetoDate.md) (formatos del objeto `Date` y `Intl`).
 
 ### Código
 
--
+[![Ver index.js](https://img.shields.io/badge/💻_Ver_index.js-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
+[![Ver package.json](https://img.shields.io/badge/💻_Ver_package.json-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/package.json)
+[![Ver objetoDate.md](https://img.shields.io/badge/📄_Ver_objetoDate.md-1A7F37?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/objetoDate.md)
 
 </details>
 
@@ -4640,7 +4649,11 @@ Ejemplos de las clases de Node.js (módulos, módulo `http` nativo y npm): `inde
 <details>
 <summary><font color="#1A7F37"><strong>5_express</strong></font></summary>
 
-Primeros ejemplos de servidor con Express (`index.js`, `package.json`), con su `README.md` y una `bitacora/` propia.
+Primeros ejemplos de servidor con Express 5 (`index.js`, `package.json` con `"type": "module"` y el script `npm run dev` con `node --watch`), con su `README.md` y una `bitacora/` propia.
+
+- **index.js** — endpoints de ejemplo (`GET /`, `GET /api/users`, `POST /api/users`, `/about`, `/contact`) con los pasos de cada endpoint comentados (conectarse a la base, esperar el resultado, responder con JSON y código de estado).
+- **README.md** — cómo evitar subir `node_modules` y `.env` con `.gitignore` y recuperar dependencias con `npm i`; qué es Express y sus ventajas; los campos de `package.json` (versionado SemVer `x.y.z`, `scripts`, `dependencies` y `devDependencies`); instalar Express, crear un servidor y diferencias con el módulo `http` nativo.
+- **bitacora/README.md** — alternativas a Node.js y npm: **Deno**, **Bun** y **pnpm** o Yarn como gestores de paquetes (el *runtime* ejecuta el código y el gestor instala dependencias).
 
 [💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/5_express/index.js)
 [📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/5_express/README.md)
@@ -4651,23 +4664,23 @@ Primeros ejemplos de servidor con Express (`index.js`, `package.json`), con su `
 <details>
 <summary><font color="#1A7F37"><strong>6_tpIntegradorBack</strong></font></summary>
 
-Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2`, `dotenv` y `ejs`. Hoy incluye también las vistas del TP (renderizadas con EJS) dentro de `src/`. La primera versión modularizada y con EJS está etiquetada como `v1.1`.
+Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module"` y el script `npm run dev` (`node --watch index.js`). Dependencias: `express`, `cors`, `mysql2`, `dotenv`, `ejs`, `express-session`, `bcrypt` y `exceljs`. Incluye también las vistas del TP (renderizadas con EJS) dentro de `src/`. Versiones etiquetadas: `v1.1` (modularizado con EJS), `v1.2` (login y logout con sesiones) y `v1.3` (creación de usuarios admin con `bcrypt`).
 
-**index.js** — punto de entrada ya modularizado: importa la configuración, el logger y los routers; configura EJS (`view engine` y carpeta `views`); registra los middlewares de aplicación (`cors()`, logger, `express.json()` y `express.static` sobre `src/public`) y monta las rutas: `/api/products` (endpoints JSON del CRUD) y `/dashboard` (vistas renderizadas).
+**index.js** — punto de entrada ya modularizado: importa la configuración, el logger y los routers; configura EJS (`view engine` y carpeta `views`); registra los middlewares de aplicación (`cors()`, logger, `express.json()`, `express.static` sobre `src/public`, `express.urlencoded({ extended: true })` y la sesión con `express-session`) y monta las rutas: `/api/products` (CRUD en JSON), `/api/sales` (registro de ventas), `/api/users` (creación de admins), `/dashboard` (vistas protegidas con `requireLogin`), `/export` (descarga de Excel) y `/` (autenticación: `/login` y `/logout`).
 
 [💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/index.js)
 [💻 Ver package.json](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/package.json)
 
-**src/api/** — la lógica del servidor separada según el patrón MVC: `middlewares/middlewares.js`, `routes/` (`index.js`, `product.routes.js`, `view.routes.js`), `controllers/` (`product.controllers.js`, `view.controllers.js`), `models/product.models.js` y `utils/index.js` (exporta `__dirname` y `join`).
+**src/api/** — la lógica del servidor separada según el patrón MVC: `middlewares/middlewares.js` (logger y `requireLogin`), `routes/` (archivo de barril `index.js` que exporta `authRoutes`, `exportRoutes`, `productRoutes`, `saleRoutes`, `userRoutes` y `viewRoutes`), `controllers/`, `models/` y `utils/index.js` (exporta `__dirname` y `join`).
 
 [💻 Ver src/api](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api)
 
-**src/views/** — plantillas EJS: `index.ejs`, una vista por operación (`get.ejs`, `post.ejs`, `put.ejs`, `delete.ejs`) y `partials/` (`head.ejs`, `header.ejs`, `footer.ejs`). **src/public/** — estáticos: `css/styles.css`, `img/` (`burger-logo.png`, `favicon.ico`) y `js/` (`get.js`, `post.js`, `put.js`, `delete.js`).
+**src/views/** — plantillas EJS: `index.ejs`, `login.ejs`, una vista por operación (`get.ejs`, `post.ejs`, `put.ejs`, `delete.ejs`) y `partials/` (`head.ejs`, `header.ejs`, `footer.ejs`). **src/public/** — estáticos: `css/styles.css`, `img/` (`burger-logo.png`, `favicon.ico`) y `js/` (`get.js`, `post.js`, `put.js`, `delete.js`).
 
 [💻 Ver src/views](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/views)
 [💻 Ver src/public](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/public)
 
-**src/api/config/environments.js** — carga las variables de entorno con `dotenv` (`PORT`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) y las exporta como un objeto de configuración.
+**src/api/config/environments.js** — carga las variables de entorno con `dotenv` (`PORT`, `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` y `SESSION_KEY`, exportada como `session_key`) y las exporta como un objeto de configuración.
 
 [💻 Ver environments.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/api/config/environments.js)
 
@@ -4681,6 +4694,8 @@ Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module
 - **enviandoDatosForm.md** — cómo viaja el cuerpo de una petición (HTTP sobre TCP, lectura por *streams* y *chunks*) y cómo `express.json()` lo convierte en `req.body`; comparación entre objeto literal y `FormData` y cuándo conviene cada uno (`Object.fromEntries`).
 - **renderizadoContenido.md** — **CSR vs SSR** con Express y EJS: cómo funciona cada uno, ventajas y desventajas, tabla comparativa, cuándo elegir cada uno y cómo combinarlos.
 - **README.md** — diccionario de conceptos básicos del backend: los 4 grandes dolores de cabeza, endpoint, APIs y REST, comunicación cliente-servidor, middlewares, MVC, refactorización, tipos de datos de JSON y `affectedRows` vs `changedRows` (ver [Clase 19](#clase-19)).
+- **login.md** — guía del login: vista `login.ejs`, envío nativo del formulario con `application/x-www-form-urlencoded` (y `multipart/form-data` para archivos), `express-session` y por qué HTTP es *stateless*, clave de sesión en el `.env`, `express.urlencoded({ extended })`, middleware `requireLogin`, endpoint, logout y los tres pasos de `bcrypt` (ver [Clase 20](#clase-20)).
+- **objetoDate.md** — formatos del objeto `Date` (`toISOString`, `toUTCString`, `toLocaleString`, `getTime`), diferencia entre UTC y hora local, y el objeto `Intl` (`DateTimeFormat`, `NumberFormat`, `RelativeTimeFormat`, `Collator`); recomienda guardar fechas en ISO y mostrarlas con `Intl` (ver [Clase 21](#clase-21)).
 - **novedades.md** — `nodemon` vs `node --watch` y cómo generar `__dirname` en ESM con `import.meta.dirname`.
 - **exportandoModulos.md** y **router.md** — apuntes sobre exportación de módulos y sobre `Router` (ver [Clase 18](#clase-18)).
 
@@ -4688,6 +4703,8 @@ Backend del TP Integrador (API REST con Express 5 y MySQL), con `"type": "module
 [📄 entendiendoReqRes.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/entendiendoReqRes.md)
 [📄 enviandoDatosForm.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/enviandoDatosForm.md)
 [📄 renderizadoContenido.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/renderizadoContenido.md)
+[📄 login.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/login.md)
+[📄 objetoDate.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/objetoDate.md)
 [📄 novedades.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/novedades.md)
 [📄 exportandoModulos.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/exportandoModulos.md)
 [📄 router.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/bitacora/router.md)
@@ -4702,6 +4719,13 @@ Las vistas del frontend dejaron de ser un proyecto aparte (`6_tpIntegradorVistas
 
 [💻 Ver views](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/views)
 [💻 Ver public](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorBack/src/public)
+
+</details>
+
+<details>
+<summary><font color="#1A7F37"><strong>Proyecto front del TP (tótem)</strong></font></summary>
+
+`README.md` del proyecto front con el código que se escribió en la [Clase 21](#clase-21): **imprimir el ticket en PDF** con `jsPDF` (CDN en el `<head>`, `window.jspdf`, coordenadas `x`/`y`, `reduce` para el total, nombre del archivo con `toISOString()`) y **crear la venta** con `fetch` (`POST /api/sales` con `date`, `total_price`, `user_name` y `products`), formateando la fecha en hora de Argentina con `Intl.DateTimeFormat`. Al terminar se borra el nombre del `sessionStorage` y se vuelve a la bienvenida.
 
 </details>
 
@@ -5184,7 +5208,9 @@ Programación III
     │   │   ├── entendiendoReqRes.md
     │   │   ├── enviandoDatosForm.md
     │   │   ├── exportandoModulos.md
+    │   │   ├── login.md
     │   │   ├── novedades.md
+    │   │   ├── objetoDate.md
     │   │   ├── README.md
     │   │   ├── renderizadoContenido.md
     │   │   └── router.md
