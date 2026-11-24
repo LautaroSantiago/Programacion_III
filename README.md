@@ -4581,7 +4581,7 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 
 [💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/css/styles.css)
 
-**muestraDivs.html** — demo en vivo de tarjetas (`cards`) estilizadas con `box-shadow`, `border-radius` y variables CSS definidas en `:root` (colores primario/secundario, fondo), con su propio `css/muestraDivs.css`.
+**muestraDivs.html** — demo en vivo de una página con header en tres columnas (menú, logo y botones) y tarjetas (`cards`) en dos filas, estilizadas con `box-shadow`, `border-radius` y variables CSS definidas en `:root` (rojo primario, gris de fondo, blanco y negro). Con `css/muestraDivs.css` se ve el **diseño responsivo** con *media queries*: a 1000 px las filas de tarjetas pasan a columna y se oculta el botón secundario, y a 580 px las tarjetas ocupan el 100 % del ancho y se oculta la columna derecha del header.
 
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/muestraDivs.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/muestraDivs.html)
@@ -4604,7 +4604,7 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Inicio/index.html)
 
-**bootstrap/Peliculas/index.html** — ejercicio de Bootstrap tipo catálogo de películas, con capturas de ejemplo (`assets/img/ejemplo-footer.png`, `ejemplo-form.png`), ícono propio y su propio `readme.md`.
+**bootstrap/Peliculas/index.html** — ejercicio de Bootstrap 5.3 (cargado por CDN, CSS y bundle de JS) tipo catálogo de películas: `navbar` con menú colapsable, grilla responsiva (`row g-4` con `col-12 col-md-6 col-lg-3`), tarjetas (`card`) con `badge` de género y año, e ícono propio. El `readme.md` plantea la consigna: terminar la página agregando una **sección de contacto con un formulario** (nombre, email, asunto, mensaje y un checkbox para recibir novedades, con `<form class="w-50 mx-auto">`) y completar el **footer**, tomando como modelo las capturas `assets/img/ejemplo-form.png` y `ejemplo-footer.png`.
 
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/2_css/bootstrap/Peliculas/index.html)
@@ -4615,33 +4615,68 @@ La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cáted
 <details>
 <summary><font color="#1A7F37"><strong>3_javascript</strong></font></summary>
 
-**index.html** — página de práctica que vincula `css/styles.css` y `js/index.js` (script externo), para los primeros ejemplos de JavaScript.
+**index.html** y **css/styles.css** — página de práctica que vincula la hoja de estilos (fondo oscuro, clase `.borde` con borde verde) y `js/index.js` con `defer`. Tiene un título y párrafos para el DOM, un botón, un formulario de texto, un contenedor padre con un botón hijo (**propagación de eventos**), un formulario HTML estándar con envío por defecto y un `div` (`contenedor-datos`) donde se vuelca contenido dinámico de una API REST.
 
 [![Ver resultado](https://img.shields.io/badge/🌐_Ver_resultado-1A7F37?style=for-the-badge)](https://htmlpreview.github.io/?https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
 [![Ver código](https://img.shields.io/badge/💻_Ver_código-0969da?style=for-the-badge)](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/index.html)
 
-**js/index.js** — script de JavaScript de la práctica.
+**js/index.js** — apuntes comentados de **asincronía** (ver [Clase 11](#clase-11)): JavaScript es de un solo hilo (*single-threaded*) y la asincronía evita bloquear el hilo principal; **callbacks** (ventajas y *callback hell*); **promesas** con sus estados `pending`, `fulfilled` y `rejected`; **`fetch()`** (devuelve una promesa de `Response`, solo rechaza en errores de red, por eso se revisa `response.ok`; propiedades `ok`, `status`, `statusText`, `headers` y métodos `json()`, `text()`, `blob()`, `formData()`); **`async/await`** como azúcar sintáctico sobre promesas; y **`try...catch...finally`** (qué errores captura y por qué no abusar de él). Incluye ejemplos que consumen una API pública de prueba y arman una lista HTML con los datos.
 
 [💻 Ver código](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/js/index.js)
 
-**apuntesJS.md** — apuntes propios de JavaScript de la cátedra.
+**js/apuntesJS.md** — **ECMAScript vs. JavaScript**: el estándar (ECMA-262, mantenido por TC39) frente al lenguaje que lo implementa y al motor que lo ejecuta (V8, SpiderMonkey); qué significan ES5, ES6/ES2015, ES2020 y ES2024; y por qué se usan como sinónimos aunque las APIs del navegador (`document.querySelector`) no son parte del estándar.
 
 [📄 Ver apuntes](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/js/apuntesJS.md)
 
-**README.md**
+**README.md** — apunte general de JavaScript, organizado de la clase más reciente a la más antigua:
+- **JavaScript I:** conceptos elementales, sintaxis, variables (`let` o `const`), tipos de datos y operadores.
+- **JavaScript II:** control de flujo, condicionales y bucles.
+- **JavaScript III:** *scope* y ámbito, funciones y tipos de funciones, con ejercicios sugeridos.
+- **JavaScript IV:** introducción a arrays y métodos de strings y arrays.
+- **JavaScript V:** objetos globales (`window` y sus métodos), almacenamiento de datos (objetos, arrays de objetos y cuándo usar cada uno) e iteración.
+- **JavaScript VI:** manipulación del DOM.
+- **JavaScript VII:** callbacks, funciones de orden superior, *destructuring*, *spread operator*, funciones anidadas y Web APIs (del DOM, de red, de almacenamiento, timers, dispositivos y multimedia, interfaz gráfica).
+- **JavaScript VIII:** **JSON** (estructura, `JSON.parse()` y `JSON.stringify()`, usos, limitaciones y buenas prácticas), asincronía, promesas, `fetch`, `async/await` y `try/catch`.
+- Al comienzo explica cómo ejecuta JavaScript el código internamente: una **fase de compilación** (registra variables y funciones, determina el *scope*) y una **fase de ejecución**.
 
 [📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/README.md)
+
+**bitacora/** — apuntes de profundización:
+- **README.md** — objetos de JavaScript frente a diccionarios de Python (`Object` vs. `dict` y `Map` como equivalente más cercano, claves de tipo *string* o *symbol*); cómo obtener el último elemento de un array (`arr[arr.length - 1]` y `.at(-1)`, mientras `arr[-1]` da `undefined`); valores ***truthy* y *falsy*** (`false`, `0`, `""`, `null`, `undefined`, `NaN`, `0n`; `[]` y `{}` son *truthy*); qué es un **toggle**; y qué es ECMAScript.
+- **objectWrappers.md** — la diferencia entre un *string* primitivo y el objeto `String`, métodos útiles (`length`, `toUpperCase`, `includes`, `startsWith`, `endsWith`, `indexOf`, `slice`, `split`, `trim`, `at`), la **inmutabilidad** de los strings, y el **boxing temporal / autoboxing** (por qué un primitivo puede usar métodos y por qué `"hola".nombre = "x"` no persiste).
+
+[📄 Ver bitácora README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/bitacora/README.md)
+[📄 Ver objectWrappers.md](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/3_javascript/bitacora/objectWrappers.md)
 
 </details>
 
 <details>
 <summary><font color="#1A7F37"><strong>4_nodejs</strong></font></summary>
 
-Ejemplos de las clases de Node.js (módulos, módulo `http` nativo y npm): `index.js`, `saludos.js`, `servidorNode.js` y `archivos/leeme.txt`, más su `README.md`.
+Ejemplos de las clases de Node.js (módulos, módulo `http` nativo y npm), con su `README.md`.
+
+**index.js** — recorrido por los **módulos integrados** con sintaxis CommonJS (`require`): `fs.readFile` para leer `archivos/leeme.txt` con *callback* y manejo del error con `return`; `path.basename` para obtener el nombre de un archivo a partir de una ruta; `os.freemem()` y `os.type()` para consultar la memoria libre y el sistema operativo; y `require("./saludos")` para importar una función propia y dividir la lógica en distintos archivos.
+
+**saludos.js** — define la función `saludar(nombre)` y la exporta con `module.exports`, para usarla desde `index.js`.
+
+**servidorNode.js** — servidor mínimo con el módulo **`http`** nativo: `http.createServer((req, res) => ...)` configura el código de estado `200`, la cabecera `Content-Type: text/plain` y responde con `res.end(...)`; `servidor.listen(3000, ...)` lo deja escuchando en el puerto 3000.
+
+**archivos/leeme.txt** — archivo de texto de tres líneas que lee el ejemplo de `fs`.
 
 [💻 Ver index.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/index.js)
 [💻 Ver servidorNode.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/servidorNode.js)
 [💻 Ver saludos.js](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/saludos.js)
+
+**README.md** — introducción al backend:
+- **Bases conceptuales:** qué es el backend; el servidor entendido como un **proceso** que escucha peticiones (como `addEventListener` escucha acciones) y qué es un **CRUD** (Create → `POST`, Read → `GET`, Update → `PUT`, Delete → `DELETE`).
+- **Conceptos de la web:** cliente y servidor, **AJAX** (hoy con JSON) y `fetch`, protocolo **HTTP**, **métodos HTTP** y **códigos de estado** (2xx a 5xx con los más comunes).
+- **Node.js:** qué es (JavaScript fuera del navegador), para qué sirve el backend (procesar datos, acceder a bases de datos, seguridad, autenticación y autorización), por qué es importante (velocidad con un solo hilo no bloqueante, ecosistema, escalabilidad) y qué se puede construir (tiempo real, APIs REST, aplicaciones basadas en eventos).
+- **Rutas de importación:** diferencia entre `saludos.js` (paquete instalado) y `./saludos.js` (ruta relativa).
+- **npm** y `package.json` (`npm init`, `npm install`).
+- **APIs de Node:** `fs`, `path`, `http`, `os` y `process`; el motor **V8**; el objeto global `global` frente a `window`.
+- **Módulos:** **CommonJS** (`require`, `module.exports`) frente a **ES Modules** (`import`, `export default`).
+- Pendiente anotado en el apunte: repasar los objetos globales de Node.js.
+
 [📄 Ver README](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/4_nodejs/README.md)
 
 </details>
