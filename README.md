@@ -2364,7 +2364,7 @@ El TP Integrador se divide en **dos proyectos separados**: un **frontend** y un 
 
 **Frontend — "tótem" de autoservicio**
 
-Una interfaz de pedidos al estilo de los tótems de autoservicio (como los de McDonald's), ambientada en una categoría de productos a elección de cada grupo (no puede ser comidas/bebidas, porque ese es el rubro usado en la demo de la cátedra). Pantallas:
+Una interfaz de pedidos al estilo de los tótems de autoservicio (como los de las cadenas de comida rápida), ambientada en una categoría de productos a elección de cada grupo (no puede ser comidas/bebidas, porque ese es el rubro usado en la demo de la cátedra). Pantallas:
 
 - Pantalla de bienvenida.
 - Login simple (guarda solo un nombre en `sessionStorage`), que habilita el acceso al resto de la app.
@@ -4538,8 +4538,6 @@ Backend del TP (`6_tpIntegradorBack/`) con las rutas de ventas (`/api/sales`), d
 
 La carpeta `UTN2026_c2Div132/` es un espejo del repositorio oficial de la cátedra, que se va actualizando a medida que se sube contenido y ejemplos de código durante la cursada. Resumen de lo que tiene hasta ahora:
 
-[![Ver repositorio en vivo](https://img.shields.io/badge/🔗_Repositorio_de_la_cátedra-181717?style=for-the-badge&logo=github)](https://github.com/profexabi/UTN2026_c2Div132)
-
 <details>
 <summary><font color="#1A7F37"><strong>1_html</strong></font></summary>
 
@@ -4763,7 +4761,7 @@ Las vistas del frontend dejaron de ser un proyecto aparte (`6_tpIntegradorVistas
 <details>
 <summary><font color="#1A7F37"><strong>Proyecto front del TP (tótem)</strong></font></summary>
 
-`README.md` del proyecto front con el código que se escribió en la [Clase 21](#clase-21): **imprimir el ticket en PDF** con `jsPDF` (CDN en el `<head>`, `window.jspdf`, coordenadas `x`/`y`, `reduce` para el total, nombre del archivo con `toISOString()`) y **crear la venta** con `fetch` (`POST /api/sales` con `date`, `total_price`, `user_name` y `products`), formateando la fecha en hora de Argentina con `Intl.DateTimeFormat`. Al terminar se borra el nombre del `sessionStorage` y se vuelve a la bienvenida.
+[`6_tpIntegradorFront/README.md`](https://github.com/LautaroSantiago/Programacion_III/blob/master/UTN2026_c2Div132/6_tpIntegradorFront/README.md) con el código que se escribió en la [Clase 21](#clase-21): **imprimir el ticket en PDF** con `jsPDF` (CDN en el `<head>`, `window.jspdf`, coordenadas `x`/`y`, `reduce` para el total, nombre del archivo con `toISOString()`) y **crear la venta** con `fetch` (`POST /api/sales` con `date`, `total_price`, `user_name` y `products`), formateando la fecha en hora de Argentina con `Intl.DateTimeFormat`. Al terminar se borra el nombre del `sessionStorage` y se vuelve a la bienvenida.
 
 </details>
 
@@ -5260,17 +5258,27 @@ Programación III
     │       │   ├── config
     │       │   │   └── environments.js
     │       │   ├── controllers
+    │       │   │   ├── auth.controllers.js
+    │       │   │   ├── export.controllers.js
     │       │   │   ├── product.controllers.js
+    │       │   │   ├── sale.controllers.js
+    │       │   │   ├── user.controllers.js
     │       │   │   └── view.controllers.js
     │       │   ├── database
     │       │   │   └── db.js
     │       │   ├── middlewares
     │       │   │   └── middlewares.js
     │       │   ├── models
-    │       │   │   └── product.models.js
+    │       │   │   ├── product.models.js
+    │       │   │   ├── sale.models.js
+    │       │   │   └── user.models.js
     │       │   ├── routes
+    │       │   │   ├── auth.routes.js
+    │       │   │   ├── export.routes.js
     │       │   │   ├── index.js
     │       │   │   ├── product.routes.js
+    │       │   │   ├── sale.routes.js
+    │       │   │   ├── user.routes.js
     │       │   │   └── view.routes.js
     │       │   └── utils
     │       │       └── index.js
@@ -5289,12 +5297,15 @@ Programación III
     │           ├── delete.ejs
     │           ├── get.ejs
     │           ├── index.ejs
+    │           ├── login.ejs
     │           ├── partials
     │           │   ├── footer.ejs
     │           │   ├── head.ejs
     │           │   └── header.ejs
     │           ├── post.ejs
     │           └── put.ejs
+    ├── 6_tpIntegradorFront
+    │   └── README.md
     ├── apuntes.md
     └── README.md
 ```
